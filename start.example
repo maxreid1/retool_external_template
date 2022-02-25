@@ -1,0 +1,9 @@
+# Example start script for consolidated all env variables required across multiple packages
+
+trap 'kill $(jobs -p)' EXIT
+
+export BACKEND_PORT=3000
+export FRONTEND_PORT=3001
+
+# for production start scripts, change 'yarn dev' to 'yarn start'
+yarn dev
