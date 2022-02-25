@@ -31,6 +31,8 @@ frontend/ : bare React app
 
 _Each page of the app has a folder in **/frontend/src/pages**_
 
+(placeholders only for now, except for HomePage)
+
 ## Configuration
 
 - /config.js - variables, menu choices, themes, etx
