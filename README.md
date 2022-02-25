@@ -19,6 +19,12 @@
 
 Express.js server, built using `npx express-generator`
 
+One single API for structure:
+
+- server.js: `var apiRouter = require('./routes/api')`
+- server.js: `app.use('/api', apiRouter)`
+- api code: `routes/api.js`
+
 ## Frontend -  /frontend
 
 frontend/ : bare React app
