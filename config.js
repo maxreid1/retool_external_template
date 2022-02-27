@@ -1,8 +1,18 @@
 /* single config.js for monorepo - could be replaced by package level config files */
 
 /* BACKEND CONFIG – requires restart of Express (yarn dev) */
+exports.auth = {
+  tokenDuration: '1800s',
+  fallbackToDefault: true, // WARNING: over-riding authentication purely for demo purposes only!
+}
+
+exports.default_user = {
+  username: 'john.doe@example.com',
+  roles: ['admin']
+}
+
 exports.api = {
-  testResponse: 'Retool External Template'
+  testResponse: 'Retool External Template',
 }
 
 /* FRONTEND CONFIG - hot reloading of all changes */

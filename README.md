@@ -38,3 +38,32 @@ _Each page of the app has a folder in **/frontend/src/pages**_
 - /config.js - variables, menu choices, themes, etx
 
 - /start.example – template to simplify setting env variables at startup
+
+## Development notes
+
+### Adding a new library
+
+`yarn workspace backend add jsonwebtoken`
+
+When adding a new environment variable, add it to:
+- /workspace/.env.example
+- /start.example
+
+### Adding a new top level route
+
+Update `devServer.proxy.context` in `/frontend/webpack.config.js`:
+
+    devServer: {
+      contentBase: path.join(__dirname, 'dist'),
+      port: process.env.PBL_DEV_PORT || 3001,
+      proxy: {
+        context: ['/auth', '/api'],
+        target: ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
+      }
+    },
+
+### Getting test auth tokens
+`curl -X POST http://localhost:3001/auth/createNewUser -H 'Content-Type: application/json' -d '{"username":"John Doe","roles":"[\"admin\"]"}'`
+
+`curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" http://localhost:3001/api/protected`
+

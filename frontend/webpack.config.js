@@ -13,7 +13,8 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     port: process.env.PBL_DEV_PORT || 3001,
     proxy: {
-      '/api': ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
+      context: ['/auth', '/api'],
+      target: ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
     }
   },
   module: {
