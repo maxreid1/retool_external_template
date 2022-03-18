@@ -3,7 +3,7 @@
 trap 'kill $(jobs -p)' EXIT
 
 export BACKEND_PORT=3000
-export TOKEN_SECRET=my_secret_token
+export JWT_SECRET=my_secret_token
 
 export FRONTEND_PORT=3001
 

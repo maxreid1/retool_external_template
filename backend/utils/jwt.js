@@ -4,7 +4,7 @@ var config = require('../config')
 module.exports.generateToken = (payload) => {
     return jwt.sign(
         payload, 
-        process.env.TOKEN_SECRET, 
+        process.env.JWT_SECRET, 
         { 
             algorithm: 'HS256',
             expiresIn: config.auth.tokenDuration 
@@ -14,7 +14,7 @@ module.exports.generateToken = (payload) => {
 module.exports.validateRawToken = (token) => {
     return jwt.verify(
         token, 
-        process.env.TOKEN_SECRET, 
+        process.env.JWT_SECRET, 
         { algorithms: ['HS256'] }
     )
 }
@@ -33,7 +33,7 @@ module.exports.authenticateToken = (req, res, next) => {
 
     jwt.verify(
         token, 
-        process.env.TOKEN_SECRET, 
+        process.env.JWT_SECRET, 
         { algorithms: ['HS256'] }, 
         (err, user) => {
             console.log(err)
