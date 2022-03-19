@@ -37,12 +37,12 @@ exports.homepage = {
         {
           title: 'Splash Page',
           icon: 'InboxIcon',
-          url: '/page/A'
+          url: '/splash_page'
         },
         {
           title: 'FullPageEmbed',
           icon: 'MailIcon',
-          url: '/page/B'
+          url: '/full_page_embed'
         },
       ]
     },
@@ -52,7 +52,7 @@ exports.homepage = {
         {
           title: 'Hybrid Page',
           icon: 'AddToDriveIcon',
-          url: '/page/C'
+          url: '/hybrid_page'
         },
         {
           title: 'Page X',
