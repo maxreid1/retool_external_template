@@ -1,5 +1,10 @@
 # How MUI components have been used
 
+## Getting Started resources
+https://mui.com/getting-started/templates/
+https://mui.com/getting-started/learn/
+- (React Material-UI Cookbook)[https://www.amazon.com/gp/product/1789615224/]
+
 ## Layout
 
 - Overall layout
@@ -9,6 +14,7 @@
 
 ### Overall layout
 Box with display: flex
+Grid is default layout component for main page content
 
 ### AppBar
 

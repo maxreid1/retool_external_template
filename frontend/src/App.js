@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Link, Switch, Route, Redirect } from 'react-router-dom'
 
+import { styled } from '@mui/material/styles'
 import { 
   AppBar,
   Box,
-  Container,
   Divider,
   Drawer,
   IconButton,
@@ -29,6 +29,7 @@ import SplashPage from './pages/SplashPage'
 
 import { homepage } from '../../config'
 
+const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)
 const drawerWidth = 240
 
 function App() {
@@ -53,19 +54,14 @@ function App() {
             <Typography variant="h6" color="inherit" component="div">
               {heading}
             </Typography>
-
           </Toolbar>
         </AppBar>
 
         <Drawer
           variant="permanent"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-          }}
+          sx={{ width: drawerWidth }}
         >
-          <Toolbar />
+          <AppBarOffset />
           <Box sx={{ overflow: 'auto' }}>
             {homepage.sidebar.map(group => (
               <>
@@ -97,27 +93,23 @@ function App() {
           </Box>
         </Drawer> 
 
-        <Box 
-          component="main"
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Switch>
-              <Route exact path='/' render={props =>
-                <HomePage />
-              } />
-              <Route path='/full_page_embed' render={props =>
-                <FullPageEmbed />
-              } />
-              <Route path='/hybrid_page' render={props =>
-                <HybridPage />
-              } />
-              <Route path='/splash_page' render={props =>
-                <SplashPage />
-              } />
-              <Redirect to="/" />
-            </Switch>
-          </Container>
+        <Box>
+          <AppBarOffset />
+          <Switch>
+            <Route exact path='/' render={props =>
+              <HomePage />
+            } />
+            <Route path='/full_page_embed' render={props =>
+              <FullPageEmbed />
+            } />
+            <Route path='/hybrid_page' render={props =>
+              <HybridPage />
+            } />
+            <Route path='/splash_page' render={props =>
+              <SplashPage />
+            } />
+            <Redirect to="/" />
+          </Switch>
         </Box>
       </Box>
     </Router>
