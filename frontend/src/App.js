@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Link, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom'
 
 import { styled } from '@mui/material/styles'
 import { 
@@ -95,12 +95,12 @@ function App() {
 
         <Box sx={{ width: '100%', height: '100vh' }}>
           <AppBarOffset />
-          <Switch>
-            <Route exact path='/' component={HomePage}/>
-            <Route path='/full_page_embed' component={FullPageEmbed}/>
-            <Route path='/hybrid_page' component={HybridPage}/>
-            <Route path='/splash_page' component={SplashPage}/>
-          </Switch>
+          <Routes>
+            <Route exact path='/' element={<HomePage />}/>
+            <Route path='/full_page_embed' element={<FullPageEmbed />}/>
+            <Route path='/hybrid_page' element={<HybridPage />}/>
+            <Route path='/splash_page' element={<SplashPage />}/>
+          </Routes>
         </Box>
       </Box>
     </Router>

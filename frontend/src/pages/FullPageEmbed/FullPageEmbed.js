@@ -1,5 +1,7 @@
 import React, { useRef } from 'react'
 
+import Retool from 'react-retool'
+
 import {
   Container
 } from '@mui/material'
@@ -7,18 +9,19 @@ import {
 import { publicApps } from '../../../../config'
 
 const FullPageEmbed = () => {
-    const embeddedIframe = useRef(null)
+    // const embeddedIframe = useRef(null)
 
     return (
         <Container>
-            <iframe
+            <Retool url={publicApps.fullPage} />
+            {/* <iframe
                 height="100%"
                 width="100%"
                 frameBorder="none"
                 src={publicApps.fullPage}
                 ref={embeddedIframe}
                 title="retool"
-            ></iframe>
+            ></iframe> */}
         </Container>
     )
 }
