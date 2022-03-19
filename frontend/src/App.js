@@ -96,19 +96,10 @@ function App() {
         <Box sx={{ width: '100%' }}>
           <AppBarOffset />
           <Switch>
-            <Route exact path='/' render={props =>
-              <HomePage />
-            } />
-            <Route path='/full_page_embed' render={props =>
-              <FullPageEmbed />
-            } />
-            <Route path='/hybrid_page' render={props =>
-              <HybridPage />
-            } />
-            <Route path='/splash_page' render={props =>
-              <SplashPage />
-            } />
-            <Redirect to="/" />
+            <Route exact path='/' component={HomePage}/>
+            <Route path='/full_page_embed' component={FullPageEmbed}/>
+            <Route path='/hybrid_page' component={HybridPage}/>
+            <Route path='/splash_page' component={SplashPage}/>
           </Switch>
         </Box>
       </Box>

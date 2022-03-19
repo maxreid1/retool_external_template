@@ -15,7 +15,8 @@ module.exports = {
     proxy: {
       context: ['/auth', '/api'],
       target: ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
-    }
+    },
+    historyApiFallback: true,
   },
   module: {
     rules: [
