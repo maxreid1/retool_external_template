@@ -93,7 +93,7 @@ function App() {
           </Box>
         </Drawer> 
 
-        <Box>
+        <Box sx={{ width: '100%' }}>
           <AppBarOffset />
           <Switch>
             <Route exact path='/' render={props =>

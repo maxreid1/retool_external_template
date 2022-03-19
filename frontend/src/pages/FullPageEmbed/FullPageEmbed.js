@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
 import {
-  Box
+  Container
 } from '@mui/material'
 
 import { publicApps } from '../../../../config'
@@ -10,7 +10,7 @@ const FullPageEmbed = () => {
     const embeddedIframe = useRef(null)
 
     return (
-        <Box sx={{ width: 1080 }}>
+        <Container>
             <iframe
                 height="100%"
                 width="100%"
@@ -19,7 +19,7 @@ const FullPageEmbed = () => {
                 ref={embeddedIframe}
                 title="retool"
             ></iframe>
-        </Box>
+        </Container>
     )
 }
 
