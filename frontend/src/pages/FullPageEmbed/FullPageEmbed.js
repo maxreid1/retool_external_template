@@ -1,22 +1,16 @@
 import React, { useRef } from 'react'
 
-// import Retool from 'react-retool'
-
-import { publicApps } from '../../../../config'
-
-import { 
+import {
   Box
 } from '@mui/material'
 
+import { publicApps } from '../../../../config'
 
 const FullPageEmbed = () => {
     const embeddedIframe = useRef(null)
 
     return (
-        <Box>
-            {/* <Retool 
-                url={publicApp}
-            /> */}
+        <Box sx={{ width: 1080 }}>
             <iframe
                 height="100%"
                 width="100%"

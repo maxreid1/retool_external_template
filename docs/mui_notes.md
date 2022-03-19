@@ -14,7 +14,17 @@ https://mui.com/getting-started/learn/
 
 ### Overall layout
 Box with display: flex
+
+#### Grid
 Grid is default layout component for main page content
+<Grid container spacing={4} justify="center">
+  <Grid item xs={12} sm={6} md={3}>
+
+### Offset
+- AppBar has a fixed position, which means it would overlay the drawer and page content unless they have some kind of offset
+- https://mui.com/components/app-bar/#fixed-placement
+- We're using the most explicit method, creating a dedicated component for the offset
+`const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)`
 
 ### AppBar
 

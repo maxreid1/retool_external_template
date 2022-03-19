@@ -1,15 +1,24 @@
 import React from 'react'
 
 import { 
-  Box
+  Box,
+  Grid,
+  Typography
 } from '@mui/material'
 
 
 const HybridPage = () => {
     return (
-        <Box>
-            <img src="https://place-puppy.com/300x300" />
-        </Box>
+        <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Box>
+                    <Typography variant="h6" color="primary" gutterBottom>
+                        Hybrid Page
+                    </Typography>
+                    <img src="https://place-puppy.com/300x300" />
+                </Box>
+            </Grid>
+        </Grid>
     )
 }
 
