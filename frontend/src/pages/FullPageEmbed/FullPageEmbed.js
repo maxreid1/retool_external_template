@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 
 // import Retool from 'react-retool'
 
-const publicApp = "https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5"
+import { publicApps } from '../../../../config'
 
 import { 
   Box
@@ -21,7 +21,7 @@ const FullPageEmbed = () => {
                 height="100%"
                 width="100%"
                 frameBorder="none"
-                src={publicApp}
+                src={publicApps.fullPage}
                 ref={embeddedIframe}
                 title="retool"
             ></iframe>

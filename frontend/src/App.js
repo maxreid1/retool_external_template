@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Link, Switch, Route, Redirect } from 'react-ro
 import { 
   AppBar,
   Box,
+  Container,
   Divider,
   Drawer,
   IconButton,
@@ -41,76 +42,83 @@ function App() {
 
   return (
     <Router>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar variant="dense">
-          <Link to='/'>
-            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-              <AddReactionOutlinedIcon />
-            </IconButton>
-          </Link>
-          <Typography variant="h6" color="inherit" component="div">
-            {heading}
-          </Typography>
+      <Box sx={{ display: 'flex' }}>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+          <Toolbar variant="dense">
+            <Link to='/'>
+              <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+                <AddReactionOutlinedIcon />
+              </IconButton>
+            </Link>
+            <Typography variant="h6" color="inherit" component="div">
+              {heading}
+            </Typography>
 
-        </Toolbar>
-      </AppBar>
+          </Toolbar>
+        </AppBar>
 
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ overflow: 'auto' }}>
-          {homepage.sidebar.map(group => (
-            <>
-              <List>
-                {group.items.map(item => (
-                  <Link
-                    key={item.key}
-                    to={{pathname: item.url}}
-                  >
-                    <ListItem button key={item.key + 'listItem'}>
-                      <ListItemIcon key={item.key + 'listItemIcon'}>
-                        {
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+          }}
+        >
+          <Toolbar />
+          <Box sx={{ overflow: 'auto' }}>
+            {homepage.sidebar.map(group => (
+              <>
+                <List>
+                  {group.items.map(item => (
+                    <Link
+                      key={item.key}
+                      to={{pathname: item.url}}
+                    >
+                      <ListItem button key={item.key + 'listItem'}>
+                        <ListItemIcon key={item.key + 'listItemIcon'}>
                           {
-                          'InboxIcon': <InboxIcon />,
-                          'MailIcon': <MailIcon />,
-                          'AddToDriveIcon': <AddToDriveIcon />,
-                          'BarChartIcon': <BarChartIcon />,
-                          }[item.icon]
-                        }
-                      </ListItemIcon>
-                      <ListItemText primary={item.title} key={item.key + 'listItemText'}/>
-                    </ListItem>
-                  </Link>
-                ))}
-              </List>
-              <Divider />
-            </>
-            ))}
-        </Box>
-      </Drawer> 
+                            {
+                            'InboxIcon': <InboxIcon />,
+                            'MailIcon': <MailIcon />,
+                            'AddToDriveIcon': <AddToDriveIcon />,
+                            'BarChartIcon': <BarChartIcon />,
+                            }[item.icon]
+                          }
+                        </ListItemIcon>
+                        <ListItemText primary={item.title} key={item.key + 'listItemText'}/>
+                      </ListItem>
+                    </Link>
+                  ))}
+                </List>
+                <Divider />
+              </>
+              ))}
+          </Box>
+        </Drawer> 
 
-      <Box component="main">        
-        <Switch>
-          <Route exact path='/' render={props =>
-            <HomePage />
-          } />
-          <Route path='/full_page_embed' render={props =>
-            <FullPageEmbed />
-          } />
-          <Route path='/hybrid_page' render={props =>
-            <HybridPage />
-          } />
-          <Route path='/splash_page' render={props =>
-            <SplashPage />
-          } />
-          <Redirect to="/" />
-        </Switch>
+        <Box 
+          component="main"
+        >
+          <Toolbar />
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Switch>
+              <Route exact path='/' render={props =>
+                <HomePage />
+              } />
+              <Route path='/full_page_embed' render={props =>
+                <FullPageEmbed />
+              } />
+              <Route path='/hybrid_page' render={props =>
+                <HybridPage />
+              } />
+              <Route path='/splash_page' render={props =>
+                <SplashPage />
+              } />
+              <Redirect to="/" />
+            </Switch>
+          </Container>
+        </Box>
       </Box>
     </Router>
   )

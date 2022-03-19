@@ -15,6 +15,10 @@ exports.api = {
   testResponse: 'Retool External Template',
 }
 
+exports.publicApps = {
+  fullPage: 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5'
+}
+
 /* FRONTEND CONFIG - hot reloading of all changes */
 
 /* 
