@@ -67,3 +67,14 @@ exports.homepage = {
     },
   ]
 }
+
+exports.theme = {
+  palette: {
+    primary: {
+      main: "#d93d3d",
+      light: "#E06363",
+      dark: "#972A2A",
+      contrastText: "#fff"
+    },
+  }
+}

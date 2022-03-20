@@ -47,7 +47,7 @@ function App() {
         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <Toolbar variant="dense">
             <Link to='/'>
-              <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+              <IconButton edge="start" aria-label="menu" sx={{ mr: 2 }}>
                 <AddReactionOutlinedIcon />
               </IconButton>
             </Link>
