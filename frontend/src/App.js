@@ -104,7 +104,8 @@ function App() {
     <Router>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}> {/* </Box>sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}> */}
+
+        <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -196,6 +197,7 @@ function App() {
             <Route path='/panel_embed' element={<PanelPage />}/>
           </Routes>
         </Box>
+        
       </Box>
     </Router>
   )
