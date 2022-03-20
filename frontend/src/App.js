@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Link as RouterLink, Routes, Route } from 'react-router-dom'
 
 import { styled } from '@mui/material/styles'
 import { 
   AppBar,
+  Badge,
   Box,
   Divider,
   Drawer,
   IconButton,
+  Link,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Toolbar, 
-  Typography 
+  Typography,
 } from '@mui/material'
 
-import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import HomeIcon from '@mui/icons-material/Home';
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
@@ -30,7 +34,8 @@ import SplashPage from './pages/SplashPage'
 
 import { homepage } from '../../config'
 
-const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)
+const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
+const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
 const drawerWidth = 240
 
 function App() {
@@ -47,14 +52,23 @@ function App() {
       <Box sx={{ display: 'flex' }}>
         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
           <Toolbar variant="dense">
-            <Link to='/'>
-              <IconButton edge="start" aria-label="menu" sx={{ mr: 2 }}>
-                <AddReactionOutlinedIcon />
+            <Link to='/' component={RouterLink}>
+              <IconButton edge="start" sx={{ mr: 2 }}>
+                <HomeIcon />
               </IconButton>
             </Link>
             <Typography variant="h6" color="inherit" component="div">
               {heading}
             </Typography>
+
+            <AppBarFiller />
+            
+            <IconButton color="inherit" sx={{ mr: 2 }}>
+              <Badge badgeContent={3} color="info">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <AccountCircle />
           </Toolbar>
         </AppBar>
 
@@ -71,6 +85,8 @@ function App() {
                     <Link
                       key={item.key}
                       to={{pathname: item.url}}
+                      component={RouterLink}
+                      underline='none'
                     >
                       <ListItem button key={item.key + 'listItem'}>
                         <ListItemIcon key={item.key + 'listItemIcon'}>

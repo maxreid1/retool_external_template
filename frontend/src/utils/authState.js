@@ -5,3 +5,11 @@ module.exports.updateUser = (token) => {
 module.exports.getUser = () => {
     return localStorage.getItem('userJwt')
 }
+
+module.exports.updateUser = (group) => {
+    localStorage.setItem('currentGroup', group)
+}
+
+module.exports.getUser = () => {
+    return localStorage.getItem('currentGroup')
+}

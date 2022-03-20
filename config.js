@@ -17,11 +17,24 @@ exports.api = {
 
 exports.publicApps = {
   fullPage: 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5',
-  // hybridPage: 'https://retoolin.tryretool.com/embedded/public/f7607e1f-670a-4ebf-9a09-be54cf17181e', // Hello, Retool
-  // hybridPage: 'https://example.retool.com/embedded/public/f20866dc-4287-4e32-9199-23e80370ea90', // To Retool
-  hybridPage: 'https://example.retool.com/embedded/public/d5fbb6d8-6b13-493f-9de9-1dce016969ad', // Geo Series Part 1 
-  panelEmbed: 'https://example.retool.com/embedded/public/f808a1bf-8cb7-4de6-8f3e-19a5eea01059', // From Retool
+  hybridPage: 'https://example.retool.com/embedded/public/d5fbb6d8-6b13-493f-9de9-1dce016969ad',
+  panelEmbed: 'https://example.retool.com/embedded/public/f808a1bf-8cb7-4de6-8f3e-19a5eea01059',
 }
+// Collection Maintencne
+// 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5',
+
+// Hello, Retool
+// 'https://retoolin.tryretool.com/embedded/public/f7607e1f-670a-4ebf-9a09-be54cf17181e', 
+
+// To Retool
+// 'https://example.retool.com/embedded/public/f20866dc-4287-4e32-9199-23e80370ea90',
+
+// From Retool
+// 'https://example.retool.com/embedded/public/f808a1bf-8cb7-4de6-8f3e-19a5eea01059', 
+
+// Geo Series Part 1 
+// 'https://example.retool.com/embedded/public/d5fbb6d8-6b13-493f-9de9-1dce016969ad', 
+
 
 /* FRONTEND CONFIG - hot reloading of all changes */
 
@@ -45,12 +58,14 @@ exports.homepage = {
         {
           title: 'Splash Page',
           icon: 'InboxIcon',
-          url: '/splash_page'
+          url: '/splash_page',
+          groups: ['bronze', 'silver', 'gold'],
         },
         {
-          title: 'FullPageEmbed',
+          title: 'Full Page',
           icon: 'MailIcon',
-          url: '/full_page_embed'
+          url: '/full_page_embed',
+          groups: ['bronze', 'silver', 'gold'],
         },
       ]
     },
@@ -58,14 +73,16 @@ exports.homepage = {
       title: 'Second Section',
       items: [
         {
-          title: 'Hybrid Page',
+          title: 'Hybrid',
           icon: 'AddToDriveIcon',
-          url: '/hybrid_page'
+          url: '/hybrid_page',
+          groups: ['silver', 'gold'],
         },
         {
-          title: 'Panel Embed',
+          title: 'Panel',
           icon: 'BarChartIcon',
-          url: '/panel_embed'
+          url: '/panel_embed',
+          groups: ['gold'],
         },
       ]
     },
