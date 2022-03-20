@@ -25,6 +25,7 @@ import BarChartIcon from '@mui/icons-material/BarChart'
 import HomePage from './pages/HomePage'
 import FullPageEmbed from './pages/FullPageEmbed'
 import HybridPage from './pages/HybridPage'
+import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
 import { homepage } from '../../config'
@@ -100,6 +101,7 @@ function App() {
             <Route path='/full_page_embed' element={<FullPageEmbed />}/>
             <Route path='/hybrid_page' element={<HybridPage />}/>
             <Route path='/splash_page' element={<SplashPage />}/>
+            <Route path='/panel_embed' element={<PanelPage />}/>
           </Routes>
         </Box>
       </Box>
