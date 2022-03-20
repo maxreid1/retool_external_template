@@ -93,7 +93,7 @@ function App() {
           </Box>
         </Drawer> 
 
-        <Box sx={{ width: '100%', height: '100vh' }}>
+        <Box sx={{ width: '100%', height: '100vh', flexGrow: 1 }}>
           <AppBarOffset />
           <Routes>
             <Route exact path='/' element={<HomePage />}/>

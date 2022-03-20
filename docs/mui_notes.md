@@ -32,5 +32,12 @@ Grid is default layout component for main page content
 
 ### Page content
 
+## Theming
+
+https://mui.com/customization/theming/
+https://bareynol.github.io/mui-theme-creator/
+https://material.io/inline-tools/color/
+
+
 ## References
 https://stackoverflow.com/questions/52653103/what-is-appbar-vs-toolbar

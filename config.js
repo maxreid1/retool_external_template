@@ -16,7 +16,9 @@ exports.api = {
 }
 
 exports.publicApps = {
-  fullPage: 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5'
+  fullPage: 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5',
+  hybridPage: 'https://example.retool.com/embedded/public/f20866dc-4287-4e32-9199-23e80370ea90',
+  panelPage: '',
 }
 
 /* FRONTEND CONFIG - hot reloading of all changes */
@@ -59,15 +61,16 @@ exports.homepage = {
           url: '/hybrid_page'
         },
         {
-          title: 'Page X',
+          title: 'Panel Embed (TBD)',
           icon: 'BarChartIcon',
-          url: '/page/D'
+          url: '/panel_embed'
         },
       ]
     },
   ]
 }
 
+// TODO: Build an example mapping to a white theme in Retool
 exports.theme = {
   palette: {
     primary: {
