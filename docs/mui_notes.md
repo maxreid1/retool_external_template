@@ -39,6 +39,10 @@ https://mui.com/guides/routing/#component-prop
 Utility component to place logos on right hand side of AppBar e.g. login, user avatars
 `const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />`
 
+#### CssBaseline
+https://mui.com/material-ui/react-css-baseline/
+Necessary for correct alignment of AppBar with Drawer
+
 ### Drawer
 
 ### Page content

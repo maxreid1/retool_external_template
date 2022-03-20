@@ -10,9 +10,9 @@ import PanelEmbed from './PanelEmbed'
 
 const PanelPage = () => {
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{ p: 2}}>
             <Grid item xs={6}>
-                <Paper>
+                <Paper sx={{ p: 2}}>
                     <Typography variant="h6" color="primary" gutterBottom>
                         Panel Page
                     </Typography>

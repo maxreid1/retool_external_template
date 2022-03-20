@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Link as RouterLink, Routes, Route } from 'react-router-dom'
 
 import { styled } from '@mui/material/styles'
+import MuiAppBar from '@mui/material/AppBar'
+import MuiDrawer from '@mui/material/Drawer'
+import CssBaseline from '@mui/material/CssBaseline'
 import { 
-  AppBar,
   Badge,
   Box,
   Divider,
-  Drawer,
   IconButton,
   Link,
   List,
@@ -18,9 +19,11 @@ import {
   Typography,
 } from '@mui/material'
 
+import HomeIcon from '@mui/icons-material/Home'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import HomeIcon from '@mui/icons-material/Home';
+import MenuIcon from '@mui/icons-material/Menu'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
@@ -38,8 +41,58 @@ const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spac
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
 const drawerWidth = 240
 
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}))
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    '& .MuiDrawer-paper': {
+      position: 'relative',
+      whiteSpace: 'nowrap',
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      boxSizing: 'border-box',
+      ...(!open && {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+          width: theme.spacing(9),
+        },
+      }),
+    },
+  }),
+);
+
+
 function App() {
   const [heading, setHeading] = useState(homepage.title)
+  const [open, setOpen] = React.useState(true)
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  }
 
   useEffect(() => {
     fetch('/api/test')
@@ -50,13 +103,25 @@ function App() {
   return (
     <Router>
       <Box sx={{ display: 'flex' }}>
-        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-          <Toolbar variant="dense">
-            <Link to='/' component={RouterLink}>
-              <IconButton edge="start" sx={{ mr: 2 }}>
-                <HomeIcon />
-              </IconButton>
-            </Link>
+        <CssBaseline />
+        <AppBar position="absolute" open={open}> {/* </Box>sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}> */}
+          <Toolbar
+            sx={{
+              pr: '24px', // keep right padding when drawer closed
+            }}
+          >
+            <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={toggleDrawer}
+                sx={{
+                  marginRight: '36px',
+                  ...(open && { display: 'none' }),
+                }}
+              >
+                <MenuIcon />
+            </IconButton>
             <Typography variant="h6" color="inherit" component="div">
               {heading}
             </Typography>
@@ -74,9 +139,20 @@ function App() {
 
         <Drawer
           variant="permanent"
-          sx={{ width: drawerWidth }}
+          open={open}
         >
-          <AppBarOffset />
+          <Toolbar
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              px: [1],
+            }}
+          >
+            <IconButton onClick={toggleDrawer}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </Toolbar>
           <Box sx={{ overflow: 'auto' }}>
             {homepage.sidebar.map(group => (
               <>
@@ -91,7 +167,7 @@ function App() {
                       <ListItem button key={item.key + 'listItem'}>
                         <ListItemIcon key={item.key + 'listItemIcon'}>
                           {
-                            {
+                            {'HomeIcon': <HomeIcon />,
                             'InboxIcon': <InboxIcon />,
                             'MailIcon': <MailIcon />,
                             'AddToDriveIcon': <AddToDriveIcon />,

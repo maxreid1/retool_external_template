@@ -40,6 +40,7 @@ exports.publicApps = {
 
 /* 
   Available icons:
+    HomeIcon
     InboxIcon
     MailIcon
     AddToDriveIcon
@@ -55,6 +56,12 @@ exports.homepage = {
     {
       title: 'First Section',
       items: [
+        {
+          title: 'Home Page',
+          icon: 'HomeIcon',
+          url: '/',
+          groups: ['bronze', 'silver', 'gold'],
+        },
         {
           title: 'Splash Page',
           icon: 'InboxIcon',
