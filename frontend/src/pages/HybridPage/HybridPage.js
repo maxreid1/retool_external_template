@@ -1,15 +1,12 @@
 import React from 'react'
 
 import { 
-  Box,
   Grid,
   Paper,
   Typography
 } from '@mui/material'
 
-import Retool from 'react-retool'
-
-import { publicApps } from '../../../config'
+import HybridEmbed from './HybridEmbed'
 
 const HybridPage = () => {
     return (
@@ -33,9 +30,7 @@ const HybridPage = () => {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Box>
-                    <Retool url={publicApps.hybridPage} />
-                </Box>
+                <HybridEmbed />
             </Grid>
         </Grid>
     )
