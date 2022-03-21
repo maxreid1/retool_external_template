@@ -1,19 +1,21 @@
 /* single config.js for monorepo - could be replaced by package level config files */
 
 /* BACKEND CONFIG – requires restart of Express (yarn dev) */
-exports.auth = {
-  tokenDuration: '1800s',
-  fallbackToDefault: true, // WARNING: over-riding authentication purely for demo purposes only!
-}
-
 exports.default_user = {
   username: 'john.doe@example.com',
   roles: ['gold', 'silver', 'bronze']
 }
 
+exports.auth = {
+  tokenDuration: '1800s',
+  fallbackToDefault: true, // WARNING: over-riding authentication purely for demo purposes only!
+}
+
 exports.api = {
   testResponse: 'Retool External Template',
 }
+
+/* FRONTEND CONFIG - hot reloading of all changes */
 
 exports.publicApps = {
   fullPage: 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5',
@@ -34,9 +36,6 @@ exports.publicApps = {
 
 // Geo Series Part 1 
 // 'https://example.retool.com/embedded/public/d5fbb6d8-6b13-493f-9de9-1dce016969ad', 
-
-
-/* FRONTEND CONFIG - hot reloading of all changes */
 
 /* 
   Available icons:
