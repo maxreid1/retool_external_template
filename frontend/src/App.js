@@ -178,11 +178,13 @@ function App() {
                 <Typography>Cancel</Typography>
               </MenuItem>
               <Divider />
+
               {groups.map((group) => (
                 <MenuItem key={group} onClick={() => handleSwitchGroup(group)}>
                   <Typography>Switch to {group}</Typography>
                 </MenuItem>
               ))}
+              
             </Menu>
           </Toolbar>
         </AppBar>
