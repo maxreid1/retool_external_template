@@ -16,14 +16,14 @@ const HybridPage = () => {
                     <Grid item xs={4}>
                         <Paper sx={{ p: 2}}>
                             <Typography variant="h6" color="primary" gutterBottom>
-                                Hybrid Page
+                                Small Panel
                             </Typography>
                         </Paper>
                     </Grid>
                     <Grid item xs={8}>
                         <Paper sx={{ p: 2}}>
                             <Typography variant="h6" color="primary" gutterBottom>
-                                Hybrid Page
+                                Large Panel
                             </Typography>
                         </Paper>
                     </Grid>

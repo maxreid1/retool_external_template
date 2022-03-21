@@ -33,25 +33,11 @@ const HomePage = () => {
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <Box>
             <Typography variant="h6" color="primary" gutterBottom>On this screen:</Typography>
-            <Typography variant="body1">Title comes from a combination of /config.js plus an example API request</Typography>
-            <Typography variant="body1">Drawer/sidebar content defined in /config/js (can be used to drive a router config, too)</Typography>
+            <Typography variant="body1">Title bar shows the current user groups</Typography>
+            <Typography variant="body1">Collapsible sidebar is based on content defined in /config/js, filtered by the user's group</Typography>
+            <Typography variant="body1">User menu has placeholders for registration, login/out, and allows manual switching of user group</Typography>
+            <Typography variant="body1">Notifications icon is just a placeholder</Typography>
             <Typography variant="body1">All design taken straight from Material UI (mui.com)</Typography>
-          </Box>
-        </Paper>
-      </Grid>
-      <Grid item xs={12}>
-        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-          <Box>
-            <Typography variant="h6" color="primary" gutterBottom>Material templates under review:</Typography>
-            <Typography variant="body1"><Link href="https://www.bbc.co.uk">Minimal - Full</Link></Typography>
-            <Typography variant="body1"><Link href="https://www.bbc.co.uk">Minimal - Simple</Link></Typography>
-            <Typography variant="body1"><Link href="https://mui.com/store/items/minimal-dashboard-free/">Minimal - Free/MIT License</Link></Typography>
-            <Typography variant="body1"><Link href="https://mui.com/getting-started/templates/">MUI Getting Started Examples - Free/MIT License</Link></Typography>
-            <Typography variant="body1"><Link href="https://github.com/mui/material-ui/tree/master/docs/data/material/getting-started/templates/dashboard">Dashboard (simple layout) - Free/MIT License</Link></Typography>
-            <Typography variant="body1"><Link href="https://mui.com/store/items/paperbase/">Paperbase (inc. signup) - Free/MIT License</Link></Typography>
-            <Typography variant="body1"><Link href="https://mui.com/store/items/onepirate/">OnePirate (Splash page) - Free/MIT License</Link></Typography>
-            <Divider></Divider>
-            <Typography variant="body1">Do we have to be concerned about licensing? Paid templates appear to forbid distribution of code, unless each customer buys a license.</Typography>
           </Box>
         </Paper>
       </Grid>
