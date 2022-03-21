@@ -98,8 +98,20 @@ function App() {
   }, [userGroups])
 
   useEffect(() => {
-    setSidebar(homepage.sidebar)
-  })
+    if (userGroups.includes('admin')) {
+      setSidebar(homepage.sidebar)  
+    } else {
+      let filteredSidebar = []
+      homepage.sidebar.forEach(section => {
+        let filteredSection = { 
+          title: section.title,
+          items: section.items.filter(item => item.groups.some(itemGroup => userGroups.includes(itemGroup)))
+        }
+        if (filteredSection.items.length > 0) filteredSidebar.push(filteredSection)
+      })
+      setSidebar(filteredSidebar)
+    }
+  }, [userGroups])
 
   return (
     <Router>
