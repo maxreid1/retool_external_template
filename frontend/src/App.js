@@ -38,7 +38,7 @@ import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
 import { updateUser, getUser, deleteUser, login, logout, isLoggedIn } from './utils/auth'
-import { setGroup, getGroup, deleteGroup } from './utils/prefs'
+import { updateGroup, getGroup, deleteGroup } from './utils/prefs'
 import { default_user, homepage } from '../config'
 
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
@@ -73,18 +73,16 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const RequireAuth = ({ children, currentGroup, routeGroups, redirectTo }) => {
-  console.log('RequireAuth() currentGroup:', currentGroup)
-  console.log('RequireAuth() routeGroups:', routeGroups)
+const RequireAuth = ({ children, currentGroup, routeGroups }) => {
   let group = currentGroup || ''
   let permitted = routeGroups || []
   let authenticated = isLoggedIn() && permitted.includes(group)
-  return authenticated ? children  : <Navigate to={redirectTo} />
+  return authenticated ? children  : <Navigate to='/' />
 }
 
 const App = () => {
   const [user, setUser] = useState(getUser())
-  const [currentUserGroup, setCurrentUserGroup] = useState(getGroup())
+  const [currentUserGroup, setCurrentUserGroup] = useState(null)
   const [drawerIsOpen, setDrawerIsOpen] = useState(false)
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
   const [sidebar, setSidebar] = useState([])
@@ -106,11 +104,12 @@ const App = () => {
 
   const handleLogin = () => {
     setUser(getUser())
+    setCurrentUserGroup(getGroup())
     login()
   }
 
   const handleLogout = () => {
-    setUser(null)
+    setCurrentUserGroup(null)
     logout()
   }
 
@@ -123,49 +122,54 @@ const App = () => {
   }
 
   const handleSwitchGroup = (group) => {
-    setGroup(group)
-    setCurrentUserGroup(group)
+    updateGroup(group)
+    setCurrentUserGroup(getGroup())
     toggleUserMenu()
   }
 
+  // On setting user, see if localStorage contains a valid user group preference
   useEffect(() => {
     if (user && user.roles) {
-      setCurrentUserGroup(user.roles[0])
+      let group = getGroup()
+      if (group && user.roles.includes(group)) {
+        setCurrentUserGroup(getGroup())
+      } else {
+        updateGroup(user.roles[0])
+        setCurrentUserGroup(getGroup())
+      }
     } else {
-      setCurrentUserGroup(null)
+      deleteGroup()
+      setCurrentUserGroup(getGroup())
     }
   }, [user])
 
+  // On changing user group, update sidebar and routes
   useEffect(() => {
+    let filteredSidebar = []
+    let filteredRoutes = {}
+    
     if (currentUserGroup === 'admin') {
-      setSidebar(homepage.sidebar)
-
-      let filteredRoutes = {}
+      filteredSidebar = homepage.sidebar
+      
       homepage.sidebar.forEach(section => {
         section.items.forEach(item => filteredRoutes[item.url] = item.groups)
       })
-      setRoutes(filteredRoutes)
-    } else if (currentUserGroup) {
-      let filteredSidebar = []
-      let filteredRoutes = {}
-
+    } else {
       homepage.sidebar.forEach(section => {
         let filteredSection = { 
           title: section.title,
-          items: section.items.filter(item => item.groups.includes(currentUserGroup))
+          items: section.items.filter(item => (isLoggedIn() && item.groups.includes(currentUserGroup)) || item.groups.length === 0)
         }
+
         if (filteredSection.items.length > 0) {
           filteredSidebar.push(filteredSection)
           filteredSection.items.forEach(item => filteredRoutes[item.url] = item.groups)
         }
       })
-      setSidebar(filteredSidebar)
-      setRoutes(filteredRoutes)
-    } else {
-      setSidebar([])
-      setRoutes([])
     }
-    console.log('sidebar routes:', routes)
+
+    setSidebar(filteredSidebar)
+    setRoutes(filteredRoutes)
   }, [currentUserGroup])
 
   return (
@@ -191,8 +195,12 @@ const App = () => {
               >
                 <MenuIcon />
             </IconButton>
+
             <Typography variant="h6" color="inherit" component="div">
-              {user ? user.username : '(anonymous)'} | Current Group: {currentUserGroup} | Available user groups: {user && JSON.stringify(user.roles)}
+              {isLoggedIn() 
+                ? user.username + ' (' + currentUserGroup + ') | Available user groups: ' + (user && JSON.stringify(user.roles))
+                : '(not logged in)'
+              } 
             </Typography>
 
             <AppBarFiller />
@@ -234,7 +242,7 @@ const App = () => {
               </MenuItem>}
               <Divider />
 
-              {user && user.roles.map((group) => (
+              {isLoggedIn() && user.roles.map((group) => (
                 <MenuItem key={group} onClick={() => handleSwitchGroup(group)}>
                   <Typography>Switch to {group}</Typography>
                 </MenuItem>
@@ -302,17 +310,17 @@ const App = () => {
             
             {/* Protected routes depending on user group */}
             <Route path='/full_page_embed' element={
-              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/full_page_embed']} redirectTo="/">
+              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/full_page_embed']}>
                 <FullPageEmbed />
               </RequireAuth>
             }/>
             <Route path='/hybrid_page' element={
-              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/hybrid_page']} redirectTo="/">
+              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/hybrid_page']}>
                 <HybridPage />
               </RequireAuth>
             }/>
             <Route path='/panel_embed' element={
-              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/panel_embed']} redirectTo="/">
+              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/panel_embed']}>
                 <PanelPage />
               </RequireAuth>
             }/>

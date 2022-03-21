@@ -61,14 +61,14 @@ exports.homepage = {
           icon: 'HomeIcon',
           element: 'HomePage',
           url: '/',
-          groups: ['bronze', 'silver', 'gold'],
+          groups: [],
         },
         {
           title: 'Splash Page',
           icon: 'InboxIcon',
           element: 'SplashPage',
           url: '/splash_page',
-          groups: ['bronze', 'silver', 'gold'],
+          groups: [],
         },
       ]
     },
