@@ -37,8 +37,8 @@ import HybridPage from './pages/HybridPage'
 import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
-
-import { groups, homepage } from '../../config'
+import { updateUser, getUser, logout, deleteUser } from './utils/auth'
+import { default_user, homepage } from '../config'
 
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
@@ -74,10 +74,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 function App() {
-  const [heading, setHeading] = useState(homepage.title)
-  const [drawerIsOpen, setDrawerIsOpen] = useState(true)
+  const [drawerIsOpen, setDrawerIsOpen] = useState(false)
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
-  const [userGroups, setUserGroups] = useState(['admin'])
+  const [user, setUser] = useState(null)
+  const [currentUserGroup, setCurrentUserGroup] = useState(null)
   const [sidebar, setSidebar] = useState([])
 
   const toggleDrawer = () => {
@@ -88,30 +88,56 @@ function App() {
     setUserMenuIsOpen(!userMenuIsOpen)
   }
 
+  const handleRegister = () => {
+    updateUser(default_user)
+    setUser(getUser())
+  }
+
+  const handleLogin = () => {
+    setUser(getUser())
+  }
+
+  const handleLogout = () => {
+    setUser(null)
+    logout()
+  }
+
+  const handleCancelAccount = () => {
+    deleteUser()
+    setUser(null)
+    setUserGroups([])
+  }
+
   const handleSwitchGroup = (group) => {
-    setUserGroups([group])
+    setCurrentUserGroup(group)
     toggleUserMenu()
   }
 
   useEffect(() => {
-    setHeading(JSON.stringify(userGroups))
-  }, [userGroups])
+    if (user && user.roles) {
+      setCurrentUserGroup(user.roles[0])
+    } else {
+      setCurrentUserGroup(null)
+    }
+  }, [user])
 
   useEffect(() => {
-    if (userGroups.includes('admin')) {
+    if (currentUserGroup === 'admin') {
       setSidebar(homepage.sidebar)  
-    } else {
+    } else if (currentUserGroup) {
       let filteredSidebar = []
       homepage.sidebar.forEach(section => {
         let filteredSection = { 
           title: section.title,
-          items: section.items.filter(item => item.groups.some(itemGroup => userGroups.includes(itemGroup)))
+          items: section.items.filter(item => item.groups.includes(currentUserGroup))
         }
         if (filteredSection.items.length > 0) filteredSidebar.push(filteredSection)
       })
       setSidebar(filteredSidebar)
-    }
-  }, [userGroups])
+    } else {
+      setSidebar([])
+    }    
+  }, [currentUserGroup])
 
   return (
     <Router>
@@ -137,7 +163,7 @@ function App() {
                 <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" component="div">
-              Current user groups: {heading}
+              {user ? user.username : '(not logged in)'} – Current Group: {currentUserGroup} – Available user groups: {user && JSON.stringify(user.roles)}
             </Typography>
 
             <AppBarFiller />
@@ -165,21 +191,21 @@ function App() {
               open={Boolean(userMenuIsOpen)}
               onClose={toggleUserMenu}
             >
-              <MenuItem key={'user-menu-register'} onClick={toggleUserMenu}>
+              {!getUser() && <MenuItem key={'user-menu-register'} onClick={handleRegister}>
                 <Typography>Register</Typography>
-              </MenuItem>
-              <MenuItem key={'user-menu-login'} onClick={toggleUserMenu}>
+              </MenuItem>}
+              {getUser() && !user && <MenuItem key={'user-menu-login'} onClick={handleLogin}>
                 <Typography>Login</Typography>
-              </MenuItem>
-              <MenuItem key={'user-menu-logout'} onClick={toggleUserMenu}>
+              </MenuItem>}
+              {user && <MenuItem key={'user-menu-logout'} onClick={handleLogout}>
                 <Typography>Logout</Typography>
-              </MenuItem>
-              <MenuItem key={'user-menu-cancel'} onClick={toggleUserMenu}>
-                <Typography>Cancel</Typography>
-              </MenuItem>
+              </MenuItem>}
+              {getUser() && <MenuItem key={'user-menu-cancel'} onClick={handleCancelAccount}>
+                <Typography>Cancel Account</Typography>
+              </MenuItem>}
               <Divider />
 
-              {groups.map((group) => (
+              {user && user.roles.map((group) => (
                 <MenuItem key={group} onClick={() => handleSwitchGroup(group)}>
                   <Typography>Switch to {group}</Typography>
                 </MenuItem>

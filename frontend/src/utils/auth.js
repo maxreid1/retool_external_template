@@ -1,7 +1,5 @@
-module.exports.updateUser = (token) => {
-    localStorage.setItem('userJwt', token)
-}
+module.exports.updateUser = (token) => localStorage.setItem('userJwt', JSON.stringify(token)) 
 
-module.exports.getUser = () => {
-    return localStorage.getItem('userJwt')
-}
+module.exports.deleteUser = () => localStorage.removeItem('userJwt')
+
+module.exports.getUser = () => JSON.parse(localStorage.getItem('userJwt')) 

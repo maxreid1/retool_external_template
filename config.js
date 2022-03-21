@@ -1,7 +1,5 @@
 /* single config.js for monorepo - could be replaced by package level config files */
 
-exports.groups = ['admin', 'gold', 'silver', 'bronze']
-
 /* BACKEND CONFIG – requires restart of Express (yarn dev) */
 exports.auth = {
   tokenDuration: '1800s',
@@ -10,7 +8,7 @@ exports.auth = {
 
 exports.default_user = {
   username: 'john.doe@example.com',
-  roles: ['admin']
+  roles: ['gold', 'silver']
 }
 
 exports.api = {
