@@ -77,6 +77,11 @@ const RequireAuth = ({ children, currentGroup, routeGroups }) => {
   let group = currentGroup || ''
   let permitted = routeGroups || []
   let authenticated = isLoggedIn() && permitted.includes(group)
+
+  fetch('/auth/getDefaultToken')
+    // .then(response => response.json())
+    .then(response => console.log('/auth/getDefaultToken response:', response))  
+
   return authenticated ? children  : <Navigate to='/' />
 }
 
