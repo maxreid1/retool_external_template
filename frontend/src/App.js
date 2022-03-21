@@ -15,6 +15,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuItem,
   Toolbar, 
   Typography,
 } from '@mui/material'
@@ -35,7 +37,8 @@ import HybridPage from './pages/HybridPage'
 import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
-import { homepage } from '../../config'
+
+import { groups, homepage } from '../../config'
 
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
@@ -45,17 +48,9 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   }),
 }))
 
@@ -65,17 +60,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
       position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
       boxSizing: 'border-box',
       ...(!open && {
         overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
-        }),
         width: theme.spacing(7),
         [theme.breakpoints.up('sm')]: {
           width: theme.spacing(9),
@@ -88,16 +75,30 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 function App() {
   const [heading, setHeading] = useState(homepage.title)
-  const [open, setOpen] = React.useState(true)
+  const [drawerIsOpen, setDrawerIsOpen] = useState(true)
+  const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
+  const [userGroups, setUserGroups] = useState(['admin'])
+  const [sidebar, setSidebar] = useState([])
 
   const toggleDrawer = () => {
-    setOpen(!open);
+    setDrawerIsOpen(!drawerIsOpen);
+  }
+
+  const toggleUserMenu = () => {
+    setUserMenuIsOpen(!userMenuIsOpen)
+  }
+
+  const handleSwitchGroup = (group) => {
+    setUserGroups([group])
+    toggleUserMenu()
   }
 
   useEffect(() => {
-    fetch('/api/test')
-      .then(res => res.text())
-      .then(heading => setHeading(heading))
+    setHeading(JSON.stringify(userGroups))
+  }, [userGroups])
+
+  useEffect(() => {
+    setSidebar(homepage.sidebar)
   })
 
   return (
@@ -105,7 +106,7 @@ function App() {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
 
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" open={drawerIsOpen}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -118,13 +119,13 @@ function App() {
                 onClick={toggleDrawer}
                 sx={{
                   marginRight: '36px',
-                  ...(open && { display: 'none' }),
+                  ...(drawerIsOpen && { display: 'none' }),
                 }}
               >
                 <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" component="div">
-              {heading}
+              Current user groups: {heading}
             </Typography>
 
             <AppBarFiller />
@@ -134,13 +135,49 @@ function App() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <AccountCircle />
+
+            <AccountCircle id='appbar-user-icon' onClick={toggleUserMenu}/>
+            <Menu
+              sx={{ mt: '45px' }}
+              id='appbar-user-menu'
+              anchorEl={document.getElementById('appbar-user-icon')}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(userMenuIsOpen)}
+              onClose={toggleUserMenu}
+            >
+              <MenuItem key={'user-menu-register'} onClick={toggleUserMenu}>
+                <Typography>Register</Typography>
+              </MenuItem>
+              <MenuItem key={'user-menu-login'} onClick={toggleUserMenu}>
+                <Typography>Login</Typography>
+              </MenuItem>
+              <MenuItem key={'user-menu-logout'} onClick={toggleUserMenu}>
+                <Typography>Logout</Typography>
+              </MenuItem>
+              <MenuItem key={'user-menu-cancel'} onClick={toggleUserMenu}>
+                <Typography>Cancel</Typography>
+              </MenuItem>
+              <Divider />
+              {groups.map((group) => (
+                <MenuItem key={group} onClick={() => handleSwitchGroup(group)}>
+                  <Typography>Switch to {group}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
           </Toolbar>
         </AppBar>
 
         <Drawer
           variant="permanent"
-          open={open}
+          open={drawerIsOpen}
         >
           <Toolbar
             sx={{
@@ -155,7 +192,7 @@ function App() {
             </IconButton>
           </Toolbar>
           <Box sx={{ overflow: 'auto' }}>
-            {homepage.sidebar.map(group => (
+            {sidebar.map(group => (
               <>
                 <List>
                   {group.items.map(item => (
