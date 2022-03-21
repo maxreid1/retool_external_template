@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Link as RouterLink, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Link as RouterLink, Navigate, Routes, Route } from 'react-router-dom'
 
 import { styled } from '@mui/material/styles'
 import MuiAppBar from '@mui/material/AppBar'
@@ -37,7 +37,8 @@ import HybridPage from './pages/HybridPage'
 import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
-import { updateUser, getUser, logout, deleteUser } from './utils/auth'
+import { updateUser, getUser, deleteUser, login, logout, isLoggedIn } from './utils/auth'
+import { setGroup, getGroup, deleteGroup } from './utils/prefs'
 import { default_user, homepage } from '../config'
 
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
@@ -72,13 +73,22 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+const RequireAuth = ({ children, currentGroup, routeGroups, redirectTo }) => {
+  console.log('RequireAuth() currentGroup:', currentGroup)
+  console.log('RequireAuth() routeGroups:', routeGroups)
+  let group = currentGroup || ''
+  let permitted = routeGroups || []
+  let authenticated = isLoggedIn() && permitted.includes(group)
+  return authenticated ? children  : <Navigate to={redirectTo} />
+}
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(getUser())
+  const [currentUserGroup, setCurrentUserGroup] = useState(getGroup())
   const [drawerIsOpen, setDrawerIsOpen] = useState(false)
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
-  const [user, setUser] = useState(null)
-  const [currentUserGroup, setCurrentUserGroup] = useState(null)
   const [sidebar, setSidebar] = useState([])
+  const [routes, setRoutes] = useState({})
 
   const toggleDrawer = () => {
     setDrawerIsOpen(!drawerIsOpen);
@@ -91,10 +101,12 @@ function App() {
   const handleRegister = () => {
     updateUser(default_user)
     setUser(getUser())
+    login()
   }
 
   const handleLogin = () => {
     setUser(getUser())
+    login()
   }
 
   const handleLogout = () => {
@@ -103,12 +115,15 @@ function App() {
   }
 
   const handleCancelAccount = () => {
-    deleteUser()
     setUser(null)
-    setUserGroups([])
+    deleteUser()
+    deleteGroup()
+    logout()
+    location.reload()
   }
 
   const handleSwitchGroup = (group) => {
+    setGroup(group)
     setCurrentUserGroup(group)
     toggleUserMenu()
   }
@@ -123,20 +138,34 @@ function App() {
 
   useEffect(() => {
     if (currentUserGroup === 'admin') {
-      setSidebar(homepage.sidebar)  
+      setSidebar(homepage.sidebar)
+
+      let filteredRoutes = {}
+      homepage.sidebar.forEach(section => {
+        section.items.forEach(item => filteredRoutes[item.url] = item.groups)
+      })
+      setRoutes(filteredRoutes)
     } else if (currentUserGroup) {
       let filteredSidebar = []
+      let filteredRoutes = {}
+
       homepage.sidebar.forEach(section => {
         let filteredSection = { 
           title: section.title,
           items: section.items.filter(item => item.groups.includes(currentUserGroup))
         }
-        if (filteredSection.items.length > 0) filteredSidebar.push(filteredSection)
+        if (filteredSection.items.length > 0) {
+          filteredSidebar.push(filteredSection)
+          filteredSection.items.forEach(item => filteredRoutes[item.url] = item.groups)
+        }
       })
       setSidebar(filteredSidebar)
+      setRoutes(filteredRoutes)
     } else {
       setSidebar([])
-    }    
+      setRoutes([])
+    }
+    console.log('sidebar routes:', routes)
   }, [currentUserGroup])
 
   return (
@@ -163,7 +192,7 @@ function App() {
                 <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" component="div">
-              {user ? user.username : '(not logged in)'} – Current Group: {currentUserGroup} – Available user groups: {user && JSON.stringify(user.roles)}
+              {user ? user.username : '(anonymous)'} | Current Group: {currentUserGroup} | Available user groups: {user && JSON.stringify(user.roles)}
             </Typography>
 
             <AppBarFiller />
@@ -194,10 +223,10 @@ function App() {
               {!getUser() && <MenuItem key={'user-menu-register'} onClick={handleRegister}>
                 <Typography>Register</Typography>
               </MenuItem>}
-              {getUser() && !user && <MenuItem key={'user-menu-login'} onClick={handleLogin}>
+              {getUser() && !isLoggedIn() && <MenuItem key={'user-menu-login'} onClick={handleLogin}>
                 <Typography>Login</Typography>
               </MenuItem>}
-              {user && <MenuItem key={'user-menu-logout'} onClick={handleLogout}>
+              {getUser() && isLoggedIn() && <MenuItem key={'user-menu-logout'} onClick={handleLogout}>
                 <Typography>Logout</Typography>
               </MenuItem>}
               {getUser() && <MenuItem key={'user-menu-cancel'} onClick={handleCancelAccount}>
@@ -267,11 +296,26 @@ function App() {
         <Box sx={{ width: '100%', height: '100vh', flexGrow: 1 }}>
           <AppBarOffset />
           <Routes>
+            {/* Public routes */}
             <Route exact path='/' element={<HomePage />}/>
-            <Route path='/full_page_embed' element={<FullPageEmbed />}/>
-            <Route path='/hybrid_page' element={<HybridPage />}/>
             <Route path='/splash_page' element={<SplashPage />}/>
-            <Route path='/panel_embed' element={<PanelPage />}/>
+            
+            {/* Protected routes depending on user group */}
+            <Route path='/full_page_embed' element={
+              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/full_page_embed']} redirectTo="/">
+                <FullPageEmbed />
+              </RequireAuth>
+            }/>
+            <Route path='/hybrid_page' element={
+              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/hybrid_page']} redirectTo="/">
+                <HybridPage />
+              </RequireAuth>
+            }/>
+            <Route path='/panel_embed' element={
+              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/panel_embed']} redirectTo="/">
+                <PanelPage />
+              </RequireAuth>
+            }/>
           </Routes>
         </Box>
         
