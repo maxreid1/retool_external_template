@@ -1,17 +1,22 @@
 # Data Application Reference Implementation
 
-## Quick instructions
+## Quick instructions (dev mode)
 
 1. Clone repo
 2. Run `yarn install`
 3. Run `cp start.example start`
-3. Run `./start`
-4. Open `http:\\localhost:3001` in browser
+4. Run `./start`
+5. Open `http:\\localhost:3001` in browser
+6. (Optional) Change configuration in `\config.js`
 
 ## Configuration
 
-- /config.js - variables, menu choices, themes, etx
-- /start.example – template to simplify setting env variables at startup
+Configuration is performed by updating two files in the project root directory:
+
+1. /config.js - variables, menu choices, themes, etx
+2. /start – environment variables and startup script
+
+Note that to avoid secrets being uploaded to the git repo, you will need to copy the `start.example` template before running the application.
 
 ## Repo structure
 
