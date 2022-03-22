@@ -12,7 +12,7 @@ import {
 
 const HomePage = () => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} sx={{ p: 2}}>
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <Box>
