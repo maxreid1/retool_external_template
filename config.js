@@ -39,14 +39,12 @@ exports.homepage = {
         {
           title: 'Home Page',
           icon: 'HomeIcon',
-          element: 'HomePage',
           url: '/',
           groups: [],
         },
         {
           title: 'Splash Page',
           icon: 'InboxIcon',
-          element: 'SplashPage',
           url: '/splash_page',
           groups: [],
         },
@@ -58,21 +56,18 @@ exports.homepage = {
         {
           title: 'Full Page',
           icon: 'MailIcon',
-          element: 'FullPageEmbed',
           url: '/full_page_embed',
           groups: ['bronze', 'silver', 'gold'],
         },
         {
           title: 'Hybrid',
           icon: 'AddToDriveIcon',
-          element: 'HybridPage',
           url: '/hybrid_page',
           groups: ['silver', 'gold'],
         },
         {
           title: 'Panel',
           icon: 'BarChartIcon',
-          element: 'PanelEmbed',
           url: '/panel_embed',
           groups: ['gold'],
         },
