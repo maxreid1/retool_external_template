@@ -39,7 +39,7 @@ import SplashPage from './pages/SplashPage'
 
 import { updateUser, getUser, deleteUser, login, logout, isLoggedIn } from './utils/auth'
 import { updateGroup, getGroup, deleteGroup } from './utils/prefs'
-import { default_user, homepage } from '../config'
+import { homepage } from '../config'
 
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
@@ -74,15 +74,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const RequireAuth = ({ children, currentGroup, routeGroups }) => {
-  let group = currentGroup || ''
   let permitted = routeGroups || []
-  let authenticated = isLoggedIn() && permitted.includes(group)
+  let group = currentGroup || ''
 
-  fetch('/auth/getDefaultToken')
-    // .then(response => response.json())
-    .then(response => console.log('/auth/getDefaultToken response:', response))  
-
-  return authenticated ? children  : <Navigate to='/' />
+  return permitted.includes(group) ? children  : <Navigate to='/' />  
 }
 
 const App = () => {
@@ -102,9 +97,15 @@ const App = () => {
   }
 
   const handleRegister = () => {
-    updateUser(default_user)
-    setUser(getUser())
-    login()
+    fetch('/auth/register')
+      .then(response => response.json())
+      .then(token => {
+        let user = updateUser(token)
+        setUser(user)
+        setCurrentUserGroup(user.roles[0])
+        login()
+        location.reload()
+      })
   }
 
   const handleLogin = () => {
@@ -132,8 +133,8 @@ const App = () => {
     toggleUserMenu()
   }
 
-  // On setting user, see if localStorage contains a valid user group preference
   useEffect(() => {
+    let user = getUser()
     if (user && user.roles) {
       let group = getGroup()
       if (group && user.roles.includes(group)) {
@@ -146,7 +147,7 @@ const App = () => {
       deleteGroup()
       setCurrentUserGroup(getGroup())
     }
-  }, [user])
+  }, [])
 
   // On changing user group, update sidebar and routes
   useEffect(() => {
@@ -202,7 +203,7 @@ const App = () => {
             </IconButton>
 
             <Typography variant="h6" color="inherit" component="div">
-              {isLoggedIn() 
+              {isLoggedIn() && user
                 ? user.username + ' (' + currentUserGroup + ') | Available user groups: ' + (user && JSON.stringify(user.roles))
                 : '(not logged in)'
               } 
