@@ -19,7 +19,9 @@ const PanelPage = () => {
                 </Paper>
             </Grid>
             <Grid item xs={6}>
-                <PanelEmbed />
+                <Paper sx={{ p: 2}}>
+                    <PanelEmbed />
+                </Paper>
             </Grid>
         </Grid>
     )
