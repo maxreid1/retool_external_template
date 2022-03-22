@@ -1,5 +1,7 @@
 # Data Application Reference Implementation
 
+![Demo gif](docs/demo.gif)
+
 ## Quick instructions (dev mode)
 
 1. Clone repo
