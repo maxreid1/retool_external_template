@@ -41,13 +41,11 @@ import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
 // External Template Utility functions
-import { updateUser, getUser, deleteUser, login, logout, isLoggedIn } from './utils/auth'
-import { updatePrefs, getPrefs, deletePrefs } from './utils/prefs'
-// TODO: functions below can probably be moved out into utils/prefs.js
-const loadPref = (pref) => getPrefs()[pref]
-const savePref = (pref, value) => {
-  updatePrefs({ [pref]: value })
-}
+import { 
+  updateUser, getUser, deleteUser, 
+  login, logout, isLoggedIn 
+} from './utils/auth'
+import { updatePref, getPref, deleteAllPrefs } from './utils/prefs'
 
 // External Template Config
 import { homepage } from '../config'
@@ -100,7 +98,7 @@ const RequireAuth = ({ children, currentGroup, routeGroups }) => {
 
 const App = () => {
   const [user, setUser] = useState(getUser())
-  const [group, setGroup] = useState(loadPref('group'))
+  const [group, setGroup] = useState(getPref('group'))
   const [drawerIsOpen, setDrawerIsOpen] = useState(false)
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
   const [sidebar, setSidebar] = useState([])
@@ -127,7 +125,7 @@ const App = () => {
 
   const handleLogin = () => {
     setUser(getUser())
-    setGroup(getPrefs().group)
+    setGroup(getPref('group'))
     login()
   }
 
@@ -139,30 +137,30 @@ const App = () => {
   const handleCancelAccount = () => {
     setUser(null)
     deleteUser()
-    deletePrefs()
+    deleteAllPrefs()
     logout()
     location.reload()
   }
 
   const handleSwitchGroup = (group) => {
-    savePref('group', group)
-    setGroup(loadPref('group'))
+    updatePref('group', group)
+    setGroup(group)
     toggleUserMenu()
   }
 
   useEffect(() => {
-    let prefs = getPrefs()
-    if (prefs && prefs.group) setGroup(prefs.group)
+    let group = getPref('group')
+    if (group) setGroup(group)
 
     if (user && user.roles) {
       if (group && user.roles.includes(group)) {
-        savePref('group', group)
+        updatePref('group', group)
       } else {
-        updatePrefs({ group: user.roles[0] })
-        setGroup(getPrefs().group)
+        updatePref('group', user.roles[0])
+        setGroup(user.roles[0])
       }
     } else {
-      deletePrefs()
+      deleteAllPrefs()
       setGroup(null)
     }
   }, [user])
