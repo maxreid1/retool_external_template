@@ -8,6 +8,10 @@
 3. Run `./start`
 4. Open `http:\\localhost:3001` in browser
 
+## Configuration
+
+- /config.js - variables, menu choices, themes, etx
+- /start.example – template to simplify setting env variables at startup
 
 ## Repo structure
 
@@ -20,19 +24,26 @@
 
 Express.js server, built using `npx express-generator`
 
+Folder: routes
+### index.js
+- / serves up the React app
+
+### api.js
+- /api/protected  Currently, simply provides a json verifies it has been sent a valid JWT
+
+### auth.js
+- /auth/register  Returns a JWT in a JSON response, currently using the default_user
+
+Folder: utils
+### jwt.js
+- generateToken()
+- authenticateToken()
 
 ## Frontend -  /frontend
 
 frontend/ : bare React app
 
 _Each page of the app has a folder in **/frontend/src/pages**_
-
-
-## Configuration
-
-- /config.js - variables, menu choices, themes, etx
-
-- /start.example – template to simplify setting env variables at startup
 
 ## Development notes
 
