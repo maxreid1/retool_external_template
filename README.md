@@ -4,7 +4,8 @@
 
 1. Clone repo
 2. Run `yarn install`
-3. Run `yarn dev`
+3. Run `cp start.example start`
+3. Run `./start`
 4. Open `http:\\localhost:3001` in browser
 
 
@@ -31,7 +32,6 @@ frontend/ : bare React app
 
 _Each page of the app has a folder in **/frontend/src/pages**_
 
-(placeholders only for now, except for HomePage)
 
 ## Configuration
 
@@ -62,8 +62,7 @@ Update `devServer.proxy.context` in `/frontend/webpack.config.js`:
       }
     },
 
-### Getting test auth tokens
-`curl -X POST http://localhost:3001/auth/createNewUser -H 'Content-Type: application/json' -d '{"username":"John Doe","roles":"[\"admin\"]"}'`
+### Running test API calls
 
-`curl -H 'Accept: application/json' -H "Authorization: Bearer ${TOKEN}" http://localhost:3001/api/protected`
-
+1. Install 'REST Client' VS Code extension
+2. Use calls defined in requests.rest for testing
