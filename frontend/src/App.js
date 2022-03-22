@@ -41,6 +41,11 @@ import { updateUser, getUser, deleteUser, login, logout, isLoggedIn } from './ut
 import { updateGroup, getGroup, deleteGroup } from './utils/prefs'
 import { homepage } from '../config'
 
+let routes = {}
+homepage.sidebar.forEach(section => {
+  section.items.forEach(item => routes[item.url] = item.groups)
+})
+
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
 const drawerWidth = 200
@@ -74,6 +79,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const RequireAuth = ({ children, currentGroup, routeGroups }) => {
+  console.log('RequireAuth(), routeGroups', routeGroups)
   let permitted = routeGroups || []
   let group = currentGroup || ''
 
@@ -82,11 +88,10 @@ const RequireAuth = ({ children, currentGroup, routeGroups }) => {
 
 const App = () => {
   const [user, setUser] = useState(getUser())
-  const [currentUserGroup, setCurrentUserGroup] = useState(null)
+  const [currentUserGroup, setCurrentUserGroup] = useState(getGroup())
   const [drawerIsOpen, setDrawerIsOpen] = useState(false)
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
   const [sidebar, setSidebar] = useState([])
-  const [routes, setRoutes] = useState({})
 
   const toggleDrawer = () => {
     setDrawerIsOpen(!drawerIsOpen);
@@ -134,7 +139,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    let user = getUser()
     if (user && user.roles) {
       let group = getGroup()
       if (group && user.roles.includes(group)) {
@@ -147,35 +151,25 @@ const App = () => {
       deleteGroup()
       setCurrentUserGroup(getGroup())
     }
-  }, [])
+  }, [user])
 
   // On changing user group, update sidebar and routes
   useEffect(() => {
     let filteredSidebar = []
-    let filteredRoutes = {}
-    
     if (currentUserGroup === 'admin') {
       filteredSidebar = homepage.sidebar
-      
-      homepage.sidebar.forEach(section => {
-        section.items.forEach(item => filteredRoutes[item.url] = item.groups)
-      })
     } else {
       homepage.sidebar.forEach(section => {
         let filteredSection = { 
           title: section.title,
           items: section.items.filter(item => (isLoggedIn() && item.groups.includes(currentUserGroup)) || item.groups.length === 0)
         }
-
         if (filteredSection.items.length > 0) {
           filteredSidebar.push(filteredSection)
-          filteredSection.items.forEach(item => filteredRoutes[item.url] = item.groups)
         }
       })
     }
-
     setSidebar(filteredSidebar)
-    setRoutes(filteredRoutes)
   }, [currentUserGroup])
 
   return (
@@ -246,8 +240,8 @@ const App = () => {
               {getUser() && <MenuItem key={'user-menu-cancel'} onClick={handleCancelAccount}>
                 <Typography>Cancel Account</Typography>
               </MenuItem>}
-              <Divider />
-
+              
+              {isLoggedIn() && <Divider />}
               {isLoggedIn() && user.roles.map((group) => (
                 <MenuItem key={group} onClick={() => handleSwitchGroup(group)}>
                   <Typography>Switch to {group}</Typography>
