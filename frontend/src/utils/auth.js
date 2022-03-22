@@ -4,11 +4,11 @@ const decodeToken = (token) => {
   return user
 }
 
-module.exports.updateUser = (token) => {
+export const updateUser = (token) => {
   localStorage.setItem('userJwt', token)
   return decodeToken(token)
 } 
-module.exports.getUser = () => {
+export const getUser = () => {
   let token = localStorage.getItem('userJwt')
   if (token && token !== 'undefined') {
     return decodeToken(token)
@@ -16,8 +16,8 @@ module.exports.getUser = () => {
     return null
   }
 } 
-module.exports.deleteUser = () => localStorage.removeItem('userJwt')
+export const deleteUser = () => localStorage.removeItem('userJwt')
 
-module.exports.login = () => localStorage.setItem('userLoggedIn', true)
-module.exports.logout = () => localStorage.removeItem('userLoggedIn')
-module.exports.isLoggedIn = () => localStorage.getItem('userLoggedIn')
+export const login = () => localStorage.setItem('userLoggedIn', true)
+export const logout = () => localStorage.removeItem('userLoggedIn')
+export const isLoggedIn = () => localStorage.getItem('userLoggedIn')

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Link as RouterLink, Navigate, Routes, Route } from 'react-router-dom'
 
+// Material Components
 import { styled } from '@mui/material/styles'
 import MuiAppBar from '@mui/material/AppBar'
 import MuiDrawer from '@mui/material/Drawer'
@@ -21,7 +22,7 @@ import {
   Typography,
 } from '@mui/material'
 
-// Icons
+// Material Icons
 import HomeIcon from '@mui/icons-material/Home'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import AccountCircle from '@mui/icons-material/AccountCircle'
@@ -32,27 +33,31 @@ import MailIcon from '@mui/icons-material/Mail'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import BarChartIcon from '@mui/icons-material/BarChart'
 
-// Pages
+// External Template Pages
 import HomePage from './pages/HomePage'
 import FullPageEmbed from './pages/FullPageEmbed'
 import HybridPage from './pages/HybridPage'
 import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
-// Utility functions
+// External Template Utility functions
 import { updateUser, getUser, deleteUser, login, logout, isLoggedIn } from './utils/auth'
-import { updateGroup, getGroup, deleteGroup } from './utils/prefs'
+import { updatePrefs, getPrefs, deletePrefs } from './utils/prefs'
+// TODO: functions below can probably be moved out into utils/prefs.js
+const loadPref = (pref) => getPrefs()[pref]
+const savePref = (pref, value) => {
+  updatePrefs({ [pref]: value })
+}
 
-// Config
+// External Template Config
 import { homepage } from '../config'
 
-// routes object is used to validate URLs against user's group setting
 let routes = {}
 homepage.sidebar.forEach(section => {
   section.items.forEach(item => routes[item.url] = item.groups)
 })
 
-// spacer components and variables
+// MUI spacer components and variables
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
 const drawerWidth = 200
@@ -95,7 +100,7 @@ const RequireAuth = ({ children, currentGroup, routeGroups }) => {
 
 const App = () => {
   const [user, setUser] = useState(getUser())
-  const [currentUserGroup, setCurrentUserGroup] = useState(getGroup())
+  const [group, setGroup] = useState(loadPref('group'))
   const [drawerIsOpen, setDrawerIsOpen] = useState(false)
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
   const [sidebar, setSidebar] = useState([])
@@ -114,7 +119,7 @@ const App = () => {
       .then(token => {
         let user = updateUser(token)
         setUser(user)
-        setCurrentUserGroup(user.roles[0])
+        setGroup(user.roles[0])
         login()
         location.reload()
       })
@@ -122,54 +127,56 @@ const App = () => {
 
   const handleLogin = () => {
     setUser(getUser())
-    setCurrentUserGroup(getGroup())
+    setGroup(getPrefs().group)
     login()
   }
 
   const handleLogout = () => {
-    setCurrentUserGroup(null)
+    setGroup(null)
     logout()
   }
 
   const handleCancelAccount = () => {
     setUser(null)
     deleteUser()
-    deleteGroup()
+    deletePrefs()
     logout()
     location.reload()
   }
 
   const handleSwitchGroup = (group) => {
-    updateGroup(group)
-    setCurrentUserGroup(getGroup())
+    savePref('group', group)
+    setGroup(loadPref('group'))
     toggleUserMenu()
   }
 
   useEffect(() => {
+    let prefs = getPrefs()
+    if (prefs && prefs.group) setGroup(prefs.group)
+
     if (user && user.roles) {
-      let group = getGroup()
       if (group && user.roles.includes(group)) {
-        setCurrentUserGroup(getGroup())
+        savePref('group', group)
       } else {
-        updateGroup(user.roles[0])
-        setCurrentUserGroup(getGroup())
+        updatePrefs({ group: user.roles[0] })
+        setGroup(getPrefs().group)
       }
     } else {
-      deleteGroup()
-      setCurrentUserGroup(getGroup())
+      deletePrefs()
+      setGroup(null)
     }
   }, [user])
 
   // On changing user group, update sidebar and routes
   useEffect(() => {
     let filteredSidebar = []
-    if (currentUserGroup === 'admin') {
+    if (group === 'admin') {
       filteredSidebar = homepage.sidebar
     } else {
       homepage.sidebar.forEach(section => {
         let filteredSection = { 
           title: section.title,
-          items: section.items.filter(item => (isLoggedIn() && item.groups.includes(currentUserGroup)) || item.groups.length === 0)
+          items: section.items.filter(item => (isLoggedIn() && item.groups.includes(group)) || item.groups.length === 0)
         }
         if (filteredSection.items.length > 0) {
           filteredSidebar.push(filteredSection)
@@ -177,7 +184,7 @@ const App = () => {
       })
     }
     setSidebar(filteredSidebar)
-  }, [currentUserGroup])
+  }, [group])
 
   return (
     <Router>
@@ -205,7 +212,7 @@ const App = () => {
 
             <Typography variant="h6" color="inherit" component="div">
               {isLoggedIn() && user
-                ? user.username + ' (' + currentUserGroup + ') | Available user groups: ' + (user && JSON.stringify(user.roles))
+                ? user.username + ' (' + group + ') | Available user groups: ' + (user && JSON.stringify(user.roles))
                 : '(not logged in)'
               } 
             </Typography>
@@ -317,17 +324,17 @@ const App = () => {
             
             {/* Protected routes depending on user group */}
             <Route path='/full_page_embed' element={
-              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/full_page_embed']}>
+              <RequireAuth currentGroup={group} routeGroups={routes['/full_page_embed']}>
                 <FullPageEmbed />
               </RequireAuth>
             }/>
             <Route path='/hybrid_page' element={
-              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/hybrid_page']}>
+              <RequireAuth currentGroup={group} routeGroups={routes['/hybrid_page']}>
                 <HybridPage />
               </RequireAuth>
             }/>
             <Route path='/panel_embed' element={
-              <RequireAuth currentGroup={currentUserGroup} routeGroups={routes['/panel_embed']}>
+              <RequireAuth currentGroup={group} routeGroups={routes['/panel_embed']}>
                 <PanelPage />
               </RequireAuth>
             }/>

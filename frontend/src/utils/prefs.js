@@ -1,3 +1,7 @@
-module.exports.updateGroup = (group) => localStorage.setItem('userGroup', group)
-module.exports.getGroup = () => localStorage.getItem('userGroup')
-module.exports.deleteGroup = () => localStorage.removeItem('userGroup')
+export const updatePrefs = (prefs) => {
+    let currentPrefs = JSON.parse(localStorage.getItem('userPrefs'))
+    let newPrefs = {...currentPrefs, ...prefs}
+    localStorage.setItem('userPrefs', JSON.stringify(newPrefs))
+}
+export const getPrefs = () => JSON.parse(localStorage.getItem('userPrefs'))
+export const deletePrefs = () => localStorage.removeItem('userPrefs')
