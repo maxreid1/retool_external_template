@@ -7,14 +7,8 @@ var router = express.Router();
 
 
 router.get('/register', (req, res) => {
-    const token = jwt.generateToken({ 
-        username: config.default_user.username,
-        roles: config.default_user.roles
-    });
+    const token = jwt.generateToken(config.default_user)
     res.json(token)
 })
-
-// router.get('/login', (req, res) => res.json({ message: 'Logged in'}))
-// router.get('/logout', (req, res) => res.json({ message: 'Logged out'}))
 
 module.exports = router;

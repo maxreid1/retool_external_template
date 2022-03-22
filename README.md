@@ -20,11 +20,6 @@
 
 Express.js server, built using `npx express-generator`
 
-One single API for structure:
-
-- server.js: `var apiRouter = require('./routes/api')`
-- server.js: `app.use('/api', apiRouter)`
-- api code: `routes/api.js`
 
 ## Frontend -  /frontend
 
@@ -53,14 +48,14 @@ When adding a new environment variable, add it to:
 
 Update `devServer.proxy.context` in `/frontend/webpack.config.js`:
 
-    devServer: {
-      contentBase: path.join(__dirname, 'dist'),
-      port: process.env.PBL_DEV_PORT || 3001,
-      proxy: {
-        context: ['/auth', '/api'],
-        target: ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
-      }
-    },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    port: process.env.PBL_DEV_PORT || 3001,
+    proxy: {
+      context: ['/auth', '/api'],
+      target: ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
+    }
+  },
 
 ### Running test API calls
 

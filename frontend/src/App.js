@@ -21,6 +21,7 @@ import {
   Typography,
 } from '@mui/material'
 
+// Icons
 import HomeIcon from '@mui/icons-material/Home'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import AccountCircle from '@mui/icons-material/AccountCircle'
@@ -31,21 +32,27 @@ import MailIcon from '@mui/icons-material/Mail'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import BarChartIcon from '@mui/icons-material/BarChart'
 
+// Pages
 import HomePage from './pages/HomePage'
 import FullPageEmbed from './pages/FullPageEmbed'
 import HybridPage from './pages/HybridPage'
 import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
+// Utility functions
 import { updateUser, getUser, deleteUser, login, logout, isLoggedIn } from './utils/auth'
 import { updateGroup, getGroup, deleteGroup } from './utils/prefs'
+
+// Config
 import { homepage } from '../config'
 
+// routes object is used to validate URLs against user's group setting
 let routes = {}
 homepage.sidebar.forEach(section => {
   section.items.forEach(item => routes[item.url] = item.groups)
 })
 
+// spacer components and variables
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
 const drawerWidth = 200
