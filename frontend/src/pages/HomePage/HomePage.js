@@ -2,9 +2,7 @@ import React from 'react'
 
 import { 
   Box,
-  Divider,
   Grid,
-  Link,
   Paper,
   Typography 
 } from '@mui/material'
