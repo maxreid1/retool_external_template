@@ -17,7 +17,7 @@ const HybridEmbed = () => {
   };
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box sx={{ height: "640px" }}>
       <Box sx={{ width: "100%" }}>
         <ToggleButtonGroup
           color="primary"

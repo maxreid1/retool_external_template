@@ -258,13 +258,13 @@ const App = () => {
                 <Typography>Logout</Typography>
               </MenuItem>}
               {getUser() && <MenuItem key={'user-menu-cancel'} onClick={handleCancelAccount}>
-                <Typography>Cancel Account</Typography>
+                <Typography>Delete Account</Typography>
               </MenuItem>}
               
               {isLoggedIn() && <Divider />}
               {isLoggedIn() && user.roles.map((group) => (
                 <MenuItem key={group} onClick={() => handleSwitchGroup(group)}>
-                  <Typography>Switch to {group}</Typography>
+                  <Typography>Impersonate {group}</Typography>
                 </MenuItem>
               ))}
               

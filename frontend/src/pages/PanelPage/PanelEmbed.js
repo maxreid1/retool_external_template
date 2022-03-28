@@ -10,7 +10,7 @@ import { publicApps } from '../../../config'
 
 const PanelEmbed = () => {
   return (
-    <Box>
+    <Box sx={{ height: "660px" }}>
       <Retool url={publicApps.panelEmbed} />
     </Box>
   )

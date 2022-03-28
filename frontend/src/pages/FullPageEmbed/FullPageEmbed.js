@@ -3,6 +3,7 @@ import React from 'react'
 import Retool from 'react-retool'
 
 import {
+  Box,
   Container
 } from '@mui/material'
 
@@ -10,9 +11,11 @@ import { publicApps } from '../../../config'
 
 const FullPageEmbed = () => {
     return (
-        <Container>
-            <Retool url={publicApps.fullPage} />
-        </Container>
+        <Box sx={{ height: "1200px" }}>
+            <Container>
+                <Retool url={publicApps.fullPage} />
+            </Container>
+        </Box>
     )
 }
 
