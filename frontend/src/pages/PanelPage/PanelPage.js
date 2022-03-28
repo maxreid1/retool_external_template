@@ -17,7 +17,7 @@ const PanelPage = () => {
             try {
                 const parsed = JSON.parse(event.data);
                 if (parsed) {
-                setData(parsed);
+                    setData(parsed);
                 }
             } catch (e) {}
             }
@@ -33,7 +33,7 @@ const PanelPage = () => {
             <Grid item xs={6}>
                 <Paper sx={{ p: 2}}>
                     <Typography variant="h6" color="primary" gutterBottom>
-                        {JSON.stringify(data, null, 2)}
+                        {JSON.stringify(data)}
                     </Typography>
                 </Paper>
             </Grid>
