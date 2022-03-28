@@ -11,17 +11,14 @@ import Retool from 'react-retool'
 import { publicApps } from '../../../config'
 
 const HybridEmbed = () => {
-  const [selected, setSelected] = React.useState(0);
+  const [selected, setSelected] = React.useState({ currentTab: 0 });
   const handleChange = (_, data) => {
-    setSelected(data);
+    setSelected({ currentTab: data });
   };
 
   return (
-    <Box>
+    <Box sx={{ height: "100%" }}>
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ display: "none" }} id="retool-data">
-          {selected}
-        </Box>
         <ToggleButtonGroup
           color="primary"
           size="small"
@@ -38,7 +35,7 @@ const HybridEmbed = () => {
         </ToggleButtonGroup>
       </Box>
 
-      <Retool url={publicApps.hybridPage} />
+      <Retool url={publicApps.hybridPage} data={selected} />
     </Box>
   )
 }
