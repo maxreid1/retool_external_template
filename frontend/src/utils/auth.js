@@ -1,7 +1,5 @@
-const decodeToken = (token) => {
-  let { username, roles } = JSON.parse(atob(token.split('.')[1]))
-  let user = { username: username, roles: roles }
-  return user
+export const decodeToken = (token) => {
+  return JSON.parse(atob(token.split('.')[1]))
 }
 
 export const updateUser = (token) => {
