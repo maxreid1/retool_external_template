@@ -98,7 +98,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const RequireAuth = ({ component, currentGroup, routeGroups, ...props }) => {
-  console.log('RequireAuth(), routeGroups', routeGroups)
   let permitted = routeGroups || []
   let group = currentGroup || ''
 
@@ -132,7 +131,6 @@ const App = () => {
       body: JSON.stringify(update)
     })
     const verifyUpdate = await updateResponse.json()
-    console.log('update:', JSON.stringify(verifyUpdate.user_metadata))
   }
 
   const toggleDrawer = () => {
@@ -187,7 +185,7 @@ const App = () => {
           }
         })
       } catch (e) {
-        console.log('getUserMetadata failed:', e)
+        console.warn('getUserMetadata failed:', e)
       }
     }
 
@@ -198,7 +196,6 @@ const App = () => {
 
   // Update sidebar and routes when user group changes
   useEffect(() => {
-    console.log('userProfile changed - useEffect()', JSON.stringify(userProfile))
     let filteredSidebar = []
     if (userProfile?.user.group === 'admin') {
       filteredSidebar = homepage.sidebar
