@@ -6,16 +6,31 @@ exports.default_user = {
   roles: ['gold', 'silver', 'bronze']
 }
 
+/* FRONTEND CONFIG - hot reloading of all changes */
+
 exports.auth = {
   tokenDuration: '1800s',
+  REACT_APP_AUTH0_DOMAIN: 'dev-lekm7di5.us.auth0.com',
+  REACT_APP_AUTH0_CLIENT_ID: 'XTvdIg69eapUmPCYItBeiLfmzLnChB5Q',
+  REACT_APP_AUTH0_SCOPE: 'read:current_user update:current_user_metadata',
 }
-
-/* FRONTEND CONFIG - hot reloading of all changes */
 
 exports.retoolDomain = 'https://example.retool.com'
 
 exports.publicApps = {
-  fullPage: 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5',
+  // Public
+  // fullPage: 'https://example.retool.com/embedded/public/d67b65ab-3afa-4a58-9ba1-b3bcff63e7c5',
+  
+  // SSO (Auth0)
+  // fullPage: 'https://example.retool.com/apps/cf774868-8fda-11ec-9928-db5c2897b3aa/Jon%20-%20Examples/CollectionMaintenance',
+  
+  // SSO (Auth0)
+  // fullPage: 'https://demos.retool.dev/apps/Marketplace%20Demo/Live%20Monitoring#name=',
+
+  // email+password
+  fullPage: 'https://demos.retool.com/apps/3f0173e6-cc7d-11ec-945a-d74c1b48b4d0/Jon/Account%20Dashboard%20copy?_releaseVersion=latest',
+
+
   hybridPage: 'https://example.retool.com/embedded/public/86784719-70dd-419a-b28f-d4d1e7788729',
   panelEmbed: 'https://example.retool.com/embedded/public/f808a1bf-8cb7-4de6-8f3e-19a5eea01059',
 }
@@ -39,15 +54,15 @@ exports.homepage = {
       title: 'First Section',
       items: [
         {
-          title: 'Home Page',
+          title: 'Splash Page',
           icon: 'HomeIcon',
           url: '/',
           groups: [],
         },
         {
-          title: 'Splash Page',
+          title: 'Profile Page',
           icon: 'InboxIcon',
-          url: '/splash_page',
+          url: '/profile_page',
           groups: [],
         },
       ]

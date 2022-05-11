@@ -52,6 +52,15 @@ frontend/ : bare React app
 
 _Each page of the app has a folder in **/frontend/src/pages**_
 
+## auth0_scripts
+
+Using Rules:
+
+https://manage.auth0.com/dashboard/us/APP_ID/rules
+
+Using Actions:
+
+https://manage.auth0.com/dashboard/us/APP_ID/actions/flows/login/
 ## Development notes
 
 ### Adding a new library
