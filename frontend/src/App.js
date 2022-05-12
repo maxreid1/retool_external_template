@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link as RouterLink, Navigate, Routes, Route } from 'react-router-dom'
+import { Link as RouterLink, Navigate, Routes, Route, useParams } from 'react-router-dom'
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 import { SignupMenuItem } from './components/auth/SignupMenuItem' 
@@ -17,6 +17,7 @@ import {
   Badge,
   Box,
   Divider,
+  Icon,
   IconButton,
   Link,
   List,
@@ -30,15 +31,10 @@ import {
 } from '@mui/material'
 
 // Material Icons
-import HomeIcon from '@mui/icons-material/Home'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MenuIcon from '@mui/icons-material/Menu'
-import InboxIcon from '@mui/icons-material/MoveToInbox'
-import MailIcon from '@mui/icons-material/Mail'
-import AddToDriveIcon from '@mui/icons-material/AddToDrive'
-import BarChartIcon from '@mui/icons-material/BarChart'
 
 // External Template Pages
 import ProfilePage from './pages/ProfilePage'
@@ -47,13 +43,20 @@ import HybridPage from './pages/HybridPage'
 import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 
+const components = {
+  'full_page_embed': FullPageEmbed,
+  'hybrid_page': HybridPage,
+  'panel_page': PanelPage,
+}
+
 // External Template Config
 import { auth, homepage } from '../config'
 
-
 let routes = {}
 homepage.sidebar.forEach(section => {
-  section.items.forEach(item => routes[item.url] = item.groups)
+  section.items.forEach(item => {
+    routes[item.slug] = item
+  })
 })
 
 // MUI spacer components and variables
@@ -97,15 +100,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const RequireAuth = ({ component, currentGroup, routeGroups, ...props }) => {
-  let permitted = routeGroups || []
-  let group = currentGroup || ''
+const RequireAuth = ({ currentGroup, routes }) => {
+  const { slug } = useParams()
+  const embed = components[slug] ?? FullPageEmbed
 
-  const Component = withAuthenticationRequired(component, {
+  const permitted = routes[slug].groups || []
+  const group = currentGroup || ''
+
+  const Component = withAuthenticationRequired(embed, {
     onRedirecting: () => <Navigate to='/' />
   })
 
-  return permitted.includes(group) ? <Component {...props} /> : <Navigate to='/' />  
+  return permitted.includes(group) ? <Component routes={routes} /> : <Navigate to='/' />  
 }
 
 const App = () => {
@@ -135,7 +141,6 @@ const App = () => {
       },
       body: JSON.stringify(update)
     })
-    const verifyUpdate = await updateResponse.json()
   }
 
   const toggleDrawer = () => {
@@ -204,7 +209,7 @@ const App = () => {
     }
   }, [user?.sub])
 
-  // Update sidebar and routes when user group changes
+  // Update sidebar when user group changes
   useEffect(() => {
     let filteredSidebar = []
     if (userProfile?.user.group === 'admin') {
@@ -212,7 +217,7 @@ const App = () => {
     } else {
       homepage.sidebar.forEach(section => {
         let filteredSection = { 
-          title: section.title,
+          section: section.section,
           items: section.items.filter(item => item.groups.length === 0 || item.groups.includes(userProfile?.user.group))
         }
         if (filteredSection.items.length > 0) {
@@ -309,26 +314,21 @@ const App = () => {
           </IconButton>
         </Toolbar>
         <Box sx={{ overflow: 'auto' }}>
-          {sidebar.map(group => (
+          {sidebar.map(section => (
             <>
               <List>
-                {group.items.map(item => (
+                {section.items.map(item => (
                   <Link
                     key={item.key}
-                    to={{pathname: item.url}}
+                    to={
+                      {pathname: [section.section, item.slug].join('/')}
+                    }
                     component={RouterLink}
                     underline='none'
                   >
                     <ListItem button key={item.key + 'listItem'}>
                       <ListItemIcon key={item.key + 'listItemIcon'}>
-                        {
-                          {'HomeIcon': <HomeIcon />,
-                          'InboxIcon': <InboxIcon />,
-                          'MailIcon': <MailIcon />,
-                          'AddToDriveIcon': <AddToDriveIcon />,
-                          'BarChartIcon': <BarChartIcon />,
-                          }[item.icon]
-                        }
+                        <Icon>{item.icon}</Icon>
                       </ListItemIcon>
                       <ListItemText primary={item.title} key={item.key + 'listItemText'}/>
                     </ListItem>
@@ -344,23 +344,28 @@ const App = () => {
       <Box sx={{ width: '100%', height: '100vh', flexGrow: 1 }}>
         <AppBarOffset />
         <Routes>
-          {/* Public routes */}
+          {/* Landing Pages */}
           <Route exact path='/' element={
             <SplashPage />
           }/>
           <Route path='/profile_page' element={
             <ProfilePage user={user} userProfile={userProfile} idTokenClaims={idTokenClaims} authTokenClaims={authTokenClaims} />
           }/>
+
+          {/* Configurable Public Apps */}     
+          <Route path='/public/:slug' element={
+            <FullPageEmbed routes={routes} />
+          }/>
           
-          {/* Protected routes depending on user group */}
-          <Route path='/full_page_embed' element={
-            <RequireAuth currentGroup={userProfile?.user.group} routeGroups={routes['/full_page_embed']} component={FullPageEmbed} />
+          {/* Default Demo Apps */}
+          <Route path='/default_demo/:slug' element={
+            <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
           }/>
-          <Route path='/hybrid_page' element={
-            <RequireAuth currentGroup={userProfile?.user.group} routeGroups={routes['/hybrid_page']} component={HybridPage} />
-          }/>
-          <Route path='/panel_embed' element={
-            <RequireAuth currentGroup={userProfile?.user.group} routeGroups={routes['/panel_embed']} component={PanelPage} />
+
+
+          {/* Configurable Protected Apps */}
+          <Route path='/protected/:slug' element={
+            <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
           }/>
         </Routes>
       </Box>

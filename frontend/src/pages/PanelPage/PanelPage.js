@@ -13,7 +13,7 @@ import PanelEmbed from './PanelEmbed'
 
 import { retoolDomain } from '../../../config'
 
-const PanelPage = () => {
+const PanelPage = ({ routes }) => {
     const [data, setData] = React.useState()
 
     useEffect(() => {
@@ -68,7 +68,7 @@ const PanelPage = () => {
             </Grid>
             <Grid item xs={6}>
                 <Paper sx={{ p: 2}}>
-                    <PanelEmbed />
+                    <PanelEmbed routes={routes} />
                 </Paper>
             </Grid>
         </Grid>

@@ -8,7 +8,7 @@ import {
 
 import HybridEmbed from './HybridEmbed'
 
-const HybridPage = () => {
+const HybridPage = ({ routes }) => {
     return (
         <Grid container spacing={3} sx={{ p: 2}}>
             <Grid item xs={12}>
@@ -30,7 +30,7 @@ const HybridPage = () => {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <HybridEmbed />
+                <HybridEmbed routes={routes}/>
             </Grid>
         </Grid>
     )

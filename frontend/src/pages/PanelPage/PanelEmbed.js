@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from "react-router-dom"
 
 import {
   Box
@@ -6,12 +7,14 @@ import {
 
 import Retool from 'react-retool'
 
-import { publicApps } from '../../../config'
 
-const PanelEmbed = () => {
+const PanelEmbed = ({ routes }) => {
+  const { slug } = useParams()
+  const url = routes[slug].retool_app
+
   return (
     <Box sx={{ height: "660px" }}>
-      <Retool url={publicApps.panelEmbed} />
+      <Retool url={url} />
     </Box>
   )
 }

@@ -9,10 +9,13 @@ import {
 } from '@mui/material'
 import Highlight from 'react-highlight'
 
+import { homepage, theme } from '../../../config'
+
 
 const ProfilePage = ({ user, userProfile, idTokenClaims, authTokenClaims }) => {
   return (
     <Grid container spacing={3} sx={{ p: 2}}>
+
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <Box>
@@ -29,6 +32,7 @@ const ProfilePage = ({ user, userProfile, idTokenClaims, authTokenClaims }) => {
           </Box>
         </Paper>
       </Grid>
+
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <Box>
@@ -41,6 +45,7 @@ const ProfilePage = ({ user, userProfile, idTokenClaims, authTokenClaims }) => {
           </Box>
         </Paper>
       </Grid>
+
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <Box>
@@ -53,6 +58,7 @@ const ProfilePage = ({ user, userProfile, idTokenClaims, authTokenClaims }) => {
           </Box>
         </Paper>
       </Grid>
+
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <Box>
@@ -65,6 +71,25 @@ const ProfilePage = ({ user, userProfile, idTokenClaims, authTokenClaims }) => {
           </Box>
         </Paper>
       </Grid>
+
+      <Grid item xs={12}>
+        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+          <Box>
+            <Typography variant="h5" color="primary" gutterBottom>Homepage Config</Typography>
+            <Highlight className="language-json">{JSON.stringify(homepage, null, 2)}</Highlight>
+          </Box>
+        </Paper>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+          <Box>
+            <Typography variant="h5" color="primary" gutterBottom>Theme</Typography>
+            <Highlight className="language-json">{JSON.stringify(theme, null, 2)}</Highlight>
+          </Box>
+        </Paper>
+      </Grid>
+
     </Grid>
   )
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from "react-router-dom"
 
 import {
   Box,
@@ -8,9 +9,11 @@ import {
 
 import Retool from 'react-retool'
 
-import { publicApps } from '../../../config'
 
-const HybridEmbed = () => {
+const HybridEmbed = ({ routes }) => {
+  const { slug } = useParams()
+  const url = routes[slug].retool_app
+
   const [selected, setSelected] = React.useState({ currentTab: 0 });
   const handleChange = (_, data) => {
     setSelected({ currentTab: data });
@@ -35,7 +38,7 @@ const HybridEmbed = () => {
         </ToggleButtonGroup>
       </Box>
 
-      <Retool url={publicApps.hybridPage} data={selected} />
+      <Retool url={url} data={selected} />
     </Box>
   )
 }
