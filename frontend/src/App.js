@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Link as RouterLink, Navigate, Routes, Route } from 'react-router-dom'
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
-import { decodeToken } from './utils/auth'
-
 import { SignupMenuItem } from './components/auth/SignupMenuItem' 
 import { LoginMenuItem } from './components/auth/LoginMenuItem' 
 import { LogoutMenuItem } from './components/auth/LogoutMenuItem' 
+
+import { decodeToken } from './utils/auth'
 
 // Material Components
 import { styled } from '@mui/material/styles'
@@ -274,7 +274,7 @@ const App = () => {
               </MenuItem>
             ))}
 
-            <Divider />
+            {isAuthenticated && <Divider />}
             {!isAuthenticated && <SignupMenuItem />}
             {!isAuthenticated && <LoginMenuItem />}
             {isAuthenticated && <LogoutMenuItem />}
