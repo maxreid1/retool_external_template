@@ -1,4 +1,4 @@
-# Data Application Reference Implementation
+# Retool External Template
 
 ![Demo gif](docs/demo.gif)
 
