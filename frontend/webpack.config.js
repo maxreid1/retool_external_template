@@ -1,7 +1,9 @@
 const path = require('path');
 
 const { deployOnLocalhost } = require('./config')
-const OUTPUT_LOCATION = deployOnLocalhost ? path.join(__dirname, 'dist') : path.join(__dirname, '../backend/public/js');
+
+const OUTPUT_LOCATION = deployOnLocalhost ? path.join(__dirname, '../backend/public/js') : path.join(__dirname, 'dist');
+
 
 module.exports = {
   mode: 'development',
