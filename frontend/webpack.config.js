@@ -1,12 +1,13 @@
 const path = require('path');
 
-const BACKEND_LOCATION = path.join(__dirname, '../backend/public/js');
+const { deployOnLocalhost } = require('./config')
+const OUTPUT_LOCATION = deployOnLocalhost ? path.join(__dirname, 'dist') : path.join(__dirname, '../backend/public/js');
 
 module.exports = {
   mode: 'development',
   output: {
     filename: 'pbl.bundle.js',
-    path: BACKEND_LOCATION,
+    path: OUTPUT_LOCATION,
   },
   devtool: 'inline-source-map',
   devServer: {

@@ -1,5 +1,4 @@
-/* config.js acts as single passthrough from root, so that backend package is self-contained */
-
-var config = require('../config.js')
-
-module.exports = config
+exports.default_user = {
+    username: 'john.doe@example.com',
+    roles: ['gold', 'silver', 'bronze']
+}
