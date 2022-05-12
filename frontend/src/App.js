@@ -111,15 +111,20 @@ const RequireAuth = ({ component, currentGroup, routeGroups, ...props }) => {
 const App = () => {
   const { isAuthenticated, user, getIdTokenClaims, getAccessTokenSilently } = useAuth0()
 
-  const [userProfile, setUserProfile] = useState(null)
-  const [accessToken, setAccessToken] = useState(null)
-  const [idTokenClaims, setIdTokenClaims] = useState(null)
-  const [authTokenClaims, setAuthTokenClaims] = useState(null)
+  const [userProfile, setUserProfile] = useState(null)            // "In memory" state variable for user attributes e.g. roles
+  const [accessToken, setAccessToken] = useState(null)            // JWT access token (raw string)
+  const [idTokenClaims, setIdTokenClaims] = useState(null)        // JWT ID token claims 
+  const [authTokenClaims, setAuthTokenClaims] = useState(null)    // JWT access token
   
-  const [drawerIsOpen, setDrawerIsOpen] = useState(true)
-  const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)
-  const [sidebar, setSidebar] = useState([])
+  const [drawerIsOpen, setDrawerIsOpen] = useState(true)          // Left hand var bar
+  const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)     // Top right user menu
+  const [sidebar, setSidebar] = useState([])                      // Config data for sidebar. Dynamic i.e. filtered based on RBAC
 
+  /**
+   * Updates user metadata on Auth0
+   * @param {string} accessToken - Access Token for Auth0 Management API
+   * @param {Object} update  - Request body; the metadata values to be set
+   */
   const updateUserMetadata = async (accessToken, update) => {
     const updateUserDetailsUrl = `https://${auth.REACT_APP_AUTH0_DOMAIN}/api/v2/users/${user.sub}`
     const updateResponse = await fetch(updateUserDetailsUrl, {
@@ -141,6 +146,11 @@ const App = () => {
     setUserMenuIsOpen(!userMenuIsOpen)
   }
 
+  /**
+   * Sets the user's current group, which serves to demonstrate dynamic RBAC-based features
+   * Updates both user metadata on Auth0 & the in-memory userProfile state variable
+   * @param {string} group - group to set as user's current group
+   */
   const handleSwitchGroup = (group) => {
     updateUserMetadata(accessToken, {
       user_metadata: { group: group }
@@ -156,7 +166,7 @@ const App = () => {
     })
   }
 
-  // user profile and tokens from Auth0
+  // get user profile and tokens from Auth0
   useEffect(() => {
     const getUserMetadata = async () => {    
       try {
