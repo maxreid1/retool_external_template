@@ -40,7 +40,7 @@ exports.auth = {
             title: 'Full Page',
             icon: 'verified user',
             slug: 'full_page_embed',
-            retool_app: 'https://demos.retool.com/apps/3f0173e6-cc7d-11ec-945a-d74c1b48b4d0/Jon/Account%20Dashboard%20copy',
+            retool_app: 'https://demos.retool.com/apps/3f0173e6-cc7d-11ec-945a-d74c1b48b4d0/Jon/Account%20Dashboard%20copy?_embed=true',
             groups: ['bronze', 'silver', 'gold'],
           },
           {
