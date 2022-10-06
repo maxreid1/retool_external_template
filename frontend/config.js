@@ -21,7 +21,7 @@ exports.auth = {
         items: [
           {
             title: 'Splash Page',
-            icon: 'pets',
+            icon: 'home',
             slug: null,
             groups: [],
           },
@@ -37,10 +37,10 @@ exports.auth = {
         section: 'default_demo',
         items: [
           {
-            title: 'Full Page',
+            title: 'Store Overview',
             icon: 'verified user',
             slug: 'full_page_embed',
-            retool_app: 'https://demos.retool.com/apps/3f0173e6-cc7d-11ec-945a-d74c1b48b4d0/Jon/Account%20Dashboard%20copy?_embed=true',
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/1%20Bronze%20-%20Store%20Overview?_embed=true',
             groups: ['bronze', 'silver', 'gold'],
           },
           {
@@ -78,25 +78,25 @@ exports.auth = {
           },
         ]
       },
-      {
-        section: 'public',
-        items: [
-          {
-            title: 'Public Page 1',
-            icon: 'anchor',
-            slug: 'custom_demo_1',
-            retool_app: 'https://example.retool.com/embedded/public/86784719-70dd-419a-b28f-d4d1e7788729',
-            groups: [],
-          },
-          {
-            title: 'Public Page 2',
-            icon: 'help center',
-            slug: 'custom_demo_2',
-            retool_app: 'https://example.retool.com/embedded/public/f808a1bf-8cb7-4de6-8f3e-19a5eea01059',
-            groups: [],
-          },
-        ]
-      },
+      // {
+      //   section: 'public',
+      //   items: [
+      //     {
+      //       title: 'Public Page 1',
+      //       icon: 'anchor',
+      //       slug: 'custom_demo_1',
+      //       retool_app: 'https://example.retool.com/embedded/public/86784719-70dd-419a-b28f-d4d1e7788729',
+      //       groups: [],
+      //     },
+      //     {
+      //       title: 'Public Page 2',
+      //       icon: 'help center',
+      //       slug: 'custom_demo_2',
+      //       retool_app: 'https://example.retool.com/embedded/public/f808a1bf-8cb7-4de6-8f3e-19a5eea01059',
+      //       groups: [],
+      //     },
+      //   ]
+      // },
     ]
   }
   
