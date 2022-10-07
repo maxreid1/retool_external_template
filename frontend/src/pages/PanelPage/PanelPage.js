@@ -18,14 +18,14 @@ const PanelPage = ({ routes }) => {
 
     useEffect(() => {
         const handler = (event) => {
-            if (event.origin === retoolDomain) {
+            // if (event.origin === retoolDomain) {
             try {
                 const parsed = JSON.parse(event.data);
                 if (parsed) {
                     setData(parsed);
                 }
             } catch (e) {}
-            }
+            // }
         };
 
         window.addEventListener("message", handler);
@@ -50,22 +50,22 @@ const PanelPage = ({ routes }) => {
                         
                         {data && <Box sx={{ p: 2 }}>
                             <Typography variant="h6" color="secondary" gutterBottom>
-                                {data.CONTACT_NAME}, {data.COMPANY_NAME}
+                                {data.City}, {data.State}
                             </Typography>
-                            <Chip label={data.CONTACT_TITLE} />
+                            <Chip label={data.City} />
                             <Box sx={{ pt: 2 }}>
                                 <Typography variant="body1">
-                                    {data.ADDRESS}
+                                    {data.City}
                                 </Typography>
                                 <Typography variant="body1">
-                                    {data.CITY}
+                                    {data.is_active}
                                 </Typography>  
-                                <Typography variant="body1">
+                                {/* <Typography variant="body1">
                                     {data.COUNTRY}
                                 </Typography>  
                                 <Typography variant="body1">
                                     {data.PHONE}
-                                </Typography>
+                                </Typography> */}
                             </Box>                      
                         </Box>}
                     </Box>

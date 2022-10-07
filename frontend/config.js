@@ -61,7 +61,7 @@ exports.auth = {
             title: 'Coupon Generator',
             icon: 'attach_money',
             slug: 'panel_page2',
-            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/4%20Silver%20-%20Coupon%20Generator',
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/4%20Silver%20-%20Coupon%20Generator?_embed=tru',
             groups: ['silver','gold'],
           },
         ]
