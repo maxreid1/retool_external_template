@@ -6,7 +6,10 @@
         "backend"
     ],
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.2.0",
         "concurrently": "^5.3.0",
+        "moment": "^2.29.4",
+        "react-moment": "^1.1.2",
         "yarn": "^1.22.19"
     },
     "scripts": {

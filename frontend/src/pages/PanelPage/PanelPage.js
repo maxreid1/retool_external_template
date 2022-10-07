@@ -35,6 +35,11 @@ const PanelPage = ({ routes }) => {
 
     return (
         <Grid container spacing={3} sx={{ p: 2}}>
+             <Grid item xs={6}>
+                <Paper sx={{ p: 2}}>
+                    <PanelEmbed routes={routes} />
+                </Paper>
+            </Grid>
             <Grid item xs={6}>
                 <Paper sx={{ p: 2}}>
                     <Box sx={{ height: "660px" }}>
@@ -66,11 +71,7 @@ const PanelPage = ({ routes }) => {
                     </Box>
                 </Paper>
             </Grid>
-            <Grid item xs={6}>
-                <Paper sx={{ p: 2}}>
-                    <PanelEmbed routes={routes} />
-                </Paper>
-            </Grid>
+           
         </Grid>
     )
 }

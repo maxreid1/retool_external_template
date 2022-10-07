@@ -19,18 +19,18 @@ exports.auth = {
       {
         section: '',
         items: [
-          {
-            title: 'Splash Page',
-            icon: 'home',
-            slug: null,
-            groups: [],
-          },
-          {
-            title: 'Profile Page',
-            icon: 'dashboard',
-            slug: 'profile_page',
-            groups: [],
-          },
+          // {
+          //   title: 'Splash Page',
+          //   icon: 'home',
+          //   slug: null,
+          //   groups: [],
+          // },
+          // {
+          //   title: 'Profile Page',
+          //   icon: 'dashboard',
+          //   slug: 'profile_page',
+          //   groups: [],
+          // },
         ]
       },
       {
@@ -38,24 +38,31 @@ exports.auth = {
         items: [
           {
             title: 'Store Overview',
-            icon: 'verified user',
+            icon: 'store',
             slug: 'full_page_embed',
             retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/1%20Bronze%20-%20Store%20Overview?_embed=true',
             groups: ['bronze', 'silver', 'gold'],
           },
           {
-            title: 'Hybrid',
-            icon: 'map',
+            title: 'Orders',
+            icon: 'fastfood',
             slug: 'hybrid_page',
-            retool_app: 'https://example.retool.com/embedded/public/86784719-70dd-419a-b28f-d4d1e7788729',
-            groups: ['silver', 'gold'],
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/2%20Bronze%20-%20See%20and%20Refund%20Orders?_embed=true',
+            groups: ['bronze','silver', 'gold'],
           },
           {
-            title: 'Panel',
-            icon: 'face',
+            title: 'Store Availability',
+            icon: 'access_time',
             slug: 'panel_page',
-            retool_app: 'https://example.retool.com/embedded/public/f808a1bf-8cb7-4de6-8f3e-19a5eea01059',
-            groups: ['gold'],
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/3%20Bronze%20(Hybrid%20Page)%20-%20Store%20Availability?_embed=true',
+            groups: ['bronze','silver','gold'],
+          },
+          {
+            title: 'Coupon Generator',
+            icon: 'attach_money',
+            slug: 'panel_page2',
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/4%20Silver%20-%20Coupon%20Generator',
+            groups: ['silver','gold'],
           },
         ]
       },
@@ -63,17 +70,17 @@ exports.auth = {
         section: 'protected',
         items: [
           {
-            title: 'Protected App 1',
-            icon: 'camera',
+            title: 'Customer Engagement',
+            icon: 'person',
             slug: 'custom_demo_3',
-            retool_app: 'https://demos.retool.com/apps/3f0173e6-cc7d-11ec-945a-d74c1b48b4d0/Jon/Account%20Dashboard%20copy',
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/5%20Gold%20-%20Customer%20Engagement?_embed=true',
             groups: ['gold'],
           },
           {
-            title: 'Protected App 2',
-            icon: 'balance',
+            title: 'Custom Views',
+            icon: 'search',
             slug: 'custom_demo_4',
-            retool_app: 'https://demos.retool.com/apps/3f0173e6-cc7d-11ec-945a-d74c1b48b4d0/Jon/Account%20Dashboard%20copy',
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/5%20Gold%20-%20Custom%20View%20Generator#name=&view=0?_embed=true',
             groups: ['gold'],
           },
         ]
@@ -104,10 +111,16 @@ exports.auth = {
   exports.theme = {
     palette: {
       primary: {
-        main: "#d93d3d",
+        main: "#000000",
         light: "#E06363",
         dark: "#972A2A",
         contrastText: "#fff"
       },
+    },
+    typography: {
+      fontFamily: "Nunito"
+    },
+    components: {
+
     }
   }

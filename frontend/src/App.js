@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link as RouterLink, Navigate, Routes, Route, useParams } from 'react-router-dom'
+import { Link as RouterLink, Navigate, Routes, Route, useParams, Redirect } from 'react-router-dom'
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 import { SignupMenuItem } from './components/auth/SignupMenuItem' 
 import { LoginMenuItem } from './components/auth/LoginMenuItem' 
 import { LogoutMenuItem } from './components/auth/LogoutMenuItem' 
-
+import Moment from 'react-moment';
 import { decodeToken } from './utils/auth'
 
 // Material Components
@@ -26,6 +26,7 @@ import {
   ListItemText,
   Menu,
   MenuItem,
+  Switch,
   Toolbar, 
   Typography,
 } from '@mui/material'
@@ -47,10 +48,31 @@ const components = {
   'full_page_embed': FullPageEmbed,
   'hybrid_page': HybridPage,
   'panel_page': PanelPage,
-}
+};
+
+const DateTime = () => {
+  var [date,setDate] = useState(new Date());
+  useEffect(() => {
+      var timer = setInterval(()=>setDate(new Date()), 1000 )
+      return function cleanup() {
+          clearInterval(timer)
+      }
+  
+  });
+  return(
+      <div >
+        <p style={{'margin-left': '30','margin-top': '50', 'line-height' : '0px'}}> {date.toLocaleDateString()}</p>
+        <h2 style={{'margin-left': '30', 'padding-top': '2', 'line-height' : '0px'}}>{date.toLocaleTimeString()}</h2>
+      </div>
+  )
+};
+
+
+
 
 // External Template Config
 import { auth, homepage } from '../config'
+import { padding } from '@mui/system'
 
 let routes = {}
 homepage.sidebar.forEach(section => {
@@ -62,7 +84,9 @@ homepage.sidebar.forEach(section => {
 // MUI spacer components and variables
 const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spacer for placing content below AppBar
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
-const drawerWidth = 200
+const drawerWidth = 250
+
+// const [isVisible, setIsVisible] = useState(true)
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -73,6 +97,9 @@ const AppBar = styled(MuiAppBar, {
     width: `calc(100% - ${drawerWidth}px)`,
   }),
 }))
+
+
+
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -114,6 +141,9 @@ const RequireAuth = ({ currentGroup, routes }) => {
   return permitted.includes(group) ? <Component routes={routes} /> : <Navigate to='/' />  
 }
 
+
+
+
 const App = () => {
   const { isAuthenticated, user, getIdTokenClaims, getAccessTokenSilently } = useAuth0()
 
@@ -151,6 +181,13 @@ const App = () => {
     setUserMenuIsOpen(!userMenuIsOpen)
   }
 
+
+function PrivateRoute({ children }) {
+
+  return isAuthenticated ? children : <Navigate to="/login"/>;
+};
+
+
   /**
    * Sets the user's current group, which serves to demonstrate dynamic RBAC-based features
    * Updates both user metadata on Auth0 & the in-memory userProfile state variable
@@ -171,6 +208,7 @@ const App = () => {
     })
   }
 
+  const drawerPadding = 3
   // get user profile and tokens from Auth0
   useEffect(() => {
     const getUserMetadata = async () => {    
@@ -208,14 +246,16 @@ const App = () => {
       getUserMetadata()
     }
   }, [user?.sub])
+  
 
   // Update sidebar when user group changes
   useEffect(() => {
+    
     let filteredSidebar = []
     if (userProfile?.user.group === 'admin') {
       filteredSidebar = homepage.sidebar
     } else {
-      homepage.sidebar.forEach(section => {
+       homepage.sidebar.forEach(section => {
         let filteredSection = { 
           section: section.section,
           items: section.items.filter(item => item.groups.length === 0 || item.groups.includes(userProfile?.user.group))
@@ -232,7 +272,7 @@ const App = () => {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
 
-      <AppBar position="absolute" open={drawerIsOpen}>
+      {isAuthenticated && <AppBar position="absolute" open={drawerIsOpen}>
         <Toolbar
           sx={{
             pr: '24px', // keep right padding when drawer closed
@@ -260,11 +300,11 @@ const App = () => {
 
           <AppBarFiller />
           
-          <IconButton color="inherit" sx={{ mr: 2 }}>
+          {/* <IconButton color="inherit" sx={{ mr: 2 }}>
             <Badge badgeContent={3} color="info">
               <NotificationsIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
 
           <AccountCircle id='appbar-user-icon' onClick={toggleUserMenu}/>
           <Menu
@@ -287,37 +327,65 @@ const App = () => {
               <MenuItem key={role} onClick={() => handleSwitchGroup(role)}>
                 <Typography>Impersonate {role}</Typography>
               </MenuItem>
+              
+              
             ))}
+      
 
             {isAuthenticated && <Divider />}
+            <Link
+                    
+                    to={
+                      {pathname: '/profile_page'}
+                    }
+                    component={RouterLink}
+                    underline='none'
+                  > <MenuItem><Typography>VIEW PROFILE</Typography></MenuItem></Link>
             {!isAuthenticated && <SignupMenuItem />}
             {!isAuthenticated && <LoginMenuItem />}
             {isAuthenticated && <LogoutMenuItem />}
+ 
           </Menu>
         </Toolbar>
-      </AppBar>
+      </AppBar>}
 
-      <Drawer
+      {isAuthenticated && <Drawer
         variant="permanent"
         open={drawerIsOpen}
+
       >
-        <Toolbar
+        <Box display='flex' justifyContent='space-between' marginLeft={drawerPadding} marginTop={drawerPadding}>
+          <Box display='flex' marginTop='-15'>
+          <icon >
+            </icon><img src='https://i.ibb.co/SBfqNbc/imageedit-1-4156875095.png' width='100%' marginTop='-2000'/>
+          </Box>
+          <Box alignSelf='flex-end' marginTop='-100'>
+          <IconButton onClick={toggleDrawer}>
+            <ChevronLeftIcon />
+          </IconButton>
+          </Box>
+        </Box>
+        {/* <Toolbar
           sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-end',
             px: [1],
           }}
-        >
-          <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </Toolbar>
-        <Box sx={{ overflow: 'auto' }}>
+        > */}
+         
+        {/* </Toolbar> */}
+      <Box>
+      <Typography><DateTime>
+        </DateTime></Typography>
+
+      </Box>
+        <Box sx={{ overflow: 'auto'}} marginTop='20'>
           {sidebar.map(section => (
             <>
-              <List>
+              <List disablePadding={true} classes>
                 {section.items.map(item => (
+                  
                   <Link
                     key={item.key}
                     to={
@@ -325,13 +393,21 @@ const App = () => {
                     }
                     component={RouterLink}
                     underline='none'
-                  >
-                    <ListItem button key={item.key + 'listItem'}>
-                      <ListItemIcon key={item.key + 'listItemIcon'}>
+                  > 
+                    <ListItem button key={item.key + 'listItem'} sx={{
+                       left: 2.5
+                    }}>
+                     <ListItemIcon key={item.key + 'listItemIcon'}  >
                         <Icon>{item.icon}</Icon>
+                
                       </ListItemIcon>
-                      <ListItemText primary={item.title} key={item.key + 'listItemText'}/>
+                   
+                      <ListItemText primary={item.title} key={item.key + 'listItemText'} sx={{
+                        left: -20
+                      }}/>
+
                     </ListItem>
+      
                   </Link>
                 ))}
               </List>
@@ -339,39 +415,60 @@ const App = () => {
             </>
             ))}
         </Box>
-      </Drawer> 
+      </Drawer>} 
 
       <Box sx={{ width: '100%', height: '100vh', flexGrow: 1 }}>
         <AppBarOffset />
         <Routes>
+
           {/* Landing Pages */}
-          <Route exact path='/' element={
-            <SplashPage />
+          <Route  path='/login' element={
+            // <PublicRoute>
+               <SplashPage />
+                // </PublicRoute> 
           }/>
+          <Route  path='' element={
+          //  <PrivateRoute>
+            'Sample Homepage'
+            //  </PrivateRoute>
+          }/>
+        
           <Route path='/profile_page' element={
-            <ProfilePage user={user} userProfile={userProfile} idTokenClaims={idTokenClaims} authTokenClaims={authTokenClaims} />
+            // <PrivateRoute>
+              <ProfilePage user={user} userProfile={userProfile} idTokenClaims={idTokenClaims} authTokenClaims={authTokenClaims} />
+            //  </PrivateRoute>
           }/>
 
           {/* Configurable Public Apps */}     
           <Route path='/public/:slug' element={
+            // <PrivateRoute>
             <FullPageEmbed routes={routes} />
+            //  </PrivateRoute>
           }/>
           
           {/* Default Demo Apps */}
           <Route path='/default_demo/:slug' element={
+            // <PrivateRoute>
             <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
+            // </PrivateRoute>
           }/>
 
 
           {/* Configurable Protected Apps */}
           <Route path='/protected/:slug' element={
+            // <PrivateRoute>
             <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
+            // </PrivateRoute>
           }/>
+ 
         </Routes>
+
       </Box>
-      
+   
     </Box>
+ 
   )
 }
+
 
 export default App
