@@ -7,7 +7,7 @@ function setAppMetadataRoles(user, context, callback) {
     // user.app_metadata.roles = user.app_metadata.roles || ['Gold', 'Silver', 'Bronze'];
   
     // Force default roles
-    user.app_metadata.roles = ['Gold', 'Silver', 'Bronze'];
+    user.app_metadata.roles = ['Bronze','Silver', 'Gold'];
     
     auth0.users
       .updateAppMetadata(user.user_id, user.app_metadata)

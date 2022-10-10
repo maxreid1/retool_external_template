@@ -44,7 +44,7 @@ const PanelPage = ({ routes }) => {
                 <Paper sx={{ p: 2}}>
                     <Box sx={{ height: "660px" }}>
                         <Typography variant="h6" color="primary" gutterBottom>
-                            Details for Selected Customer
+                            Details for Selected Store
                         </Typography>
                         <Divider />
                         
@@ -52,14 +52,17 @@ const PanelPage = ({ routes }) => {
                             <Typography variant="h6" color="secondary" gutterBottom>
                                 {data.City}, {data.State}
                             </Typography>
-                            <Chip label={data.City} />
+                            {/* <Chip label={data.City} /> */}
                             <Box sx={{ pt: 2 }}>
-                                <Typography variant="body1">
-                                    {data.City}
+                                <Typography variant="h7">
+                                   Current Status:
                                 </Typography>
-                                <Typography variant="body1">
-                                    {data.is_active}
-                                </Typography>  
+                                { data.is_active && <Typography color="green">
+                                    🟢 {data.status}
+                                </Typography>  }
+                                { !data.is_active && <Typography color="red">
+                                   🔴 {data.status}
+                                </Typography>  }
                                 {/* <Typography variant="body1">
                                     {data.COUNTRY}
                                 </Typography>  
