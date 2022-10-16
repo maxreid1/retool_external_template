@@ -20,8 +20,8 @@ const HybridEmbed = ({ routes }) => {
   };
 
   return (
-    <Box sx={{ height: "640px" }}>
-      <Box sx={{ width: "100%" }}>
+    <Box>
+      {/* <Box sx={{ width: "100%" }}>
         <ToggleButtonGroup
           color="primary"
           size="small"
@@ -36,7 +36,7 @@ const HybridEmbed = ({ routes }) => {
           <ToggleButton value={2}>Origin</ToggleButton>
           <ToggleButton value={3}>Destination</ToggleButton>
         </ToggleButtonGroup>
-      </Box>
+      </Box> */}
 
       <Retool url={url} data={selected} />
     </Box>

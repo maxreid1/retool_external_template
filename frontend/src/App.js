@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Link as RouterLink, Navigate, Routes, Route, useParams, Redirect } from 'react-router-dom'
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
@@ -43,6 +43,7 @@ import FullPageEmbed from './pages/FullPageEmbed'
 import HybridPage from './pages/HybridPage'
 import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
+import LandingPage from './pages/LandingPage'
 
 const components = {
   'full_page_embed': FullPageEmbed,
@@ -66,6 +67,7 @@ const DateTime = () => {
       </div>
   )
 };
+
 
 
 
@@ -135,17 +137,20 @@ const RequireAuth = ({ currentGroup, routes }) => {
   const group = currentGroup || ''
 
   const Component = withAuthenticationRequired(embed, {
-    onRedirecting: () => <Navigate to='/' />
+    onRedirecting: () => <Navigate to='/login' />
   })
 
-  return permitted.includes(group) ? <Component routes={routes} /> : <Navigate to='/' />  
+  return permitted.includes(group) ? <Component routes={routes} /> : <Navigate to='/login' />  
 }
 
 
 
 
+
+
 const App = () => {
-  const { isAuthenticated, user, getIdTokenClaims, getAccessTokenSilently } = useAuth0()
+
+  const { isLoading, isAuthenticated, user, getIdTokenClaims, getAccessTokenSilently } = useAuth0()
 
   const [userProfile, setUserProfile] = useState(null)            // "In memory" state variable for user attributes e.g. roles
   const [accessToken, setAccessToken] = useState(null)            // JWT access token (raw string)
@@ -154,7 +159,13 @@ const App = () => {
   
   const [drawerIsOpen, setDrawerIsOpen] = useState(true)          // Left hand var bar
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)     // Top right user menu
+  const [highlightRetool, setHighlightRetool] = useState(true)
   const [sidebar, setSidebar] = useState([])                      // Config data for sidebar. Dynamic i.e. filtered based on RBAC
+  const ProtectedComponent = ({ component, ...propsForComponent}) => {
+    const Cp = withAuthenticationRequired(component);
+    return <Cp {...propsForComponent} />
+  }
+
 
   /**
    * Updates user metadata on Auth0
@@ -182,10 +193,11 @@ const App = () => {
   }
 
 
-function PrivateRoute({ children }) {
+  const toggleHighlightRetool = () => {
+    setHighlightRetool(!highlightRetool)
+  }
 
-  return isAuthenticated ? children : <Navigate to="/login"/>;
-};
+
 
 
   /**
@@ -268,6 +280,18 @@ function PrivateRoute({ children }) {
     setSidebar(filteredSidebar)
   }, [userProfile])
 
+  if (isLoading) {
+    return 'App Loading';
+  }
+  else if (!isAuthenticated) {
+    return <Routes>
+     <Route path='*' element={<Navigate to='/login' />}/>
+    <Route path='/login' element={<SplashPage />}/>
+    
+    </Routes>;
+
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -340,10 +364,12 @@ function PrivateRoute({ children }) {
                     }
                     component={RouterLink}
                     underline='none'
-                  > <MenuItem><Typography>VIEW PROFILE</Typography></MenuItem></Link>
+                  > <MenuItem><Typography>View Profile</Typography></MenuItem></Link>
             {!isAuthenticated && <SignupMenuItem />}
             {!isAuthenticated && <LoginMenuItem />}
             {isAuthenticated && <LogoutMenuItem />}
+            <Switch toggleHighlightRetool></Switch>Highlight Retool
+
  
           </Menu>
         </Toolbar>
@@ -352,7 +378,6 @@ function PrivateRoute({ children }) {
       {isAuthenticated && <Drawer
         variant="permanent"
         open={drawerIsOpen}
-
       >
         <Box display='flex' justifyContent='space-between' marginLeft={drawerPadding} marginTop={drawerPadding}>
           <Box display='flex' marginTop='-15'>
@@ -376,11 +401,12 @@ function PrivateRoute({ children }) {
          
         {/* </Toolbar> */}
       <Box>
+        {drawerIsOpen && 
       <Typography><DateTime>
         </DateTime></Typography>
-
+       }
       </Box>
-        <Box sx={{ overflow: 'auto'}} marginTop='20'>
+        <Box sx={{ overflow: 'auto'}} marginTop='40'>
           {sidebar.map(section => (
             <>
               <List disablePadding={true} classes>
@@ -419,53 +445,57 @@ function PrivateRoute({ children }) {
 
       <Box sx={{ width: '100%', height: '100vh', flexGrow: 1 }}>
         <AppBarOffset />
+       
         <Routes>
 
           {/* Landing Pages */}
           <Route  path='/login' element={
-            // <PublicRoute>
                <SplashPage />
-                // </PublicRoute> 
           }/>
-          <Route  path='' element={
-          //  <PrivateRoute>
-            'Sample Homepage'
-            //  </PrivateRoute>
-          }/>
-        
-          <Route path='/profile_page' element={
-            // <PrivateRoute>
-              <ProfilePage user={user} userProfile={userProfile} idTokenClaims={idTokenClaims} authTokenClaims={authTokenClaims} />
-            //  </PrivateRoute>
+          <Route path='/' element ={
+           <LandingPage/>
           }/>
 
+          <Route path='/profile_page' 
+          element={<ProtectedComponent component={ProfilePage} user={user} userProfile={userProfile} idTokenClaims={idTokenClaims} authTokenClaims={authTokenClaims} />
+          }/> 
+
           {/* Configurable Public Apps */}     
-          <Route path='/public/:slug' element={
-            // <PrivateRoute>
+          {/* <Route path='/public/:slug' element={
+          <PrivateRoute>
             <FullPageEmbed routes={routes} />
-            //  </PrivateRoute>
-          }/>
+             </PrivateRoute>
+          }/> */}
           
           {/* Default Demo Apps */}
           <Route path='/default_demo/:slug' element={
-            // <PrivateRoute>
+            
+        // <PrivateRoute>
+        // <ProtectedComponent component={RequireAuth} routes={routes} currentGroup={userProfile?.user.group}/>
             <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
             // </PrivateRoute>
+    
           }/>
+        
 
 
           {/* Configurable Protected Apps */}
           <Route path='/protected/:slug' element={
-            // <PrivateRoute>
             <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
-            // </PrivateRoute>
           }/>
+
+          <Route path="*" element={
+          <Navigate to='/'/>} />
+         
+         
  
         </Routes>
+        
 
       </Box>
    
     </Box>
+
  
   )
 }

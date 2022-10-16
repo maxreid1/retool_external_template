@@ -49,7 +49,7 @@ const PanelPage = ({ routes }) => {
                         <Divider />
                         
                         {data && <Box sx={{ p: 2 }}>
-                            <Typography variant="h6" color="secondary" gutterBottom>
+                            <Typography variant="h6" gutterBottom>
                                 {data.City}, {data.State}
                             </Typography>
                             {/* <Chip label={data.City} /> */}
@@ -58,10 +58,10 @@ const PanelPage = ({ routes }) => {
                                    Current Status:
                                 </Typography>
                                 { data.is_active && <Typography color="green">
-                                    🟢 {data.status}
+                                    🟢 {data.status} until {data.close}
                                 </Typography>  }
                                 { !data.is_active && <Typography color="red">
-                                   🔴 {data.status}
+                                   🔴 Temporarily {data.status}. Coming Online At {data.open}
                                 </Typography>  }
                                 {/* <Typography variant="body1">
                                     {data.COUNTRY}

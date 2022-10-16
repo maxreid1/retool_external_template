@@ -19,7 +19,6 @@ const FullPageEmbed = ({ routes }) => {
                 <Retool url={url} />
             </Container>
         </Box>
-        
     )
 }
 

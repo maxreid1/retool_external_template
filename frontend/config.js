@@ -19,12 +19,13 @@ exports.auth = {
       {
         section: '',
         items: [
-          // {
-          //   title: 'Splash Page',
-          //   icon: 'home',
-          //   slug: null,
-          //   groups: [],
-          // },
+          {
+            title: 'Home Page',
+            icon: 'home',
+            slug: '',
+            // retool_app: 'https://demos.retool.dev/embedded/public/227f6799-7b3d-4fa2-9be7-ad215b933bf1',
+            groups: ['bronze', 'silver', 'gold'],
+          },
           // {
           //   title: 'Profile Page',
           //   icon: 'dashboard',
@@ -37,19 +38,19 @@ exports.auth = {
         section: 'default_demo',
         items: [
           {
-            title: 'Store Overview',
-            icon: 'store',
-            slug: 'full_page_embed',
-            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/1%20Bronze%20-%20Store%20Overview?_embed=true',
-            groups: ['bronze', 'silver', 'gold'],
-          },
-          {
             title: 'Orders',
             icon: 'fastfood',
-            slug: 'hybrid_page',
+            slug: 'full_page_embed',
             retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/2%20Bronze%20-%20See%20and%20Refund%20Orders?_embed=true',
-            groups: ['bronze','silver', 'gold'],
+            groups: ['bronze', 'silver', 'gold'],
           },
+          // {
+          //   title: 'Orders',
+          //   icon: 'fastfood',
+          //   slug: 'hybrid_page',
+          //   retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/2%20Bronze%20-%20See%20and%20Refund%20Orders?_embed=true',
+          //   groups: ['bronze','silver', 'gold'],
+          // },
           {
             title: 'Store Availability',
             icon: 'access_time',
@@ -60,8 +61,8 @@ exports.auth = {
           {
             title: 'Coupon Generator',
             icon: 'attach_money',
-            slug: 'panel_page2',
-            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/4%20Silver%20-%20Coupon%20Generator?_embed=tru',
+            slug: 'coupon_generator',
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/4%20Silver%20-%20Coupon%20Generator?_embed=true',
             groups: ['silver','gold'],
           },
         ]
@@ -80,7 +81,7 @@ exports.auth = {
             title: 'Custom Views',
             icon: 'search',
             slug: 'custom_demo_4',
-            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/5%20Gold%20-%20Custom%20View%20Generator#name=&view=0?_embed=true',
+            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/5%20Gold%20-%20Custom%20View%20Generator?_embed=true',
             groups: ['gold'],
           },
         ]
