@@ -71,7 +71,7 @@ exports.auth = {
         section: 'protected',
         items: [
           {
-            title: 'Customer Engagement',
+            title: 'Audiences',
             icon: 'person',
             slug: 'custom_demo_3',
             retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/5%20Gold%20-%20Customer%20Engagement?_embed=true',
