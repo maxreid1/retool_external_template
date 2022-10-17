@@ -281,7 +281,7 @@ const App = () => {
   }, [userProfile])
 
   if (isLoading) {
-    return 'App Loading';
+    return '';
   }
   else if (!isAuthenticated) {
     return <Routes>
