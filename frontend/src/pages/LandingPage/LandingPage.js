@@ -9,7 +9,7 @@ const LandingPage = () => {
       <Box sx={{ height: "1200px", marginTop: "-25" }}>
       {/* <Typography variant="h3" align='center' marginTop={'32'} marginBottom={'0'}>Welcome to your Shop Co. Portal!</Typography> */}
           <Container maxWidth={false} maxHeight={true} >
-              <Retool url='https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/1-%20Bronze%20-%20Store%20Overview%202?_embed=true' />
+              <Retool url='https://demos.retool.dev/embedded/public/372d1438-b60c-4736-a833-3a90c3088d78' />
           </Container>
       </Box>
       

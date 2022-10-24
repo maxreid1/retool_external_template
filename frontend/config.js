@@ -41,7 +41,7 @@ exports.auth = {
             title: 'Orders',
             icon: 'fastfood',
             slug: 'full_page_embed',
-            retool_app: 'https://demos.retool.dev/apps/Embed%20Demo%20-%20Merchant%20Portal/2%20Bronze%20-%20See%20and%20Refund%20Orders?_embed=true',
+            retool_app: 'https://demos.retool.dev/embedded/public/b1b812c9-e008-499d-9452-cbf546566a77',
             groups: ['bronze', 'silver', 'gold'],
           },
           // {
