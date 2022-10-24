@@ -15,7 +15,7 @@ const FullPageEmbed = ({ routes }) => {
     const url = routes[slug].retool_app
 
     return (
-        <Box marginTop={'-30'}  sx={{ height: "1200px" }}>
+        <Box  sx={{ height: "1200px" , marginTop: '20'}}>
             <Container maxWidth={false} t>
                 <Retool url={url} />
             </Container>
