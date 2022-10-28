@@ -25,7 +25,7 @@ exports.auth = {
             slug: '',
             // retool_app: 'https://demos.retool.dev/embedded/public/227f6799-7b3d-4fa2-9be7-ad215b933bf1',
             groups: ['bronze', 'silver', 'gold'],
-          },
+          }
           // {
           //   title: 'Profile Page',
           //   icon: 'dashboard',
@@ -38,8 +38,15 @@ exports.auth = {
         section: 'default_demo',
         items: [
           {
-            title: 'Orders',
+            title: 'Products',
             icon: 'fastfood',
+            slug: 'products',
+            retool_app: 'https://demos.retool.dev/embedded/public/7aa93c40-115f-4370-a2e0-15398d819d4f',
+            groups: ['bronze', 'silver', 'gold'],
+          },
+          {
+            title: 'Orders',
+            icon: 'money',
             slug: 'full_page_embed',
             retool_app: 'https://demos.retool.dev/embedded/public/b1b812c9-e008-499d-9452-cbf546566a77',
             groups: ['bronze', 'silver', 'gold'],
