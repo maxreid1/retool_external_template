@@ -10,7 +10,7 @@ const LandingPage = ({
   pageUuid = "abc"
 }) => { 
 
-  const [retoolEmbedUrl, setRetoolEmbedUrl] = useState([])
+  const [retoolEmbedUrl, setRetoolEmbedUrl] = useState('')
 
   useEffect(() => {
     const options = {
@@ -18,10 +18,13 @@ const LandingPage = ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ externalIdentifier, groups, pageUuid })
     };
-    
+  
     fetch('/embedUrl', options)
     .then((res) => res.json())
-    .then(data => setRetoolEmbedUrl(data.embedUrl))
+    .then(data => {
+      console.log('RETURNED URL:', data)
+      setRetoolEmbedUrl(data.embedUrl)
+    })
   })
 
   return (

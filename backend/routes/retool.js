@@ -14,7 +14,7 @@ var router = express.Router();
     const options = {
       method: "POST",
       headers: {
-        'Authorization': process.env.RETOOL_API_KEY,
+        'Authorization': 'Bearer retool_01gh1qd61vcg45x4zbvg8h4pzr', // process.env.RETOOL_API_KEY,
         'content-type': 'application/json'
       },
       body: JSON.stringify({
@@ -25,8 +25,11 @@ var router = express.Router();
       })
     }
 
+    console.log('router post options -> Retool api:', options)
+
     fetch("https://retool.shopco.partners/api/embed-url/external-user", options)
-    .then((res) => res.json())
+    .then((response) => response.json())
+    .then((url) => res.send(url))
     .catch(e => console.log(e.message))
 
   })
