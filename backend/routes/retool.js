@@ -9,7 +9,7 @@ var router = express.Router();
    *  groupIds: [5,6]
    * }
    */
-  router.post('/embedUrl', (req, res) => {
+  router.post('/', (req, res) => {
     const options = {
       method: "POST",
       headers: {
