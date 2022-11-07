@@ -14,7 +14,7 @@ var router = express.Router();
     const options = {
       method: "POST",
       headers: {
-        'Authorization': 'Bearer retool_01gh1qd61vcg45x4zbvg8h4pzr', // process.env.RETOOL_API_KEY,
+        'Authorization': process.env.RETOOL_API_KEY,
         'content-type': 'application/json'
       },
       body: JSON.stringify({
