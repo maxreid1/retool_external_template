@@ -319,7 +319,8 @@ const App = () => {
 
           <Typography variant="h6" color="inherit" component="div">
             {isAuthenticated && user
-              ? [user.name, user.email, userProfile?.user.group].join(' | ')
+              // ? [user.name, user.email, userProfile?.user.group].join(' | ')
+              ? JSON.stringify(userProfile)
               : '(not logged in)'
             } 
           </Typography>
@@ -456,6 +457,7 @@ const App = () => {
           }/>
           <Route path='/' element ={
            <LandingPage externalIdentifier={user.email} groups={[5,6]} pageUuid={RETOOL_LANDING_PAGE_UUID} />
+          //  <LandingPage externalIdentifier={user.email} groups={userProfile.user.retoolGroups} pageUuid={userProfile.user.retoolPageUuid} />
           }/>
 
           <Route path='/profile_page' 
