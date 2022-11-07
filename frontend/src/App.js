@@ -314,14 +314,18 @@ const App = () => {
             >
               <MenuIcon />
           </IconButton>
-
+<Box>
           <Typography variant="h6" color="inherit" component="div">
-            {isAuthenticated && user
-              ? [user.name, user.email, userProfile?.user.group].join(' | ')
-              : '(not logged in)'
+            {
+            // isAuthenticated && user
+              // ? [user.name, user.email, userProfile?.user.group].join(' | ')
+              'Welcome to your Shop Co. Merchant Portal '+user.name.split(' ')[0]+'!'
             } 
           </Typography>
-
+          <Typography variant="h8" color="inherit" component="div">
+          {userProfile?.user.group == 'bronze' ? '' : 'Thank You for being a ' + userProfile?.user.group.charAt(0).toUpperCase() + userProfile?.user.group.slice(1) + ' Member'}
+            </Typography>
+            </Box>
           <AppBarFiller />
           
           {/* <IconButton color="inherit" sx={{ mr: 2 }}>
