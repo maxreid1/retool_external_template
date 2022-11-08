@@ -2,9 +2,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var retoolRouter = require('./routes/retool');
+var retoolRouter = require('./api/retool');
 var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -15,7 +14,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/api', apiRouter);
-app.use('/embedUrl', retoolRouter)
+app.use('/api', retoolRouter)
 
 module.exports = app;

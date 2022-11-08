@@ -18,7 +18,7 @@ const LandingPage = ({
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ externalIdentifier, groups, pageUuid })
     };
-    fetch('/embedUrl', options)
+    fetch('/api/embedUrl', options)
     .then(res => res.json())
     .then(data => { setRetoolEmbedUrl(data.embedUrl)})
   }, [])
