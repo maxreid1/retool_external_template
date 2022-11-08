@@ -317,7 +317,7 @@ const App = () => {
               <MenuIcon />
           </IconButton>
 
-          <Box>
+    <Box>
           <Typography variant="h6" color="inherit" component="div">
             {
             // isAuthenticated && user
@@ -329,7 +329,6 @@ const App = () => {
           {userProfile?.user.group == 'bronze' ? '' : 'Thank You for being a ' + userProfile?.user.group.charAt(0).toUpperCase() + userProfile?.user.group.slice(1) + ' Member'}
             </Typography>
             </Box>
-
           <AppBarFiller />
           
           {/* <IconButton color="inherit" sx={{ mr: 2 }}>
