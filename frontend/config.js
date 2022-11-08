@@ -1,4 +1,4 @@
-exports.deployOnLocalhost = false
+exports.deployOnLocalhost = true
 
 exports.auth = {
     tokenDuration: '1800s',
