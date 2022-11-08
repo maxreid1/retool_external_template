@@ -45,6 +45,8 @@ import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 import LandingPage from './pages/LandingPage'
 
+const RETOOL_LANDING_PAGE_UUID = "1e2458f2-5e43-11ed-b603-87a6ce75e0eb"
+
 const components = {
   'full_page_embed': FullPageEmbed,
   'hybrid_page': HybridPage,
@@ -314,7 +316,8 @@ const App = () => {
             >
               <MenuIcon />
           </IconButton>
-<Box>
+
+    <Box>
           <Typography variant="h6" color="inherit" component="div">
             {
             // isAuthenticated && user
@@ -457,7 +460,7 @@ const App = () => {
                <SplashPage />
           }/>
           <Route path='/' element ={
-           <LandingPage/>
+           <LandingPage externalIdentifier={user.email} groups={[5,6]} pageUuid={RETOOL_LANDING_PAGE_UUID} />
           }/>
 
           <Route path='/profile_page' 
