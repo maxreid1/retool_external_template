@@ -45,7 +45,7 @@ import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 import LandingPage from './pages/LandingPage'
 
-const RETOOL_LANDING_PAGE_UUID = "063ae5a6-5b07-11ed-94b5-f7ac74a32e3a"
+const RETOOL_LANDING_PAGE_UUID = "1e2458f2-5e43-11ed-b603-87a6ce75e0eb"
 
 const components = {
   'full_page_embed': FullPageEmbed,
@@ -317,13 +317,18 @@ const App = () => {
               <MenuIcon />
           </IconButton>
 
+          <Box>
           <Typography variant="h6" color="inherit" component="div">
-            {isAuthenticated && user
+            {
+            // isAuthenticated && user
               // ? [user.name, user.email, userProfile?.user.group].join(' | ')
-              ? JSON.stringify(userProfile)
-              : '(not logged in)'
+              'Welcome to your Shop Co. Merchant Portal '+user.name.split(' ')[0]+'!'
             } 
           </Typography>
+          <Typography variant="h8" color="inherit" component="div">
+          {userProfile?.user.group == 'bronze' ? '' : 'Thank You for being a ' + userProfile?.user.group.charAt(0).toUpperCase() + userProfile?.user.group.slice(1) + ' Member'}
+            </Typography>
+            </Box>
 
           <AppBarFiller />
           
@@ -457,7 +462,6 @@ const App = () => {
           }/>
           <Route path='/' element ={
            <LandingPage externalIdentifier={user.email} groups={[5,6]} pageUuid={RETOOL_LANDING_PAGE_UUID} />
-          //  <LandingPage externalIdentifier={user.email} groups={userProfile.user.retoolGroups} pageUuid={userProfile.user.retoolPageUuid} />
           }/>
 
           <Route path='/profile_page' 

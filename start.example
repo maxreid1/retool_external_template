@@ -11,5 +11,7 @@ export GOOGLE_CLIENT_SECRET=abcd1234567890
 
 export FRONTEND_PORT=3001
 
+RETOOL_API_KEY=Bearer retool_01gh9pd7qre20ptp9b51zrpfg8
+
 # for production start scripts, change 'yarn dev' to 'yarn start'
 yarn dev

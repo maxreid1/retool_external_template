@@ -2,6 +2,8 @@ var fetch = require('node-fetch');
 var express = require('express');
 var router = express.Router();
 
+const RETOOL_API_KEY = 'Bearer retool_01gh9pd7qre20ptp9b51zrpfg8'
+
   /**
    * {
    *  orgId: "1",
@@ -12,10 +14,10 @@ var router = express.Router();
    */
   router.post('/', (req, res) => {
     const options = {
-      method: "POST",
+      method: "post",
       headers: {
-        'Authorization': process.env.RETOOL_API_KEY,
-        'content-type': 'application/json'
+        'Authorization': RETOOL_API_KEY,
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
         "orgId": "1",
@@ -24,11 +26,10 @@ var router = express.Router();
         "groupIds": req.body.groups
       })
     }
-
     fetch("https://retool.shopco.partners/api/embed-url/external-user", options)
-    .then((res) => res.json())
+    .then(data => data.json())
+    .then(json => res.send(json))
     .catch(e => console.log(e.message))
-
   })
 
 module.exports = router;
