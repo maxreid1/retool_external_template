@@ -12,7 +12,7 @@ const RETOOL_API_KEY = 'Bearer retool_01gh9pd7qre20ptp9b51zrpfg8'
    *  groupIds: [5,6]
    * }
    */
-  router.post('/', (req, res) => {
+  router.post('/embedUrl', (req, res) => {
     const options = {
       method: "post",
       headers: {
