@@ -16,7 +16,7 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     port: process.env.PBL_DEV_PORT || 3001,
     proxy: {
-      context: ['/api', '/auth', '/embedUrl'],
+      context: ['/api', '/auth'],
       target: ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
     },
     historyApiFallback: true,
