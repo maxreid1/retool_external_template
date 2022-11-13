@@ -64,8 +64,8 @@ const DateTime = () => {
   });
   return(
       <div >
-        <p style={{'margin-left': '30','margin-top': '50', 'line-height' : '0px'}}> {date.toLocaleDateString()}</p>
-        <h2 style={{'margin-left': '30', 'padding-top': '2', 'line-height' : '0px'}}>{date.toLocaleTimeString()}</h2>
+        <p style={{'marginLeft': '30','marginTop': '50', 'lineHeight' : '0px'}}> {date.toLocaleDateString()}</p>
+        <h2 style={{'marginLeft': '30', 'paddingTop': '2', 'lineHeight' : '0px'}}>{date.toLocaleTimeString()}</h2>
       </div>
   )
 };
@@ -195,9 +195,9 @@ const App = () => {
   }
 
 
-  const toggleHighlightRetool = () => {
-    setHighlightRetool(!highlightRetool)
-  }
+  // const toggleHighlightRetool = () => {
+  //   setHighlightRetool(!highlightRetool)
+  // }
 
 
 
@@ -318,14 +318,14 @@ const App = () => {
           </IconButton>
 
     <Box>
-          <Typography variant="h6" color="inherit" component="div">
+          <Typography variant="h6" color="inherit" >
             {
             // isAuthenticated && user
               // ? [user.name, user.email, userProfile?.user.group].join(' | ')
               'Welcome to your Shop Co. Merchant Portal '+user.name.split(' ')[0]+'!'
             } 
           </Typography>
-          <Typography variant="h8" color="inherit" component="div">
+          <Typography variant="h8" color="inherit" >
           {userProfile?.user.group == 'bronze' ? '' : 'Thank You for being a ' + userProfile?.user.group.charAt(0).toUpperCase() + userProfile?.user.group.slice(1) + ' Member'}
             </Typography>
             </Box>
@@ -372,10 +372,10 @@ const App = () => {
                     component={RouterLink}
                     underline='none'
                   > <MenuItem><Typography>View Profile</Typography></MenuItem></Link>
-            {!isAuthenticated && <SignupMenuItem />}
-            {!isAuthenticated && <LoginMenuItem />}
+            {/* {!isAuthenticated && <SignupMenuItem />} */}
+            {/* {!isAuthenticated && <LoginMenuItem />} */}
             {isAuthenticated && <LogoutMenuItem />}
-            <Switch toggleHighlightRetool></Switch>Highlight Retool
+            {/* <Switch toggleHighlightRetool></Switch>Highlight Retool */}
 
  
           </Menu>
@@ -387,9 +387,9 @@ const App = () => {
         open={drawerIsOpen}
       >
         <Box display='flex' justifyContent='space-between' marginLeft={drawerPadding} marginTop={drawerPadding}>
-          <Box display='flex' marginTop='-15'>
-          <icon >
-            </icon><img src='https://i.ibb.co/SBfqNbc/imageedit-1-4156875095.png' width='100%' marginTop='-2000'/>
+          <Box display='flex' marginTop='-15' marginLeft='-50'>
+          <Icon >
+            </Icon><img src='https://i.ibb.co/SBfqNbc/imageedit-1-4156875095.png' width='100%' marginTop='-2000' />
           </Box>
           <Box alignSelf='flex-end' marginTop='-100'>
           <IconButton onClick={toggleDrawer}>
@@ -409,14 +409,13 @@ const App = () => {
         {/* </Toolbar> */}
       <Box>
         {drawerIsOpen && 
-      <Typography><DateTime>
-        </DateTime></Typography>
-       }
+      <DateTime>
+        </DateTime>}
       </Box>
         <Box sx={{ overflow: 'auto'}} marginTop='40'>
           {sidebar.map(section => (
             <>
-              <List disablePadding={true} classes>
+              <List disablePadding={true} >
                 {section.items.map(item => (
                   
                   <Link

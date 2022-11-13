@@ -25,7 +25,7 @@ const LandingPage = ({
 
   return (
       <Box sx={{ height: "1200px", marginTop:"20"}}>
-          <Container maxWidth={false} maxHeight={true} >
+          <Container maxwidth="false" maxheight="true" >
               <Retool url={`${retoolEmbedUrl}`} />
           </Container>
       </Box>
