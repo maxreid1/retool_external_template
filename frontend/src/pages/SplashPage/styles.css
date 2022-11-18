@@ -39,9 +39,14 @@ p {
     color: #ffffff;
     background: #080928;
     text-transform: none;
+    transition: opacity .2s ease-in-out !important;
+    -moz-transition: opacity  .2s ease-in-out !important;
+    -webkit-transition: opacity .2s ease-in-out !important;
+    -o-transition: opacity .2s ease-in-out !important;
 }
 
 .login:hover {
-    background: #ffffff !important;
-    color: #080928 !important;
+    color: #ffffff !important;
+    background: #080928 !important;
+    opacity: .7 !important;
 }

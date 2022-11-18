@@ -1,11 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { Link as RouterLink, Navigate, Routes, Route, useParams, Redirect } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link as RouterLink, Navigate, Routes, Route, useParams } from 'react-router-dom'
 
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
-import { SignupMenuItem } from './components/auth/SignupMenuItem' 
-import { LoginMenuItem } from './components/auth/LoginMenuItem' 
 import { LogoutMenuItem } from './components/auth/LogoutMenuItem' 
-import Moment from 'react-moment';
 import { decodeToken } from './utils/auth'
 
 // Material Components
@@ -14,7 +11,6 @@ import MuiAppBar from '@mui/material/AppBar'
 import MuiDrawer from '@mui/material/Drawer'
 import CssBaseline from '@mui/material/CssBaseline'
 import { 
-  Badge,
   Box,
   Divider,
   Icon,
@@ -26,7 +22,6 @@ import {
   ListItemText,
   Menu,
   MenuItem,
-  Switch,
   Toolbar, 
   Typography,
 } from '@mui/material'
@@ -34,7 +29,6 @@ import {
 // Material Icons
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import AccountCircle from '@mui/icons-material/AccountCircle'
-import NotificationsIcon from '@mui/icons-material/Notifications'
 import MenuIcon from '@mui/icons-material/Menu'
 
 // External Template Pages
@@ -330,12 +324,6 @@ const App = () => {
             </Typography>
             </Box>
           <AppBarFiller />
-          
-          {/* <IconButton color="inherit" sx={{ mr: 2 }}>
-            <Badge badgeContent={3} color="info">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton> */}
 
           <AccountCircle id='appbar-user-icon' onClick={toggleUserMenu}/>
           <Menu
@@ -372,10 +360,7 @@ const App = () => {
                     component={RouterLink}
                     underline='none'
                   > <MenuItem><Typography>View Profile</Typography></MenuItem></Link>
-            {/* {!isAuthenticated && <SignupMenuItem />} */}
-            {/* {!isAuthenticated && <LoginMenuItem />} */}
             {isAuthenticated && <LogoutMenuItem />}
-            {/* <Switch toggleHighlightRetool></Switch>Highlight Retool */}
 
  
           </Menu>
@@ -389,7 +374,7 @@ const App = () => {
         <Box display='flex' justifyContent='space-between' marginLeft={drawerPadding} marginTop={drawerPadding}>
           <Box display='flex' marginTop='-15' marginLeft='-50'>
           <Icon >
-            </Icon><img src='https://i.ibb.co/SBfqNbc/imageedit-1-4156875095.png' width='100%' marginTop='-2000' />
+            </Icon><img src='https://i.ibb.co/SBfqNbc/imageedit-1-4156875095.png' width='70%' />
           </Box>
           <Box alignSelf='flex-end' marginTop='-100'>
           <IconButton onClick={toggleDrawer}>
