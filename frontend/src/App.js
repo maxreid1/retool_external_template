@@ -31,46 +31,16 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MenuIcon from '@mui/icons-material/Menu'
 
-// External Template Pages
-import ProfilePage from './pages/ProfilePage'
-import FullPageEmbed from './pages/FullPageEmbed'
-import HybridPage from './pages/HybridPage'
-import PanelPage from './pages/PanelPage'
 import SplashPage from './pages/SplashPage'
 import LandingPage from './pages/LandingPage'
 
-const RETOOL_LANDING_PAGE_UUID = "1e2458f2-5e43-11ed-b603-87a6ce75e0eb"
-
-const components = {
-  'full_page_embed': FullPageEmbed,
-  'hybrid_page': HybridPage,
-  'panel_page': PanelPage,
-};
-
-const DateTime = () => {
-  var [date,setDate] = useState(new Date());
-  useEffect(() => {
-      var timer = setInterval(()=>setDate(new Date()), 1000 )
-      return function cleanup() {
-          clearInterval(timer)
-      }
-  
-  });
-  return(
-      <div >
-        <p style={{'marginLeft': '30','marginTop': '50', 'lineHeight' : '0px'}}> {date.toLocaleDateString()}</p>
-        <h2 style={{'marginLeft': '30', 'paddingTop': '2', 'lineHeight' : '0px'}}>{date.toLocaleTimeString()}</h2>
-      </div>
-  )
-};
-
-
-
-
+const STORE_OVERVIEW_UUID = "8b84c306-653b-11ed-abdd-33fcffe2e973"
+const SALES_UUID = "927bbad4-653b-11ed-8581-ebfd170076b9"
+const COUPONS_UUID = "9c92715c-653b-11ed-abdd-9f8d29c80a25"
+const SCORECARD_UUID = "55c9b804-667e-11ed-b17e-33e1ab49dcd6"
 
 // External Template Config
 import { auth, homepage } from '../config'
-import { padding } from '@mui/system'
 
 let routes = {}
 homepage.sidebar.forEach(section => {
@@ -84,11 +54,11 @@ const AppBarOffset = styled('div')(({ theme }) => theme.mixins.toolbar)  // Spac
 const AppBarFiller = () => <Box sx={{ flexGrow: 1 }} />                  // Spacer for placing content on right of AppBar
 const drawerWidth = 250
 
-// const [isVisible, setIsVisible] = useState(true)
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
+  boxShadow: 'none',
+  borderBottom: '2px solid #eeeeee',
   zIndex: theme.zIndex.drawer + 1,
   ...(open && {
     marginLeft: drawerWidth,
@@ -97,24 +67,24 @@ const AppBar = styled(MuiAppBar, {
 }))
 
 
-
-
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     '& .MuiDrawer-paper': {
+      color: '#ffffff',
+      background: '#080928',
       position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
+        duration: theme.transitions.duration.shortest,
       }),
       boxSizing: 'border-box',
       ...(!open && {
         overflowX: 'hidden',
         transition: theme.transitions.create('width', {
           easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen,
+          duration: theme.transitions.duration.shortest,
         }),
         width: theme.spacing(7),
         [theme.breakpoints.up('sm')]: {
@@ -124,25 +94,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     },
   }),
 );
-
-const RequireAuth = ({ currentGroup, routes }) => {
-  const { slug } = useParams()
-  const embed = components[slug] ?? FullPageEmbed
-
-  const permitted = routes[slug].groups || []
-  const group = currentGroup || ''
-
-  const Component = withAuthenticationRequired(embed, {
-    onRedirecting: () => <Navigate to='/login' />
-  })
-
-  return permitted.includes(group) ? <Component routes={routes} /> : <Navigate to='/login' />  
-}
-
-
-
-
-
 
 const App = () => {
 
@@ -157,11 +108,6 @@ const App = () => {
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false)     // Top right user menu
   const [highlightRetool, setHighlightRetool] = useState(true)
   const [sidebar, setSidebar] = useState([])                      // Config data for sidebar. Dynamic i.e. filtered based on RBAC
-  const ProtectedComponent = ({ component, ...propsForComponent}) => {
-    const Cp = withAuthenticationRequired(component);
-    return <Cp {...propsForComponent} />
-  }
-
 
   /**
    * Updates user metadata on Auth0
@@ -188,14 +134,6 @@ const App = () => {
     setUserMenuIsOpen(!userMenuIsOpen)
   }
 
-
-  // const toggleHighlightRetool = () => {
-  //   setHighlightRetool(!highlightRetool)
-  // }
-
-
-
-
   /**
    * Sets the user's current group, which serves to demonstrate dynamic RBAC-based features
    * Updates both user metadata on Auth0 & the in-memory userProfile state variable
@@ -217,7 +155,7 @@ const App = () => {
   }
 
   const drawerPadding = 3
-  // get user profile and tokens from Auth0
+
   useEffect(() => {
     const getUserMetadata = async () => {    
       try {
@@ -258,7 +196,6 @@ const App = () => {
 
   // Update sidebar when user group changes
   useEffect(() => {
-    
     let filteredSidebar = []
     if (userProfile?.user.group === 'admin') {
       filteredSidebar = homepage.sidebar
@@ -280,27 +217,27 @@ const App = () => {
     return '';
   }
   else if (!isAuthenticated) {
-    return <Routes>
-     <Route path='*' element={<Navigate to='/login' />}/>
-    <Route path='/login' element={<SplashPage />}/>
-    
-    </Routes>;
-
+    return (
+      <Routes>
+        <Route path='*' element={<Navigate to='/login' />}/>
+        <Route path='/login' element={<SplashPage />}/>
+      </Routes>
+    )
   }
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
 
-      {isAuthenticated && <AppBar position="absolute" open={drawerIsOpen}>
+      {isAuthenticated && <AppBar position="fixed" open={drawerIsOpen}>
         <Toolbar
           sx={{
             pr: '24px', // keep right padding when drawer closed
+            color: '#000000'
           }}
         >
           <IconButton
               edge="start"
-              color="inherit"
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={{
@@ -312,22 +249,15 @@ const App = () => {
           </IconButton>
 
     <Box>
-          <Typography variant="h6" color="inherit" >
-            {
-            // isAuthenticated && user
-              // ? [user.name, user.email, userProfile?.user.group].join(' | ')
-              'Welcome to your Shop Co. Merchant Portal '+user.name.split(' ')[0]+'!'
-            } 
-          </Typography>
-          <Typography variant="h8" color="inherit" >
-          {userProfile?.user.group == 'bronze' ? '' : 'Thank You for being a ' + userProfile?.user.group.charAt(0).toUpperCase() + userProfile?.user.group.slice(1) + ' Member'}
-            </Typography>
-            </Box>
+          <div style={{ fontWeight: '800', fontSize: 24}}>
+              Shopco Merchant
+            </div>
+    </Box>
           <AppBarFiller />
-
+          <span style={{ marginRight: '20px', fontSize: '14px', letterSpacing: '.25px'}}> {user.name} </span>
           <AccountCircle id='appbar-user-icon' onClick={toggleUserMenu}/>
           <Menu
-            sx={{ mt: '45px' }}
+            sx={{ mt: '45px', color: 'black'}}
             id='appbar-user-menu'
             anchorEl={document.getElementById('appbar-user-icon')}
             anchorOrigin={{
@@ -352,17 +282,14 @@ const App = () => {
       
 
             {isAuthenticated && <Divider />}
-            <Link
-                    
-                    to={
-                      {pathname: '/profile_page'}
-                    }
-                    component={RouterLink}
-                    underline='none'
-                  > <MenuItem><Typography>View Profile</Typography></MenuItem></Link>
+            <Link    
+              to={
+                {pathname: '/profile_page'}
+              }
+              component={RouterLink}
+              underline='none'
+            > <MenuItem><Typography>View Profile</Typography></MenuItem></Link>
             {isAuthenticated && <LogoutMenuItem />}
-
- 
           </Menu>
         </Toolbar>
       </AppBar>}
@@ -372,32 +299,18 @@ const App = () => {
         open={drawerIsOpen}
       >
         <Box display='flex' justifyContent='space-between' marginLeft={drawerPadding} marginTop={drawerPadding}>
-          <Box display='flex' marginTop='-15' marginLeft='-50'>
-          <Icon >
-            </Icon><img src='https://i.ibb.co/SBfqNbc/imageedit-1-4156875095.png' width='70%' />
+          <Box display='flex'>
+            <img src='https://i.ibb.co/b2k0Ss0/Screen-Shot-2021-09-10-at-5-29-42-PM-removebg-preview.png' width='100%' />
           </Box>
           <Box alignSelf='flex-end' marginTop='-100'>
-          <IconButton onClick={toggleDrawer}>
+          <IconButton style={{ color: "#ffffff"}} onClick={toggleDrawer}>
             <ChevronLeftIcon />
           </IconButton>
           </Box>
         </Box>
-        {/* <Toolbar
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            px: [1],
-          }}
-        > */}
-         
-        {/* </Toolbar> */}
       <Box>
-        {drawerIsOpen && 
-      <DateTime>
-        </DateTime>}
       </Box>
-        <Box sx={{ overflow: 'auto'}} marginTop='40'>
+        <Box sx={{ overflow: 'auto', color: '#ffffff'}} marginTop='40'>
           {sidebar.map(section => (
             <>
               <List disablePadding={true} >
@@ -414,8 +327,8 @@ const App = () => {
                     <ListItem button key={item.key + 'listItem'} sx={{
                        left: 2.5
                     }}>
-                     <ListItemIcon key={item.key + 'listItemIcon'}  >
-                        <Icon>{item.icon}</Icon>
+                     <ListItemIcon style={{ color: '#ffffff'}} key={item.key + 'listItemIcon'}  >
+                        <Icon color="#ffffff">{item.icon}</Icon>
                 
                       </ListItemIcon>
                    
@@ -435,61 +348,18 @@ const App = () => {
       </Drawer>} 
 
       <Box sx={{ width: '100%', height: '100vh', flexGrow: 1 }}>
-        <AppBarOffset />
-       
+        <AppBarOffset />     
         <Routes>
-
-          {/* Landing Pages */}
-          <Route  path='/login' element={
-               <SplashPage />
-          }/>
-          <Route path='/' element ={
-           <LandingPage externalIdentifier={user.email} groups={[5,6]} pageUuid={RETOOL_LANDING_PAGE_UUID} />
-          }/>
-
-          <Route path='/profile_page' 
-          element={<ProtectedComponent component={ProfilePage} user={user} userProfile={userProfile} idTokenClaims={idTokenClaims} authTokenClaims={authTokenClaims} />
-          }/> 
-
-          {/* Configurable Public Apps */}     
-          {/* <Route path='/public/:slug' element={
-          <PrivateRoute>
-            <FullPageEmbed routes={routes} />
-             </PrivateRoute>
-          }/> */}
-          
-          {/* Default Demo Apps */}
-          <Route path='/default_demo/:slug' element={
-            
-        // <PrivateRoute>
-        // <ProtectedComponent component={RequireAuth} routes={routes} currentGroup={userProfile?.user.group}/>
-            <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
-            // </PrivateRoute>
-    
-          }/>
-        
-
-
-          {/* Configurable Protected Apps */}
-          <Route path='/protected/:slug' element={
-            <RequireAuth routes={routes} currentGroup={userProfile?.user.group} />
-          }/>
-
-          <Route path="*" element={
-          <Navigate to='/'/>} />
-         
-         
- 
+          <Route  path='/login' element={<SplashPage/>}/>
+          <Route path='/' element ={<LandingPage externalIdentifier={user.email} groups={[5,6,7]} pageUuid={STORE_OVERVIEW_UUID} />}/>
+          <Route path='/sales' element ={<LandingPage externalIdentifier={user.email} groups={[5,6,7]} pageUuid={SALES_UUID} />}/>
+          <Route path='/scorecard' element ={<LandingPage externalIdentifier={user.email} groups={[5,6,7]} pageUuid={SCORECARD_UUID} />}/>
+          <Route path='/coupons' element ={<LandingPage externalIdentifier={user.email} groups={[5,6,7]} pageUuid={COUPONS_UUID} />} />
+          <Route path="*" element={<Navigate to='/'/>}/>
         </Routes>
-        
-
       </Box>
-   
     </Box>
-
- 
   )
 }
-
 
 export default App

@@ -21,11 +21,11 @@ const LandingPage = ({
     fetch('/api/embedUrl', options)
     .then(res => res.json())
     .then(data => { setRetoolEmbedUrl(data.embedUrl)})
-  }, [])
+  }, [pageUuid])
 
   return (
       <Box sx={{ height: "1200px", marginTop:"20"}}>
-          <Container maxWidth={false} disableGutters  >
+          <Container maxWidth={false} disableGutters height="100vh">
               <Retool url={`${retoolEmbedUrl}`} />
           </Container>
       </Box>
