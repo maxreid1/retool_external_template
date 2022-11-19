@@ -8,7 +8,7 @@ export const LogoutMenuItem = () => {
 
   return (
     <MenuItem key='auth0-logout'>
-      <Button onClick={() => logout({ returnTo: window.location.origin }) }>
+      <Button style={{ color: '#000000' }} onClick={() => logout({ returnTo: window.location.origin }) }>
         Log Out
       </Button>
     </MenuItem>

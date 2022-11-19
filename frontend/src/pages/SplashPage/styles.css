@@ -36,8 +36,8 @@ p {
 }
 
 .login {
-    color: #ffffff;
-    background: #080928;
+    color: #ffffff !important;
+    background: #080928 !important;
     text-transform: none;
     transition: opacity .2s ease-in-out !important;
     -moz-transition: opacity  .2s ease-in-out !important;

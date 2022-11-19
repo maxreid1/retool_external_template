@@ -8,7 +8,7 @@ exports.auth = {
   }
 
 exports.retoolDomain = 'https://retool.shopco.partners'
-  
+
 exports.homepage = {
   sidebar: [
     {
@@ -18,12 +18,6 @@ exports.homepage = {
           title: 'Store manager',
           icon: 'home',
           slug: '',
-          groups: ['bronze', 'silver', 'gold'],
-        },
-        {
-          title: 'Customer metrics',
-          icon: 'person',
-          slug: 'scorecard',
           groups: ['bronze', 'silver', 'gold'],
         },
         {
@@ -38,11 +32,16 @@ exports.homepage = {
           slug: 'coupons',
           groups: ['silver','gold'],
         }
+        // {
+        //   title: 'Customer metrics',
+        //   icon: 'person',
+        //   slug: 'scorecard',
+        //   groups: ['bronze', 'silver', 'gold'],
+        // },
       ]
     },
   ]
 }
-
 exports.theme = {
   palette: {
     primary: {
@@ -53,7 +52,6 @@ exports.theme = {
     },
   },
   typography: {
-    fontFamily: "Roboto",
-    main: '#ffffff'
+    fontFamily: "Helvetica"
   }
 }

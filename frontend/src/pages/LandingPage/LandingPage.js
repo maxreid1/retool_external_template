@@ -24,11 +24,9 @@ const LandingPage = ({
   }, [pageUuid])
 
   return (
-      <Box sx={{ height: "1200px", marginTop:"20"}}>
-          <Container maxWidth={false} disableGutters height="100vh">
-              <Retool url={`${retoolEmbedUrl}`} />
-          </Container>
-      </Box>
+    <Container maxWidth={false} disableGutters style={{height: '90vh'}}>
+        <Retool url={`${retoolEmbedUrl}`} />
+    </Container>
   )
 }
 
