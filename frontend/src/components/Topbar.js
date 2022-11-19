@@ -41,7 +41,7 @@ export const Topbar = ({
       <Toolbar
         sx={{
           pr: "24px",
-          color: "#000000",
+          color: "#080928 ",
         }}
       >
         <IconButton
@@ -56,7 +56,7 @@ export const Topbar = ({
           <MenuIcon />
         </IconButton>
         <Box>
-          <div style={{ fontWeight: "800", fontSize: 24 }}>Shopco Merchant</div>
+          <div style={{ fontWeight: 900, fontSize: 24, letterSpacing: ".25px" }}>Shopco Merchant</div>
         </Box>
         <Box sx={{ flexGrow: 1 }} />
         <span
@@ -64,6 +64,7 @@ export const Topbar = ({
             marginRight: "20px",
             fontSize: "16px",
             letterSpacing: ".25px",
+            fontWeight: 500
           }}
         >
           {user.name}
@@ -91,7 +92,7 @@ const UserMenu = ({ userProfile = {}, isAuthenticated, onSwitchGroup }) => {
         onClick={handleClick}
       />
       <Menu
-        sx={{ mt: "45px", color: "#000000" }}
+        sx={{ mt: "45px", color: "#080928" }}
         id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
@@ -113,7 +114,7 @@ const UserMenu = ({ userProfile = {}, isAuthenticated, onSwitchGroup }) => {
           underline="none"
         >
           {" "}
-          <MenuItem style={{ color: "#000000" }}>
+          <MenuItem style={{ color: "#080928" }}>
             <Typography>View profile</Typography>
           </MenuItem>
         </Link>

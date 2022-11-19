@@ -52,6 +52,6 @@ exports.theme = {
     },
   },
   typography: {
-    fontFamily: "Helvetica"
+    fontFamily: "Roboto"
   }
 }
