@@ -15,36 +15,35 @@ import {
   ListItemText,
 } from "@mui/material";
 
-export const Sidebar = ({ open = true, sections, onClick, width }) => {
-
-  const Drawer = styled(MuiDrawer, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    "& .MuiDrawer-paper": {
-      color: "#ffffff",
-      background: "#080928",
-      position: "relative",
-      whiteSpace: "nowrap",
-      width: width,
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  "& .MuiDrawer-paper": {
+    color: "#ffffff",
+    background: "#080928",
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: 250,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.shortest,
+    }),
+    boxSizing: "border-box",
+    ...(!open && {
+      overflowX: "hidden",
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.shortest,
       }),
-      boxSizing: "border-box",
-      ...(!open && {
-        overflowX: "hidden",
-        transition: theme.transitions.create("width", {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.shortest,
-        }),
-        width: theme.spacing(7),
-        [theme.breakpoints.up("sm")]: {
-          width: theme.spacing(9),
-        },
-      }),
-    },
-  }));
+      width: theme.spacing(7),
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9),
+      },
+    }),
+  },
+}));
 
+export const Sidebar = ({ open = true, sections, onClick }) => {
   return (
     <Drawer variant="permanent" open={open}>
       <Box display="flex" justifyContent="space-between" marginTop="24px">
@@ -54,7 +53,7 @@ export const Sidebar = ({ open = true, sections, onClick, width }) => {
             width="100%"
           />
         </Box>
-        <Box alignSelf="flex-end" marginTop="-100">
+        <Box alignSelf="flex-end">
           <IconButton style={{ color: "#ffffff" }} onClick={onClick}>
             <ChevronLeftIcon />
           </IconButton>

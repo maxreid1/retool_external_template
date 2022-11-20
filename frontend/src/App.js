@@ -17,11 +17,9 @@ import { homepage, auth } from "../config";
 const STORE_OVERVIEW_UUID = "1e2458f2-5e43-11ed-b603-87a6ce75e0eb";
 const ORDERS_UUID = "56a70878-5e43-11ed-b603-5f3bd9271091";
 const COUPONS_UUID = "69176596-4009-11ed-92e5-13ce361830e2";
-// const SCORECARD_UUID = "55c9b804-667e-11ed-b17e-33e1ab49dcd6";
 
 // MUI spacer components and variables
 const AppBarOffset = styled("div")(({ theme }) => theme.mixins.toolbar);
-const SIDEBAR_WIDTH_PX = 250;
 
 const App = () => {
   const {
@@ -63,7 +61,7 @@ const App = () => {
 
   /**
    * Sets the user's current group, which serves to demonstrate dynamic RBAC-based features
-   * Updates both user metadata on Auth0 & the in-memory userProfile state variable
+   * Updates both user metadata on Auth0 & the userProfile state variable
    * @param {string} group - group to set as user's current group
    */
   const handleSwitchGroup = (group) => {
@@ -90,8 +88,6 @@ const App = () => {
         const token = await getAccessTokenSilently();
         setAccessToken(token);
         setAuthTokenClaims(decodeToken(token));
-
-        console.log(decodeToken(token))
 
         const userDetailsByIdUrl = `https://${auth.REACT_APP_AUTH0_DOMAIN}/api/v2/users/${user.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -159,7 +155,6 @@ const App = () => {
       <CssBaseline />
       {isAuthenticated && (
         <Topbar
-          sidebarWidth={SIDEBAR_WIDTH_PX}
           drawerIsOpen={drawerIsOpen}
           userProfile={userProfile}
           user={user}
@@ -173,7 +168,6 @@ const App = () => {
           sections={sidebar}
           open={drawerIsOpen}
           onClick={() => toggleDrawer()}
-          width={SIDEBAR_WIDTH_PX}
         />
       )}
       <Box sx={{ width: "100%", height: "100vh", flexGrow: 1 }}>
@@ -200,16 +194,6 @@ const App = () => {
               />
             }
           />
-          {/* <Route
-            path="/scorecard"
-            element={
-              <LandingPage
-                externalIdentifier={user.email}
-                groups={[5, 6, 7]}
-                pageUuid={SCORECARD_UUID}
-              />
-            }
-          /> */}
           <Route
             path="/coupons"
             element={

@@ -17,25 +17,24 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import { LogoutMenuItem } from "./auth/LogoutMenuItem";
 
-export const Topbar = ({
-  sidebarWidth = 250,
-  drawerIsOpen,
-  user = {},
-  onToggleDrawer,
-  ...props
-}) => {
-  const AppBar = styled(MuiAppBar, {
+const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
   })(({ theme, open }) => ({
     boxShadow: "none",
     borderBottom: "2px solid #eeeeee",
     zIndex: theme.zIndex.drawer + 1,
     ...(open && {
-      marginLeft: sidebarWidth,
-      width: `calc(100% - ${sidebarWidth}px)`,
+      marginLeft: 250,
+      width: `calc(100% - ${250}px)`,
     }),
   }));
 
+export const Topbar = ({
+  drawerIsOpen,
+  user = {},
+  onToggleDrawer,
+  ...props
+}) => {
   return (
     <AppBar position="fixed" open={drawerIsOpen}>
       <Toolbar
