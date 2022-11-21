@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { 
-    Box, Container
-  } from '@mui/material'
+import { Container } from '@mui/material'
 import Retool from 'react-retool'
 
 const LandingPage = ({
@@ -24,7 +22,7 @@ const LandingPage = ({
   }, [pageUuid])
 
   return (
-    <Container maxWidth={false} disableGutters style={{height: '90vh'}}>
+    <Container maxWidth={false} disableGutters style={{ marginTop: 64 }}>
         <Retool url={`${retoolEmbedUrl}`} />
     </Container>
   )

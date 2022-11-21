@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import {
@@ -74,7 +73,7 @@ export const Topbar = ({
   );
 };
 
-const UserMenu = ({ userProfile = {}, isAuthenticated, onSwitchGroup }) => {
+const UserMenu = ({ userProfile = {}, onSwitchGroup }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -100,14 +99,13 @@ const UserMenu = ({ userProfile = {}, isAuthenticated, onSwitchGroup }) => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        {isAuthenticated &&
-          userProfile?.app.roles.map((role) => (
+        {userProfile?.app.roles.map((role) => (
             <MenuItem key={role} onClick={() => onSwitchGroup(role)}>
               <Typography>Impersonate {role}</Typography>
             </MenuItem>
-          ))}
-        {isAuthenticated && <Divider />}
-        <Link
+        ))}
+        <Divider />
+        {/* <Link
           to={{ pathname: "/profile_page" }}
           component={RouterLink}
           underline="none"
@@ -116,8 +114,8 @@ const UserMenu = ({ userProfile = {}, isAuthenticated, onSwitchGroup }) => {
           <MenuItem style={{ color: "#080928" }}>
             <Typography>View profile</Typography>
           </MenuItem>
-        </Link>
-        {isAuthenticated && <LogoutMenuItem />}
+        </Link> */}
+        <LogoutMenuItem />
       </Menu>
     </div>
   );

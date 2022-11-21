@@ -43,9 +43,9 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-export const Sidebar = ({ open = true, sections, onClick }) => {
+export const Sidebar = ({ drawerIsOpen = true, sections, onClick }) => {
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer variant="permanent" open={drawerIsOpen}>
       <Box display="flex" justifyContent="space-between" marginTop="24px">
         <Box display="flex">
           <img

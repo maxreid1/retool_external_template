@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
+import { Navigate, Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Sidebar } from "./components/Sidebar";
 import { Topbar } from "./components/Topbar";
@@ -17,9 +17,6 @@ import { homepage, auth } from "../config";
 const STORE_OVERVIEW_UUID = "1e2458f2-5e43-11ed-b603-87a6ce75e0eb";
 const ORDERS_UUID = "56a70878-5e43-11ed-b603-5f3bd9271091";
 const COUPONS_UUID = "69176596-4009-11ed-92e5-13ce361830e2";
-
-// MUI spacer components and variables
-const AppBarOffset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const App = () => {
   const {
@@ -55,16 +52,16 @@ const App = () => {
     });
   };
 
-  const toggleDrawer = () => {
+  const toggleDrawer =useCallback(() => {
     setDrawerIsOpen(!drawerIsOpen);
-  };
+  },[drawerIsOpen]);
 
   /**
    * Sets the user's current group, which serves to demonstrate dynamic RBAC-based features
    * Updates both user metadata on Auth0 & the userProfile state variable
    * @param {string} group - group to set as user's current group
    */
-  const handleSwitchGroup = (group) => {
+  const handleSwitchGroup = useCallback(group => {
     updateUserMetadata(accessToken, {
       user_metadata: { group: group },
     });
@@ -77,7 +74,7 @@ const App = () => {
         },
       },
     });
-  };
+  },[]);
 
   useEffect(() => {
     const getUserMetadata = async () => {
@@ -141,39 +138,33 @@ const App = () => {
 
   if (isLoading) {
     return "";
-  } else if (!isAuthenticated) {
+  }
+
+  if (!isAuthenticated) {
     return (
       <Routes>
-        <Route path="*" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<SplashPage />} />
+        <Route path="*" element={<SplashPage />} />
       </Routes>
     );
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      {isAuthenticated && (
-        <Topbar
-          drawerIsOpen={drawerIsOpen}
-          userProfile={userProfile}
-          user={user}
-          onSwitchGroup={(role) => handleSwitchGroup(role)}
-          isAuthenticated={isAuthenticated}
-          onToggleDrawer={() => toggleDrawer()}
-        />
-      )}
-      {isAuthenticated && (
-        <Sidebar
-          sections={sidebar}
-          open={drawerIsOpen}
-          onClick={() => toggleDrawer()}
-        />
-      )}
-      <Box sx={{ width: "100%", height: "100vh", flexGrow: 1 }}>
-        <AppBarOffset />
-        <Routes>
-          <Route path="/login" element={<SplashPage />} />
+    <Box sx={{ width: "100%", height: "100vh", display: "flex", flexGrow: 1 }}>
+      <Routes>
+        <Route path="/login" element={<SplashPage />} />
+        <Route
+          path="/"
+          element={
+            <MainWrapper
+              drawerIsOpen={drawerIsOpen}
+              userProfile={userProfile}
+              user={user}
+              handleSwitchGroup={handleSwitchGroup}
+              toggleDrawer={toggleDrawer}
+              sections={sidebar}
+            />
+          }
+        >
           <Route
             path="/"
             element={
@@ -205,10 +196,30 @@ const App = () => {
             }
           />
           <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Box>
+        </Route>
+      </Routes>
     </Box>
   );
 };
+
+const MainWrapper = ({
+  handleSwitchGroup,
+  toggleDrawer,
+  ...rest
+}) => (
+  <>
+    <CssBaseline />
+    <Topbar
+      onSwitchGroup={(role) => handleSwitchGroup(role)}
+      onToggleDrawer={toggleDrawer}
+      {...rest}
+    />
+    <Sidebar
+      onClick={toggleDrawer}
+      {...rest}
+    />
+    <Outlet />
+  </>
+);
 
 export default App;
