@@ -2,8 +2,10 @@ require('dotenv').config();
 var fetch = require('node-fetch');
 var express = require('express');
 var router = express.Router();
+var retoolAppMap = require('../utils/retoolAppsToUuids')
 
 router.post('/embedUrl', (req, res) => {
+  const parsedToken = JSON.parse(atob(req.body.accessToken.split('.')[1]))
   const options = {
     method: "post",
     headers: {
@@ -12,9 +14,9 @@ router.post('/embedUrl', (req, res) => {
     },
     body: JSON.stringify({
       "orgId": "1",
-      "pageUuid": req.body.pageUuid,
-      "externalIdentifier": req.body.externalIdentifier,
-      "groupIds": req.body.groups
+      "pageUuid": retoolAppMap[req.body.retoolAppName],
+      "externalIdentifier": parsedToken.azp,
+      "groupIds": [5,6,7]
     })
   }
 

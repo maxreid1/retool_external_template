@@ -1,39 +1,28 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate, Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Sidebar } from "./components/Sidebar";
-import { Topbar } from "./components/Topbar";
-import { decodeToken } from "./utils/auth";
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+import RetoolWrapper from "./components/RetoolWrapper";
 
-// Material Components
-import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/material";
 
 import SplashPage from "./pages/SplashPage";
-import LandingPage from "./pages/LandingPage";
 import { homepage, auth } from "../config";
-
-const STORE_OVERVIEW_UUID = "1e2458f2-5e43-11ed-b603-87a6ce75e0eb";
-const ORDERS_UUID = "56a70878-5e43-11ed-b603-5f3bd9271091";
-const COUPONS_UUID = "69176596-4009-11ed-92e5-13ce361830e2";
 
 const App = () => {
   const {
     isLoading,
     isAuthenticated,
     user,
-    getIdTokenClaims,
     getAccessTokenSilently,
   } = useAuth0();
 
-  const [userProfile, setUserProfile] = useState(null); // "In memory" state variable for user attributes e.g. roles
-  const [accessToken, setAccessToken] = useState(null); // JWT access token (raw string)
-  const [idTokenClaims, setIdTokenClaims] = useState(null); // JWT ID token claims
-  const [authTokenClaims, setAuthTokenClaims] = useState(null); // JWT access token
-
-  const [drawerIsOpen, setDrawerIsOpen] = useState(true); // Left hand var bar
-  const [sidebar, setSidebar] = useState([]); // Config data for sidebar. Dynamic i.e. filtered based on RBAC
+  const [userProfile, setUserProfile] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [drawerIsOpen, setDrawerIsOpen] = useState(true);
+  const [sidebarList, setSidebarList] = useState([]);
 
   /**
    * Updates user metadata on Auth0
@@ -52,16 +41,12 @@ const App = () => {
     });
   };
 
-  const toggleDrawer =useCallback(() => {
-    setDrawerIsOpen(!drawerIsOpen);
-  },[drawerIsOpen]);
-
   /**
    * Sets the user's current group, which serves to demonstrate dynamic RBAC-based features
    * Updates both user metadata on Auth0 & the userProfile state variable
    * @param {string} group - group to set as user's current group
    */
-  const handleSwitchGroup = useCallback(group => {
+  const handleSwitchGroup = (group) => {
     updateUserMetadata(accessToken, {
       user_metadata: { group: group },
     });
@@ -74,17 +59,13 @@ const App = () => {
         },
       },
     });
-  },[]);
+  };
 
   useEffect(() => {
     const getUserMetadata = async () => {
       try {
-        const idTokenClaims = await getIdTokenClaims();
-        setIdTokenClaims(idTokenClaims);
-
         const token = await getAccessTokenSilently();
         setAccessToken(token);
-        setAuthTokenClaims(decodeToken(token));
 
         const userDetailsByIdUrl = `https://${auth.REACT_APP_AUTH0_DOMAIN}/api/v2/users/${user.sub}`;
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -107,38 +88,26 @@ const App = () => {
         console.warn("getUserMetadata failed:", e);
       }
     };
-
     if (user?.sub) {
       getUserMetadata();
     }
   }, [user?.sub]);
 
-  // Update sidebar when user group changes
   useEffect(() => {
-    let filteredSidebar = [];
-    if (userProfile?.user.group === "admin") {
-      filteredSidebar = homepage.sidebar;
+    let isAdmin = userProfile?.user?.group === "admin";
+    if (isAdmin) {
+      setSidebarList(homepage.sidebarList);
     } else {
-      homepage.sidebar.forEach((section) => {
-        let filteredSection = {
-          section: section.section,
-          items: section.items.filter(
-            (item) =>
-              item.groups.length === 0 ||
-              item.groups.includes(userProfile?.user.group)
-          ),
-        };
-        if (filteredSection.items.length > 0) {
-          filteredSidebar.push(filteredSection);
-        }
-      });
+      const filteredSidebar = homepage.sidebarList.filter(
+        (item) =>
+          item.groups.length === 0 ||
+          item.groups.includes(userProfile?.user?.group)
+      );
+      setSidebarList(filteredSidebar);
     }
-    setSidebar(filteredSidebar);
   }, [userProfile]);
 
-  if (isLoading) {
-    return "";
-  }
+  if (isLoading) return "";
 
   if (!isAuthenticated) {
     return (
@@ -155,46 +124,28 @@ const App = () => {
         <Route
           path="/"
           element={
-            <MainWrapper
+            <LayoutWrapper
               drawerIsOpen={drawerIsOpen}
               userProfile={userProfile}
               user={user}
               handleSwitchGroup={handleSwitchGroup}
-              toggleDrawer={toggleDrawer}
-              sections={sidebar}
+              toggleDrawer={() => setDrawerIsOpen(!drawerIsOpen)}
+              sidebarList={sidebarList}
             />
           }
         >
-          <Route
-            path="/"
-            element={
-              <LandingPage
-                externalIdentifier={user.email}
-                groups={[5, 6, 7]}
-                pageUuid={STORE_OVERVIEW_UUID}
-              />
-            }
-          />
-          <Route
-            path="/sales"
-            element={
-              <LandingPage
-                externalIdentifier={user.email}
-                groups={[5, 6, 7]}
-                pageUuid={ORDERS_UUID}
-              />
-            }
-          />
-          <Route
-            path="/coupons"
-            element={
-              <LandingPage
-                externalIdentifier={user.email}
-                groups={[5, 6, 7]}
-                pageUuid={COUPONS_UUID}
-              />
-            }
-          />
+          {sidebarList.map((item) => (
+            <Route
+              key={`/` + item.slug}
+              path={`/` + item.slug}
+              element={
+                <RetoolWrapper
+                  retoolAppName={item.retoolAppName}
+                  accessToken={accessToken}
+                />
+              }
+            />
+          ))}
           <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>
@@ -202,22 +153,11 @@ const App = () => {
   );
 };
 
-const MainWrapper = ({
-  handleSwitchGroup,
-  toggleDrawer,
-  ...rest
-}) => (
+const LayoutWrapper = ({ toggleDrawer, ...rest }) => (
   <>
     <CssBaseline />
-    <Topbar
-      onSwitchGroup={(role) => handleSwitchGroup(role)}
-      onToggleDrawer={toggleDrawer}
-      {...rest}
-    />
-    <Sidebar
-      onClick={toggleDrawer}
-      {...rest}
-    />
+    <Topbar onToggleDrawer={toggleDrawer} {...rest} />
+    <Sidebar onClick={toggleDrawer} {...rest} />
     <Outlet />
   </>
 );
