@@ -18,7 +18,8 @@ p {
     width: 100%;
     display: flex;
     align-items: center;
-    border-radius: 0;
+    border-radius: 0 !important;
+    margin: 0 !important;
     font-family: 'Roboto' !important;
 }
 

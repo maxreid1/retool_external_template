@@ -43,9 +43,9 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-export const Sidebar = ({ open = true, sections, onClick }) => {
+const Sidebar = ({ drawerIsOpen = true, sidebarList, onClick }) => {
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer variant="permanent" open={drawerIsOpen}>
       <Box display="flex" justifyContent="space-between" marginTop="24px">
         <Box display="flex">
           <img
@@ -59,46 +59,39 @@ export const Sidebar = ({ open = true, sections, onClick }) => {
           </IconButton>
         </Box>
       </Box>
-
       <Box sx={{ overflow: "auto", color: "#ffffff" }} marginTop="40">
-        {sections.map((section) => (
-          <>
-            <List disablePadding={true}>
-              {section.items.map((item, idx) => (
-                <Link
-                  key={idx}
-                  to={{ pathname: [section.section, item.slug].join("/") }}
-                  component={RouterLink}
-                  underline="none"
+        <List disablePadding={true}>
+          {sidebarList.map((item) => (
+            <React.Fragment key={item.slug}>
+              <Link
+                to={{ pathname: item.slug }}
+                component={RouterLink}
+                underline="none"
+              >
+                <ListItem
+                  button
+                  sx={{
+                    left: 2.5,
+                  }}
                 >
-                  <ListItem
-                    button
-                    key={item.key + "listItem"}
+                  <ListItemIcon style={{ color: "#ffffff" }}>
+                    <Icon color="#ffffff">{item.icon}</Icon>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
                     sx={{
-                      left: 2.5,
+                      left: -20,
                     }}
-                  >
-                    <ListItemIcon
-                      style={{ color: "#ffffff" }}
-                      key={item.key + "listItemIcon"}
-                    >
-                      <Icon color="#ffffff">{item.icon}</Icon>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={item.title}
-                      key={item.key + "listItemText"}
-                      sx={{
-                        left: -20,
-                      }}
-                    />
-                  </ListItem>
-                </Link>
-              ))}
-            </List>
-            <Divider />
-          </>
-        ))}
+                  />
+                </ListItem>
+              </Link>
+            </React.Fragment>
+          ))}
+        </List>
+        <Divider />
       </Box>
     </Drawer>
   );
 };
+
+export default Sidebar;

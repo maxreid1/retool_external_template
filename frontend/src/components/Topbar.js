@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react"
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
 import {
   Box,
   Divider,
+  Button,
   IconButton,
-  Link,
   Menu,
   MenuItem,
   Toolbar,
@@ -15,19 +15,21 @@ import {
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import { LogoutMenuItem } from "./auth/LogoutMenuItem";
-
 const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
-  })(({ theme, open }) => ({
-    boxShadow: "none",
-    borderBottom: "2px solid #eeeeee",
-    zIndex: theme.zIndex.drawer + 1,
-    ...(open && {
-      marginLeft: 250,
-      width: `calc(100% - ${250}px)`,
-    }),
-  }));
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  boxShadow: "none",
+  borderBottom: "2px solid #eeeeee",
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create("width", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.shortest,
+  }),
+  ...(open && {
+    marginLeft: 250,
+    width: `calc(100% - ${250}px)`,
+  }),
+}));
 
 export const Topbar = ({
   drawerIsOpen,
@@ -55,7 +57,11 @@ export const Topbar = ({
           <MenuIcon />
         </IconButton>
         <Box>
-          <div style={{ fontWeight: 900, fontSize: 24, letterSpacing: ".25px" }}>Shopco Merchant</div>
+          <div
+            style={{ fontWeight: 900, fontSize: 24, letterSpacing: ".25px" }}
+          >
+            Shopco Merchant
+          </div>
         </Box>
         <Box sx={{ flexGrow: 1 }} />
         <span
@@ -63,7 +69,7 @@ export const Topbar = ({
             marginRight: "20px",
             fontSize: "16px",
             letterSpacing: ".25px",
-            fontWeight: 500
+            fontWeight: 500,
           }}
         >
           {user.name}
@@ -74,7 +80,7 @@ export const Topbar = ({
   );
 };
 
-const UserMenu = ({ userProfile = {}, isAuthenticated, onSwitchGroup }) => {
+const UserMenu = ({ userProfile = {}, handleSwitchGroup }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -100,25 +106,27 @@ const UserMenu = ({ userProfile = {}, isAuthenticated, onSwitchGroup }) => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        {isAuthenticated &&
-          userProfile?.app.roles.map((role) => (
-            <MenuItem key={role} onClick={() => onSwitchGroup(role)}>
-              <Typography>Impersonate {role}</Typography>
-            </MenuItem>
-          ))}
-        {isAuthenticated && <Divider />}
-        <Link
-          to={{ pathname: "/profile_page" }}
-          component={RouterLink}
-          underline="none"
-        >
-          {" "}
-          <MenuItem style={{ color: "#080928" }}>
-            <Typography>View profile</Typography>
+        {userProfile?.app?.roles.map((role) => (
+          <MenuItem key={role} onClick={() => handleSwitchGroup(role)}>
+            <Typography>Impersonate {role}</Typography>
           </MenuItem>
-        </Link>
-        {isAuthenticated && <LogoutMenuItem />}
+        ))}
+        <Divider />
+        <LogoutMenuItem />
       </Menu>
     </div>
   );
 };
+
+const LogoutMenuItem = () => {
+  const { logout } = useAuth0()
+  return (
+    <MenuItem key='auth0-logout'>
+      <Button style={{ color: '#000000' }} onClick={() => logout({ returnTo: window.location.origin }) }>
+        Log Out
+      </Button>
+    </MenuItem>
+  )
+}
+
+export default Topbar
