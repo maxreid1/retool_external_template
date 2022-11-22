@@ -28,7 +28,7 @@ exports.homepage = {
       retoolAppName: "couponGenerator",
       icon: "star",
       slug: "coupons",
-      groups: ["bronze", "silver", "gold"],
+      groups: [ "silver", "gold"],
     },
   ],
 };
