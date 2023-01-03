@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from '@mui/material'
+import { Button, Container } from '@mui/material'
 import Retool from 'react-retool'
 
 const RetoolWrapper = ({
   retoolAppName = "",
-  accessToken = ""
+  accessToken = "",
+  showBorder = ""
 }) => { 
 
   const [retoolEmbedUrl, setRetoolEmbedUrl] = useState([])
+
+ 
 
   useEffect(() => {
     const options = {
@@ -21,9 +24,13 @@ const RetoolWrapper = ({
   }, [retoolAppName])
 
   return (
-    <Container maxWidth={false} disableGutters style={{ marginTop: 64 }}>
+    // <Box sx={{ border: '3px dashed grey', borderTop:  '3px dashed grey', width: 1 }} >
+    <Container maxWidth={false} disableGutters style={{ marginTop: 66, border:  showBorder ? '5px dashed #FFD4D2' : 'none'}}>
         <Retool url={`${retoolEmbedUrl}`} />
+     
+
     </Container>
+    // </Box>
   )
 }
 

@@ -35,6 +35,7 @@ export const Topbar = ({
   drawerIsOpen,
   user = {},
   onToggleDrawer,
+  
   ...props
 }) => {
   return (
@@ -80,8 +81,9 @@ export const Topbar = ({
   );
 };
 
-const UserMenu = ({ userProfile = {}, handleSwitchGroup }) => {
+const UserMenu = ({ userProfile = {}, handleSwitchGroup, handleToggle }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -89,6 +91,8 @@ const UserMenu = ({ userProfile = {}, handleSwitchGroup }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+
   return (
     <div>
       <AccountCircle
@@ -113,6 +117,10 @@ const UserMenu = ({ userProfile = {}, handleSwitchGroup }) => {
         ))}
         <Divider />
         <LogoutMenuItem />
+        <Divider />
+        <MenuItem onClick={() => handleToggle()}>
+            <Typography>Highlight Retool</Typography>
+          </MenuItem>
       </Menu>
     </div>
   );

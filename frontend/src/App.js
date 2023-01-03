@@ -23,6 +23,7 @@ const App = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [drawerIsOpen, setDrawerIsOpen] = useState(true);
   const [sidebarList, setSidebarList] = useState([]);
+  const [showBorder, setShowBorder] = useState(false);
 
   /**
    * Updates user metadata on Auth0
@@ -60,6 +61,12 @@ const App = () => {
       },
     });
   };
+
+  const handleToggle = () => {
+    setShowBorder(!showBorder);
+  };
+
+
 
   useEffect(() => {
     const getUserMetadata = async () => {
@@ -131,6 +138,7 @@ const App = () => {
               handleSwitchGroup={handleSwitchGroup}
               toggleDrawer={() => setDrawerIsOpen(!drawerIsOpen)}
               sidebarList={sidebarList}
+              handleToggle={handleToggle}
             />
           }
         >
@@ -142,6 +150,7 @@ const App = () => {
                 <RetoolWrapper
                   retoolAppName={item.retoolAppName}
                   accessToken={accessToken}
+                  showBorder={showBorder}
                 />
               }
             />
