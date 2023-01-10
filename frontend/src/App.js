@@ -26,6 +26,7 @@ const App = () => {
   const [showBorder, setShowBorder] = useState(false);
   const [seed, setSeed] = useState(1);
   const [darkMode, setDarkModeToggle] = useState(false);
+  const [font, setFont] = useState('Retool Default')
 
   /**
    * Updates user metadata on Auth0
@@ -64,11 +65,6 @@ const App = () => {
     });
     
   };
-
-  const handleToggle = () => {
-    setShowBorder(!showBorder);
-  };
-
 
   useEffect(() => {
     const getUserMetadata = async () => {
@@ -140,8 +136,10 @@ const App = () => {
               handleSwitchGroup={handleSwitchGroup}
               toggleDrawer={() => setDrawerIsOpen(!drawerIsOpen)}
               sidebarList={sidebarList}
-              handleToggle={handleToggle}
+              handleShowBorder={() => setShowBorder(!showBorder)}
               handleDarkModeToggle={() => setDarkModeToggle(!darkMode)}
+              handleSetFont={setFont}
+              activeFont={font}
             />
           }
         >
@@ -157,6 +155,7 @@ const App = () => {
                   key={seed}
                   userProfile={userProfile}
                   darkMode={darkMode}
+                  activeFont={font}
                 />
               }
             />

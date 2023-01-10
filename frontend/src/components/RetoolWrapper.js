@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Container, Typography, Box } from '@mui/material'
+import { Container } from '@mui/material'
 import Retool from 'react-retool'
 
 const RetoolWrapper = ({
   retoolAppName = "",
   accessToken = "",
-  showBorder = "",
-  key = "",
-  userProfile = "",
-  darkMode,
+  userProfile = {},
+  showBorder = false,
+  darkMode = false,
+  activeFont = ""
 }) => { 
 
-  const [retoolEmbedUrl, setRetoolEmbedUrl] = useState([])
-  const appFormatting = { 
-    darkMode: darkMode 
-  };
-  console.log(darkMode)
-  const appFormattingString = JSON.stringify(appFormatting)
+  const [retoolEmbedUrl, setRetoolEmbedUrl] = useState('')
+
   useEffect(() => {
     const options = {
       method: 'POST',
@@ -28,13 +24,9 @@ const RetoolWrapper = ({
     .then(data => { setRetoolEmbedUrl(data.embedUrl)})
   }, [retoolAppName])
   
-  return (
-
+  return retoolEmbedUrl && (
     <Container maxWidth={false} disableGutters style={{ marginTop: 66, border:  showBorder ? '5px dashed #FFD4D2' : 'none'}}>
-        
-        <Box id="retooldata">{appFormattingString}</Box>
-        <Retool url={`${retoolEmbedUrl}`} data={appFormatting} />
-       
+        <Retool url={retoolEmbedUrl} data={{darkMode, font: activeFont}} />
     </Container>
   )
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
@@ -50,52 +50,42 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const FontSelector = () => {
-  const [font, setFont] = React.useState("");
+const FontSelector = ({ font, handleSetFont }) => (
+  <FormControl variant="filled" fullWidth>
+    <InputLabel id="font-select-label" style={{ color: "#080928" }}>
+      Active font
+    </InputLabel>
+    <Select
+      labelId="font-select-label"
+      id="font-select"
+      value={font}
+      onChange={(evt) => handleSetFont(evt.target.value)}
+      style={{ background: "white" }}
+    >
+      <MenuItem value={"Retool Default"}>Retool Default</MenuItem>
+      <MenuItem value={"Times New Roman"}>Times New Roman</MenuItem>
+      <MenuItem value={"Calibri"}>Calibri</MenuItem>
+      <MenuItem value={"Arial"}>Arial</MenuItem>
+    </Select>
+  </FormControl>
+);
 
-  const handleChange = (event) => {
-    setFont(event.target.value);
-  };
-  return (
-    <FormControl variant="filled" fullWidth>
-      <InputLabel id="font-select-label" style={{ color: "#080928" }}>
-        Font
-      </InputLabel>
-      <Select
-        labelId="font-select-label"
-        id="font-select"
-        value={font}
-        // label="Font"
-        onChange={handleChange}
-        style={{ background: "white" }}
-      >
-        <MenuItem value={1}>Retool Default</MenuItem>
-        <MenuItem value={2}>Times New Roman</MenuItem>
-        <MenuItem value={3}>Calibri</MenuItem>
-        <MenuItem value={4}>Arial</MenuItem>
-      </Select>
-    </FormControl>
-  );
-};
-
-const DarkModeSelector = ({ handleDarkModeToggle }) => {
-  return (
-    <FormGroup>
-      <FormControlLabel
-        control={
-          <Switch onChange={handleDarkModeToggle} />
-        }
-        label="Dark Mode"
-      />
-    </FormGroup>
-  );
-};
+const DarkModeToggle = ({ handleDarkModeToggle }) => (
+  <FormGroup>
+    <FormControlLabel
+      control={<Switch onChange={handleDarkModeToggle} />}
+      label="Dark Mode"
+    />
+  </FormGroup>
+);
 
 const Sidebar = ({
   drawerIsOpen = true,
   sidebarList,
   onClick,
   handleDarkModeToggle,
+  activeFont,
+  handleSetFont,
 }) => {
   return (
     <Drawer variant="permanent" open={drawerIsOpen}>
@@ -145,14 +135,12 @@ const Sidebar = ({
       </Box>
       <Box position={"fixed"} bottom={"15"} width={"220"} marginLeft={"15"}>
         {drawerIsOpen && (
-          <FontSelector
-            handleDarkModeToggle={handleDarkModeToggle}
-          ></FontSelector>
+          <FontSelector font={activeFont} handleSetFont={handleSetFont} />
         )}
       </Box>
       <Box position={"fixed"} bottom={"75"} width={"220"} marginLeft={"50"}>
         {drawerIsOpen && (
-          <DarkModeSelector handleDarkModeToggle={handleDarkModeToggle} />
+          <DarkModeToggle handleDarkModeToggle={handleDarkModeToggle} />
         )}
       </Box>
     </Drawer>
