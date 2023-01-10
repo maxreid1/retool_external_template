@@ -10,7 +10,7 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -35,7 +35,7 @@ export const Topbar = ({
   drawerIsOpen,
   user = {},
   onToggleDrawer,
-  
+  age,
   ...props
 }) => {
   return (
@@ -59,7 +59,7 @@ export const Topbar = ({
         </IconButton>
         <Box>
           <div
-            style={{ fontWeight: 900, fontSize: 24, letterSpacing: ".25px" }}
+            style={{ fontWeight: 900, fontSize: 24, letterSpacing: ".25px", marginLeft: "15px" }}
           >
             Shopco Merchant
           </div>
@@ -80,6 +80,8 @@ export const Topbar = ({
     </AppBar>
   );
 };
+
+
 
 const UserMenu = ({ userProfile = {}, handleSwitchGroup, handleToggle }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -121,7 +123,7 @@ const UserMenu = ({ userProfile = {}, handleSwitchGroup, handleToggle }) => {
         <MenuItem onClick={() => handleToggle()}>
             <Typography>Highlight Retool</Typography>
           </MenuItem>
-      </Menu>
+        </Menu>
     </div>
   );
 };

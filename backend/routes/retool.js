@@ -6,6 +6,7 @@ var retoolAppMap = require('../utils/retoolAppsToUuids')
 
 router.post('/embedUrl', (req, res) => {
   const parsedToken = JSON.parse(atob(req.body.accessToken.split('.')[1]))
+  const group = req.body.userProfile.user.group
   const options = {
     method: "post",
     headers: {
@@ -16,7 +17,10 @@ router.post('/embedUrl', (req, res) => {
       "orgId": "1",
       "landingPageUuid": retoolAppMap[req.body.retoolAppName],
       "externalIdentifier": parsedToken.azp,
-      "groupIds": [5,6,7]
+      "groupIds": [5,6,7],
+      "metadata": {
+        "group": group
+      }
     })
   }
 

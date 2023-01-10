@@ -24,6 +24,11 @@ const App = () => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(true);
   const [sidebarList, setSidebarList] = useState([]);
   const [showBorder, setShowBorder] = useState(false);
+  const [seed, setSeed] = useState(1);
+  const [checked, setChecked] = React.useState(false);
+  const handleDarkModeToggle = (_) => {
+    setChecked((prev) => !prev);
+  };
 
   /**
    * Updates user metadata on Auth0
@@ -50,7 +55,7 @@ const App = () => {
   const handleSwitchGroup = (group) => {
     updateUserMetadata(accessToken, {
       user_metadata: { group: group },
-    });
+    }).then(setSeed(Math.random()));
 
     setUserProfile({
       ...userProfile,
@@ -60,12 +65,12 @@ const App = () => {
         },
       },
     });
+    
   };
 
   const handleToggle = () => {
     setShowBorder(!showBorder);
   };
-
 
 
   useEffect(() => {
@@ -139,6 +144,7 @@ const App = () => {
               toggleDrawer={() => setDrawerIsOpen(!drawerIsOpen)}
               sidebarList={sidebarList}
               handleToggle={handleToggle}
+              handleDarkModeToggle={handleDarkModeToggle}
             />
           }
         >
@@ -151,6 +157,10 @@ const App = () => {
                   retoolAppName={item.retoolAppName}
                   accessToken={accessToken}
                   showBorder={showBorder}
+                  key={seed}
+                  userProfile={userProfile}
+                  darkMode={checked}
+
                 />
               }
             />

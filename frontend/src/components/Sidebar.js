@@ -13,6 +13,13 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Switch,
+  FormControlLabel,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormGroup
 } from "@mui/material";
 
 const Drawer = styled(MuiDrawer, {
@@ -43,7 +50,44 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const Sidebar = ({ drawerIsOpen = true, sidebarList, onClick }) => {
+
+const FontSelector = () => {
+  const [font, setFont] = React.useState('');
+
+  const handleChange = (event) => {
+    setFont(event.target.value);
+  };
+  return (
+  <FormControl variant="filled" fullWidth>
+  <InputLabel id="font-select-label" style={{color: '#080928'}}>Font</InputLabel>
+    <Select
+      labelId="font-select-label"
+      id="font-select"
+      value={font}
+      // label="Font"
+      onChange={handleChange}
+      style={{backgroundColor: "white"}}
+      
+      >
+              <MenuItem value={1}>Retool Default</MenuItem>
+              <MenuItem value={2}>Times New Roman</MenuItem>
+              <MenuItem value={3}>Calibri</MenuItem>
+              <MenuItem value={4}>Arial</MenuItem>
+            </Select>
+          </FormControl>
+  )
+}
+
+const DarkModeSelector = ({handleDarkModeToggle}) => {
+ 
+  return (
+    <FormGroup>
+    <FormControlLabel control={<Switch  onChange={handleDarkModeToggle} backgroundColor="#fffff"/>} label="Dark Mode" />
+  </FormGroup>
+  );
+}
+
+const Sidebar = ({ drawerIsOpen = true, sidebarList, onClick, handleDarkModeToggle }) => {
   return (
     <Drawer variant="permanent" open={drawerIsOpen}>
       <Box display="flex" justifyContent="space-between" marginTop="24px">
@@ -89,7 +133,15 @@ const Sidebar = ({ drawerIsOpen = true, sidebarList, onClick }) => {
           ))}
         </List>
         <Divider />
+
       </Box>
+      <Box position={"fixed"} bottom={'15'} width={'220'} marginLeft={'15'} >
+      {drawerIsOpen && <FontSelector handleDarkModeToggle={handleDarkModeToggle}></FontSelector>}
+      </Box>
+      <Box position={"fixed"} bottom={'75'} width={'220'} marginLeft={'50'} >
+       {drawerIsOpen && <DarkModeSelector handleDarkModeToggle={handleDarkModeToggle}> </DarkModeSelector>} 
+      </Box>
+   
     </Drawer>
   );
 };
