@@ -17,7 +17,7 @@ router.post('/embedUrl', (req, res) => {
       "orgId": "1",
       "landingPageUuid": retoolAppMap[req.body.retoolAppName],
       "externalIdentifier": parsedToken.azp,
-      "groupIds": [5,6,7],
+      "groupIds": [1,5,6,7],
       "metadata": {
         "group": group
       }
