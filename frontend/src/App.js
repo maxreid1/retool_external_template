@@ -9,14 +9,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/material";
 
 import SplashPage from "./pages/SplashPage";
+import QuickLogin from "./pages/QuickLogin";
 import { homepage, auth } from "../config";
 
 const App = () => {
-  const {
-    isLoading,
-    isAuthenticated,
-    user,
-    getAccessTokenSilently,
+  const { 
+    isLoading, 
+    isAuthenticated, 
+    user, 
+    getAccessTokenSilently, 
   } = useAuth0();
 
   const [userProfile, setUserProfile] = useState(null);
@@ -67,7 +68,7 @@ const App = () => {
   };
 
 
-
+  
   useEffect(() => {
     const getUserMetadata = async () => {
       try {
@@ -119,6 +120,7 @@ const App = () => {
   if (!isAuthenticated) {
     return (
       <Routes>
+        <Route path="/quicklogin" element={<QuickLogin />} />
         <Route path="*" element={<SplashPage />} />
       </Routes>
     );
