@@ -19,7 +19,8 @@ router.post('/embedUrl', (req, res) => {
       "externalIdentifier": parsedToken.azp,
       "groupIds": [1,5,6,7],
       "metadata": {
-        "group": group
+        "group": group,
+        "mode" : 'dark'
       }
     })
   }

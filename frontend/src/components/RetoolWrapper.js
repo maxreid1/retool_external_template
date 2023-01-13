@@ -25,7 +25,7 @@ const RetoolWrapper = ({
   }, [retoolAppName])
   
   return retoolEmbedUrl && (
-    <Container maxWidth={false} disableGutters style={{ marginTop: 66, border:  showBorder ? '5px dashed #FFD4D2' : 'none'}}>
+    <Container maxWidth={false} disableGutters style={{ marginTop: 66, border:  showBorder ? '5px dashed #FFD4D2' : 'none', boxShadow: "none"}}>
         <Retool url={retoolEmbedUrl} data={{darkMode, font: activeFont}} />
     </Container>
   )

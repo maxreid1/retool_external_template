@@ -63,17 +63,19 @@ const FontSelector = ({ font, handleSetFont }) => (
       style={{ background: "white" }}
     >
       <MenuItem value={"Retool Default"}>Retool Default</MenuItem>
-      <MenuItem value={"Times New Roman"}>Times New Roman</MenuItem>
-      <MenuItem value={"Calibri"}>Calibri</MenuItem>
       <MenuItem value={"Arial"}>Arial</MenuItem>
+      <MenuItem value={"Calibri"}>Calibri</MenuItem>
+      <MenuItem value={"Courier New"}>Courier New</MenuItem>
+      <MenuItem value={"Helvetica"}>Helvetica</MenuItem>
+      <MenuItem value={"Times New Roman"}>Times New Roman</MenuItem>
     </Select>
   </FormControl>
 );
 
-const DarkModeToggle = ({ handleDarkModeToggle }) => (
+const DarkModeToggle = ({ handleDarkModeToggle, darkModeTopbar }) => (
   <FormGroup>
     <FormControlLabel
-      control={<Switch onChange={handleDarkModeToggle} />}
+      control={<Switch onChange={handleDarkModeToggle} checked={darkModeTopbar} />}
       label="Dark Mode"
     />
   </FormGroup>
@@ -86,6 +88,7 @@ const Sidebar = ({
   handleDarkModeToggle,
   activeFont,
   handleSetFont,
+  darkModeTopbar
 }) => {
   return (
     <Drawer variant="permanent" open={drawerIsOpen}>
@@ -140,7 +143,7 @@ const Sidebar = ({
       </Box>
       <Box position={"fixed"} bottom={"75"} width={"220"} marginLeft={"50"}>
         {drawerIsOpen && (
-          <DarkModeToggle handleDarkModeToggle={handleDarkModeToggle} />
+          <DarkModeToggle handleDarkModeToggle={handleDarkModeToggle} darkModeTopbar={darkModeTopbar} />
         )}
       </Box>
     </Drawer>

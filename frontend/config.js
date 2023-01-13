@@ -45,3 +45,15 @@ exports.theme = {
     fontFamily: "Roboto",
   },
 };
+exports.darkModeFormatting = {
+  darkModePalette: {
+    backgroundColor: '#080928',
+    text: '#ffffff',
+    elevation: 0
+  },
+  lightModePalette: {
+    backgroundColor: '#ffffff',
+    text: '#080928',
+    elevation: 1
+  }
+}

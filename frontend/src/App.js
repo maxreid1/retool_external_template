@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, Routes, Route, Outlet } from "react-router-dom";
+import { Navigate, Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
@@ -9,7 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/material";
 
 import SplashPage from "./pages/SplashPage";
-import { homepage, auth } from "../config";
+import { homepage, auth, darkModeFormatting } from "../config";
 
 const App = () => {
   const {
@@ -27,6 +27,24 @@ const App = () => {
   const [seed, setSeed] = useState(1);
   const [darkMode, setDarkModeToggle] = useState(false);
   const [font, setFont] = useState('Retool Default')
+  // New constant to match timing of darkmode switch
+  const [darkModeTopbar, setDarkModeTopbarToggle] = useState(false);
+  const handleDarkModeToggle = () => {
+    setDarkModeToggle(!darkMode);
+    setTimeout(() => {setDarkModeTopbarToggle(!darkModeTopbar)},133);
+  }
+  const formatting = darkModeTopbar ? darkModeFormatting.darkModePalette : darkModeFormatting.lightModePalette;
+  const location = useLocation();
+
+  useEffect(() => {
+    // Run the callback function when the route changes
+    setDarkModeToggle(false);
+    setDarkModeTopbarToggle(false)
+    setFont('Retool Default');
+  }, [location.pathname]);
+
+
+
 
   /**
    * Updates user metadata on Auth0
@@ -123,7 +141,7 @@ const App = () => {
   }
 
   return (
-    <Box sx={{ width: "100%", height: "100vh", display: "flex", flexGrow: 1 }}>
+    <Box sx={{ width: "100%", height: "100vh", display: "flex", flexGrow: 1, backgroundColor: formatting.backgroundColor }}>
       <Routes>
         <Route path="/login" element={<SplashPage />} />
         <Route
@@ -137,9 +155,12 @@ const App = () => {
               toggleDrawer={() => setDrawerIsOpen(!drawerIsOpen)}
               sidebarList={sidebarList}
               handleShowBorder={() => setShowBorder(!showBorder)}
-              handleDarkModeToggle={() => setDarkModeToggle(!darkMode)}
+              handleDarkModeToggle={handleDarkModeToggle}
               handleSetFont={setFont}
               activeFont={font}
+              formatting={formatting}
+              // darkMode={darkMode}
+              darkModeTopbar={darkModeTopbar}
             />
           }
         >

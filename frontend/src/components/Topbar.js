@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { styled } from "@mui/material/styles";
 import MuiAppBar from "@mui/material/AppBar";
@@ -10,16 +10,16 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+})(({ theme, open, darkModeTopbar }) => ({
   boxShadow: "none",
-  borderBottom: "2px solid #eeeeee",
+  borderBottom: darkModeTopbar ?  "2px solid #181929" : "2px solid #eeeeee",
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -31,19 +31,30 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
+
+
+
+
 export const Topbar = ({
   drawerIsOpen,
   user = {},
   onToggleDrawer,
   age,
+  darkMode,
+  darkModeTopbar,
+  formatting,
   ...props
 }) => {
+  
+  
   return (
-    <AppBar position="fixed" open={drawerIsOpen}>
+    <AppBar position="fixed" open={drawerIsOpen} darkModeTopbar={darkModeTopbar}  >
       <Toolbar
         sx={{
           pr: "24px",
-          color: "#080928 ",
+          color: formatting.text,
+          backgroundColor: formatting.backgroundColor ,
+          border: '0px'
         }}
       >
         <IconButton
@@ -52,6 +63,7 @@ export const Topbar = ({
           onClick={onToggleDrawer}
           sx={{
             marginRight: "36px",
+            color: darkMode ? 'white' : '#080928' , 
             ...(drawerIsOpen && { display: "none" }),
           }}
         >
@@ -64,6 +76,7 @@ export const Topbar = ({
               fontSize: 24,
               letterSpacing: ".25px",
               marginLeft: "15px",
+              border: '0px'
             }}
           >
             Shopco Merchant
@@ -80,7 +93,7 @@ export const Topbar = ({
         >
           {user.name}
         </span>
-        <UserMenu {...props} />
+        <UserMenu {...props} formatting={formatting}/>
       </Toolbar>
     </AppBar>
   );
@@ -90,8 +103,10 @@ const UserMenu = ({
   userProfile = {},
   handleSwitchGroup,
   handleShowBorder,
+  formatting
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const group = userProfile?.user?.group
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -108,8 +123,9 @@ const UserMenu = ({
         aria-haspopup="true"
         onClick={handleClick}
       />
+  
       <Menu
-        sx={{ mt: "45px", color: "#080928" }}
+        sx={{ mt: "45px", color: '#fffff' }}
         id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
@@ -118,6 +134,8 @@ const UserMenu = ({
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
+        <Typography gutterBottom fontWeight={'bold'} marginLeft='15px'>Current Role: {group} </Typography>
+        <Divider />
         {userProfile?.app?.roles.map((role) => (
           <MenuItem key={role} onClick={() => handleSwitchGroup(role)}>
             <Typography>Impersonate {role}</Typography>
@@ -130,6 +148,7 @@ const UserMenu = ({
           <Typography>Highlight Retool</Typography>
         </MenuItem>
       </Menu>
+
     </div>
   );
 };
