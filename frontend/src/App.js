@@ -11,7 +11,7 @@ import { Box } from "@mui/material";
 import SplashPage from "./pages/SplashPage";
 import { homepage, auth, darkModeFormatting } from "../config";
 import QuickLogin from "./pages/QuickLogin";
-import { homepage, auth } from "../config";
+
 
 const App = () => {
   const { 
