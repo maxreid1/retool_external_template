@@ -1,7 +1,5 @@
 exports.deployOnLocalhost = true;
 
-// To get your Auth0 Domain, and ClientID, see this guide https://auth0.com/docs/quickstart/spa/react#configure-auth0
-
 exports.auth = {
   tokenDuration: "1800s",
   REACT_APP_AUTH0_DOMAIN: "dev-lekm7di5.us.auth0.com",
@@ -47,7 +45,6 @@ exports.theme = {
     fontFamily: "Roboto",
   },
 };
-
 exports.darkModeFormatting = {
   darkModePalette: {
     backgroundColor: '#080928',

@@ -50,15 +50,6 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const DarkModeToggle = ({ handleDarkModeToggle, darkModeTopbar }) => (
-  <FormGroup>
-    <FormControlLabel
-      control={<Switch onChange={handleDarkModeToggle} checked={darkModeTopbar} />}
-      label="Dark Mode"
-    />
-  </FormGroup>
-);
-
 const FontSelector = ({ font, handleSetFont }) => (
   <FormControl variant="filled" fullWidth>
     <InputLabel id="font-select-label" style={{ color: "#080928" }}>
@@ -81,13 +72,22 @@ const FontSelector = ({ font, handleSetFont }) => (
   </FormControl>
 );
 
+const DarkModeToggle = ({ handleDarkModeToggle, darkModeTopbar }) => (
+  <FormGroup>
+    <FormControlLabel
+      control={<Switch onChange={handleDarkModeToggle} checked={darkModeTopbar} />}
+      label="Dark Mode"
+    />
+  </FormGroup>
+);
+
 const Sidebar = ({
   drawerIsOpen = true,
   sidebarList,
   onClick,
+  handleDarkModeToggle,
   activeFont,
   handleSetFont,
-  handleDarkModeToggle,
   darkModeTopbar
 }) => {
   return (
