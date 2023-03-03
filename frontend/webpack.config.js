@@ -8,16 +8,16 @@ const OUTPUT_LOCATION = deployOnLocalhost ? path.join(__dirname, '../backend/pub
 module.exports = {
   mode: 'development',
   output: {
-    filename: 'pbl.bundle.js',
+    filename: 'bundle.js',
     path: OUTPUT_LOCATION,
   },
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    port: process.env.PBL_DEV_PORT || 3001,
+    port: 3001,
     proxy: {
       context: ['/api', '/auth'],
-      target: ['http://localhost', process.env.PBL_PORT || '3000'].join(':')
+      target: 'http://localhost:3000'
     },
     historyApiFallback: true,
   },
