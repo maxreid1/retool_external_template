@@ -31,10 +31,6 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-
-
-
-
 export const Topbar = ({
   drawerIsOpen,
   user = {},
@@ -48,7 +44,7 @@ export const Topbar = ({
   
   
   return (
-    <AppBar position="fixed" open={drawerIsOpen} darkModeTopbar={darkModeTopbar}  >
+    <AppBar position="fixed" open={drawerIsOpen} darkModeTopbar={darkModeTopbar}>
       <Toolbar
         sx={{
           pr: "24px",
@@ -88,7 +84,7 @@ export const Topbar = ({
             marginRight: "20px",
             fontSize: "16px",
             letterSpacing: ".25px",
-            fontWeight: 500,
+            fontWeight: 500
           }}
         >
           {user.name}

@@ -9,7 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { Box } from "@mui/material";
 
 import SplashPage from "./pages/SplashPage";
-import { homepage, auth, darkModeFormatting } from "../config";
+import { homepage, auth, darkModeFormatting} from "../config";
 import QuickLogin from "./pages/QuickLogin";
 
 
@@ -27,16 +27,16 @@ const App = () => {
   const [sidebarList, setSidebarList] = useState([]);
   const [showBorder, setShowBorder] = useState(false);
   const [seed, setSeed] = useState(1);
-  const [darkMode, setDarkModeToggle] = useState(false);
   const [font, setFont] = useState('Retool Default')
-  // New constant to match timing of darkmode switch
+  const location = useLocation();
+  const [darkMode, setDarkModeToggle] = useState(false);
   const [darkModeTopbar, setDarkModeTopbarToggle] = useState(false);
   const handleDarkModeToggle = () => {
     setDarkModeToggle(!darkMode);
     setTimeout(() => {setDarkModeTopbarToggle(!darkModeTopbar)},133);
   }
   const formatting = darkModeTopbar ? darkModeFormatting.darkModePalette : darkModeFormatting.lightModePalette;
-  const location = useLocation();
+
 
   useEffect(() => {
     // Run the callback function when the route changes
@@ -44,9 +44,6 @@ const App = () => {
     setDarkModeTopbarToggle(false)
     setFont('Retool Default');
   }, [location.pathname]);
-
-
-
 
   /**
    * Updates user metadata on Auth0
@@ -86,9 +83,6 @@ const App = () => {
     
   };
 
-
-
-  
   useEffect(() => {
     const getUserMetadata = async () => {
       try {
@@ -161,12 +155,11 @@ const App = () => {
               toggleDrawer={() => setDrawerIsOpen(!drawerIsOpen)}
               sidebarList={sidebarList}
               handleShowBorder={() => setShowBorder(!showBorder)}
-              handleDarkModeToggle={handleDarkModeToggle}
               handleSetFont={setFont}
               activeFont={font}
               formatting={formatting}
-              // darkMode={darkMode}
               darkModeTopbar={darkModeTopbar}
+              handleDarkModeToggle={handleDarkModeToggle}
             />
           }
         >
@@ -181,8 +174,8 @@ const App = () => {
                   showBorder={showBorder}
                   key={seed}
                   userProfile={userProfile}
-                  darkMode={darkMode}
                   activeFont={font}
+                  darkMode={darkMode}
                 />
               }
             />
