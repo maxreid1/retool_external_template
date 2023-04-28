@@ -62,6 +62,16 @@ const App = () => {
     });
   };
 
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
   /**
    * Sets the user's current group, which serves to demonstrate dynamic RBAC-based features
    * Updates both user metadata on Auth0 & the userProfile state variable
