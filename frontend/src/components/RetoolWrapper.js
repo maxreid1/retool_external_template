@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from '@mui/material'
+import { Container, Tabs, Tab, Typography, Box, Button } from '@mui/material'
 import Retool from 'react-retool'
+import Popup from './Popup'
+
+
+
 
 const RetoolWrapper = ({
   retoolAppName = "",
@@ -28,9 +32,14 @@ const RetoolWrapper = ({
   // if embed URL is available, return the Container and Retool components
   return retoolEmbedUrl && (
     <Container maxWidth={false} disableGutters style={{ marginTop: 66, border:  showBorder ? '5px dashed #FFD4D2' : 'none', boxShadow: "none"}}>
+    
         <Retool url={retoolEmbedUrl} data={{darkMode, font: activeFont}} />
+ 
+      <Box marginTop='-40' sx={{ position: 'absolute', right: 5 }}> <Popup darkMode={darkMode} userProfile={userProfile} activeFont={activeFont}></Popup> </Box> 
     </Container>
+   
   )
-}
+};
 
 export default RetoolWrapper
+

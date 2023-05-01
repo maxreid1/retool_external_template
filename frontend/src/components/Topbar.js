@@ -138,11 +138,11 @@ const UserMenu = ({
           </MenuItem>
         ))}
         <Divider />
-        <LogoutMenuItem />
-        <Divider />
         <MenuItem onClick={handleShowBorder}>
           <Typography>Highlight Retool</Typography>
-        </MenuItem>
+          </MenuItem>
+        <Divider />
+        <LogoutMenuItem />
       </Menu>
 
     </div>
@@ -162,5 +162,9 @@ const LogoutMenuItem = () => {
     </MenuItem>
   );
 };
+
+
+
+
 
 export default Topbar;
