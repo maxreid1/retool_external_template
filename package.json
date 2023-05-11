@@ -26,5 +26,8 @@
     "dev": "concurrently --kill-others-on-fail \"yarn backend\" \"yarn frontend\"",
     "start": "yarn build && yarn workspace backend start"
   },
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "devDependencies": {
+    "file-loader": "^6.2.0"
+  }
 }

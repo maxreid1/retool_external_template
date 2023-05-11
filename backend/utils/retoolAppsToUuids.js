@@ -1,7 +1,7 @@
 const retoolAppMap = {
-   storeManager: "966bf7fc-9057-11ed-bb00-b78554d89588",
-   orderHistory: "56a70878-5e43-11ed-b603-5f3bd9271091",
-   couponGenerator: "69176596-4009-11ed-92e5-13ce361830e2",
+   storeManager: "b945a7be-f024-11ed-b2e1-9b170eb1be49",
+   orderHistory: "bd9ed24a-f024-11ed-8368-77abdd5fad55",
+   couponGenerator: "c70c64c8-f024-11ed-8078-d79f27bec4c4",
    customViews: "32ecf700-44ab-11ed-8cc2-eb54dae5f4e2"
 };
 

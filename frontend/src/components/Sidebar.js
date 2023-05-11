@@ -27,7 +27,7 @@ const Drawer = styled(MuiDrawer, {
 })(({ theme, open }) => ({
   "& .MuiDrawer-paper": {
     color: "#ffffff",
-    background: "#080928",
+    background: "#E4012B",
     position: "relative",
     whiteSpace: "nowrap",
     width: 250,
@@ -92,10 +92,10 @@ const Sidebar = ({
 }) => {
   return (
     <Drawer variant="permanent" open={drawerIsOpen}>
-      <Box display="flex" justifyContent="space-between" marginTop="24px">
-        <Box display="flex">
+      <Box display="flex" alignItems="center" marginTop="24px">
+        <Box  marginLeft="30px">
           <img
-            src="https://i.ibb.co/b2k0Ss0/Screen-Shot-2021-09-10-at-5-29-42-PM-removebg-preview.png"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Kfc_textlogo.svg/2400px-Kfc_textlogo.svg.png"
             width="100%"
           />
         </Box>

@@ -1,3 +1,4 @@
+
 h3 {
     margin: 5px;
     font-size: 28px;
@@ -11,7 +12,7 @@ p {
 }
 
 .bg {
-    background: url("https://images.pexels.com/photos/891393/pexels-photo-891393.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+    background: 'white';
     position: absolute;
     background-size: cover;
     height: 100%;
@@ -34,6 +35,7 @@ p {
     width: 300px; 
     background: #ffffff;
     border-radius: 4px; 
+    
 }
 
 .login {

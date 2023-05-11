@@ -75,7 +75,7 @@ export const Topbar = ({
               border: '0px'
             }}
           >
-            Shopco Merchant
+            KFC Franchisee Owner
           </div>
         </Box>
         <Box sx={{ flexGrow: 1 }} />
